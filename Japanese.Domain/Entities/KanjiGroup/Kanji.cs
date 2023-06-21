@@ -8,20 +8,35 @@ namespace Japanese.Domain.Entities.KanjiGroup;
 public class Kanji : EntityBase<int>
 {
     [Required]
-    [Column(TypeName = "nvarchar(20)")]
-    [MaxLength(20)]
+    [Column(TypeName = "nvarchar(50)")]
+    [MaxLength(50)]
+    public int Name { get; set; }
+
+    [Required]
+    [Column(TypeName = "nvarchar(50)")]
+    [MaxLength(50)]
     public string? Character { get; set; }
 
     [Required]
     public int StrokeCount { get; set; }
 
     [Required]
-    [Column(TypeName = "nvarchar(20)")]
-    [MaxLength(20)]
+    [Column(TypeName = "nvarchar(50)")]
+    [MaxLength(50)]
+    public string? Onyomi_Ja { get; set; }
+
+    [Required]
+    [Column(TypeName = "nvarchar(50)")]
+    [MaxLength(50)]
     public string? Onyomi { get; set; }
 
     [Required]
-    [Column(TypeName = "nvarchar(20)")]
-    [MaxLength(20)]
+    [Column(TypeName = "nvarchar(50)")]
+    [MaxLength(50)]
+    public string? Kunyomi_Ja { get; set; }
+
+    [Required]
+    [Column(TypeName = "nvarchar(50)")]
+    [MaxLength(50)]
     public string? Kunyomi { get; set; }
 }
