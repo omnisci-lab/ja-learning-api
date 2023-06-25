@@ -9,6 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\CommonWordController.cs" />
+    <Compile Remove="Controllers\HiraganaController.cs" />
+    <Compile Remove="Controllers\KanjiLevelController.cs" />
+    <Compile Remove="Controllers\KanjiRadicalController.cs" />
+    <Compile Remove="Controllers\KanjiTypeController.cs" />
+    <Compile Remove="Controllers\KatakanaController.cs" />
+    <Compile Remove="Controllers\SentenceController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -19,8 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Japanese.Application\Japanese.Application.csproj" />
-    <ProjectReference Include="..\Japanese.Infrastructure\Japanese.Infrastructure.csproj" />
+    <ProjectReference Include="..\Japanese.Services\Japanese.Services.csproj" />
   </ItemGroup>
 
 </Project>

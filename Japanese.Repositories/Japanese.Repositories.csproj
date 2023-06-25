@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Implements\**" />
+    <EmbeddedResource Remove="Implements\**" />
+    <None Remove="Implements\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Implements\JapaneseRepository.cs" />
+    <Compile Include="Implements\KanjiRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Japanese.Core\Japanese.Core.csproj" />
+    <ProjectReference Include="..\Japanese.Models\Japanese.Models.csproj" />
+  </ItemGroup>
+
+</Project>

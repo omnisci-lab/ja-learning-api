@@ -1,5 +1,5 @@
-using Japanese.Application;
-using Japanese.Infrastructure;
+using Japanese.Repositories;
+using Japanese.Services;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,8 +18,8 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddApplicationServices(configuration);
-builder.Services.AddInfrastructureServices(configuration);
+builder.Services.AddRepositories(configuration);
+builder.Services.AddBusinessServices(configuration);
 
 var app = builder.Build();
 
