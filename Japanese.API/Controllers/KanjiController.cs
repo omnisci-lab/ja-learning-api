@@ -6,6 +6,7 @@ using Japanese.API.Base;
 using Japanese.Domain.Common;
 using Japanese.Services.Features.Kanji.Command.UpdateKanji;
 using Japanese.Services.Features.Kanji.Command.CreateKanji;
+using Japanese.Services.Features.Kanji.Query.GetKanjiListByJlpt;
 
 namespace Japanese.API.Controllers;
 
@@ -28,16 +29,24 @@ public class KanjiController : ApiControllerBase
     //}
 
     [HttpGet]
-    [Route("details/{kanji}")]
+    [Route("details")]
     [ProducesResponseType(typeof(KanjiDetailOutput), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetDetails(string kanji)
+    public async Task<IActionResult> GetDetails([FromQuery] GetKanjiQuery query)
     {
-        GetKanjiQuery getKanjiQuery = new GetKanjiQuery { Kanji = kanji };
-        KanjiDetailOutput kanjiDetail = await _mediator.Send(getKanjiQuery);
+        KanjiDetailOutput kanjiDetail = await _mediator.Send(query);
         if (kanjiDetail == null)
             return NotFound();
 
-        return Ok(kanji);
+        return Ok(kanjiDetail);
+    }
+
+    [HttpGet]
+    [Route("n1-kanji-list")]
+    [ProducesResponseType(typeof(KanjiDetailOutput), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> GetN1KanjiList([FromQuery] GetKanjiListByJlptQuery query)
+    {
+        List<KanjiDetailOutput> n1kanjiList = await _mediator.Send(query);
+        return Ok(n1kanjiList);
     }
 
     [HttpPost]
@@ -48,7 +57,6 @@ public class KanjiController : ApiControllerBase
         ExecResult execResult = await _mediator.Send(command);
         return GetResult(execResult);
     }
-
 
     [HttpPut]
     [Route("update-kanji")]

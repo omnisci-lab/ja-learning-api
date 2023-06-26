@@ -5,5 +5,5 @@ namespace Japanese.Repositories.Interfaces;
 
 public interface IKanjiRepository : IAsyncRepository<KanjiModel>
 {
-    Task<List<KanjiModel>> SearchAsync();
+    Task<List<KanjiModel>> GetListByJlptAsync(int? jlpt);
 }

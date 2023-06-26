@@ -1,51 +1,78 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2;
-using Newtonsoft.Json;
+using Amazon.DynamoDBv2.DataModel;
+using Japanese.Core.CommonModels;
 
 namespace Japanese.Core.DynamoDB;
 
-public class DynamoDBExecution<T> : DynamoDBExecutionCore
-    where T : class
+public class DynamoDBExecution<TModel> : IDynamoDBExecution<TModel>
+    where TModel : EntityBase
 {
-    public DynamoDBExecution(IAmazonDynamoDB dynamoDBClient, string tableName)
-        : base(dynamoDBClient, tableName)
+    private readonly IDynamoDBContext _context;
+
+    public IDynamoDBContext Context => _context;
+
+    public DynamoDBExecution(IAmazonDynamoDB dynamoDBClient)
     {
+        _context = new DynamoDBContext(dynamoDBClient);
     }
 
-    public async Task<List<T>> GetListAsync()
+    public async Task<List<TModel>> GetPagedItems(int pageSize)
     {
-        List<Document> documents = await ScanAsync();
-        string json = documents.ToJson();
+        string token = "";
 
-        return JsonConvert.DeserializeObject<List<T>>(json)!;
+        var queryConfig = new QueryOperationConfig
+        {
+            Limit = pageSize,
+            PaginationToken = token,
+        };
+
+        AsyncSearch<TModel> search = _context.FromQueryAsync<TModel>(queryConfig);
+        //search.Pa
+        //var results = await search.GetNextSetAsync();
+
+        //return results.ToList();
+
+        return null;
     }
 
-    public async Task<T?> GetAsync(Primitive key)
+    public async Task<List<TModel>> GetListAsync(int limit)
     {
-        Document document = await GetItemAsync(key);
-        string json = document.ToJson();
+        ScanOperationConfig scanConfig = new ScanOperationConfig
+        {
+            Limit = limit
+        };
 
-        return JsonConvert.DeserializeObject<T>(json);
+        AsyncSearch<TModel> search = _context.FromScanAsync<TModel>(scanConfig);
+        List<TModel> items = await search.GetNextSetAsync();
+
+        return items;
     }
 
-    public async Task CreateAsync(T input)
+    public async Task<TModel?> GetAsync(object? key)
     {
-        string json = JsonConvert.SerializeObject(input);
-        Document document = Document.FromJson(json);
-
-        await CreateItemAsync(document);
+        return await _context.LoadAsync<TModel>(key);
     }
 
-    public async Task UpdateAsync(T input)
+    public async Task SaveItem(TModel item)
     {
-        string json = JsonConvert.SerializeObject(input);
-        Document document = Document.FromJson(json);
-
-        await UpdateItemAsync(document);
+        await _context.SaveAsync(item);
     }
 
-    public async Task DeleteAsync(Primitive key)
+    public async Task DeleteItem(object? key)
     {
-        await DeleteItemAsync(key);
+        await _context.DeleteAsync<TModel>(key);
+    }
+
+    public async Task<int> CountItems()
+    {
+        ScanOperationConfig operationConfig = new ScanOperationConfig
+        {
+            Select = SelectValues.Count
+        };
+
+        var a = _context.FromScanAsync<TModel>(operationConfig);
+
+        return 0;
     }
 }

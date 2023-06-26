@@ -1,19 +1,36 @@
-﻿using Japanese.Domain.Common;
-using Newtonsoft.Json;
+﻿using Amazon.DynamoDBv2.DataModel;
+using Japanese.Core.CommonModels;
 
 namespace Japanese.Models;
 
+[DynamoDBTable("Kanji")]
 public class KanjiModel : EntityBase
 {
-    [JsonProperty("kanji")]
+    [DynamoDBHashKey]
+    [DynamoDBProperty("kanji")]
     public string? Kanji { get; set; }
 
-    [JsonProperty("on_readings")]
+    [DynamoDBProperty("stroke_count")]
+    public int StrokeCount { get; set; }
+
+    [DynamoDBProperty("grade")]
+    public int? Grade { get; set; }
+
+    [DynamoDBProperty("on_readings")]
     public List<string>? OnReadings { get; set; }
 
-    [JsonProperty("kun_readings")]
+    [DynamoDBProperty("kun_readings")]
     public List<string>? KunReadings { get; set; }
 
-    [JsonProperty("name_readings")]
+    [DynamoDBProperty("name_readings")]
     public List<string>? NameReadings { get; set; }
+
+    [DynamoDBProperty("meanings")]
+    public List<string>? Meanings { get; set; }
+
+    [DynamoDBProperty("jlpt")]
+    public int? Jlpt { get; set; }
+
+    [DynamoDBProperty("unicode")]
+    public string? Unicode { get; set; }
 }

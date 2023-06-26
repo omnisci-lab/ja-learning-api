@@ -3,17 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Japanese.Application", "Japanese.Application\Japanese.Application.csproj", "{7953BFD8-B766-482D-BE99-164C24CC1B68}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Japanese.API", "Japanese.API\Japanese.API.csproj", "{EA59A3F5-3CC5-48CC-891F-90F610A700EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Japanese.Core", "Japanese.Core\Japanese.Core.csproj", "{F4743D82-A2A0-4FCB-A354-FFEFDD3569F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Japanese.Core", "Japanese.Core\Japanese.Core.csproj", "{F4743D82-A2A0-4FCB-A354-FFEFDD3569F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Japanese.Models", "Japanese.Models\Japanese.Models.csproj", "{B4899F1F-2A25-42EA-998F-B847B67F543D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Japanese.Models", "Japanese.Models\Japanese.Models.csproj", "{B4899F1F-2A25-42EA-998F-B847B67F543D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Japanese.Repositories", "Japanese.Repositories\Japanese.Repositories.csproj", "{6A1661E5-9A8B-4644-AB55-3ECDA5C8BD84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Japanese.Repositories", "Japanese.Repositories\Japanese.Repositories.csproj", "{6A1661E5-9A8B-4644-AB55-3ECDA5C8BD84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Japanese.Services", "Japanese.Services\Japanese.Services.csproj", "{E18771C5-07FA-4E6A-880E-87BB6867FE3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Japanese.Services", "Japanese.Services\Japanese.Services.csproj", "{E18771C5-07FA-4E6A-880E-87BB6867FE3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7953BFD8-B766-482D-BE99-164C24CC1B68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7953BFD8-B766-482D-BE99-164C24CC1B68}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7953BFD8-B766-482D-BE99-164C24CC1B68}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7953BFD8-B766-482D-BE99-164C24CC1B68}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EA59A3F5-3CC5-48CC-891F-90F610A700EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EA59A3F5-3CC5-48CC-891F-90F610A700EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA59A3F5-3CC5-48CC-891F-90F610A700EC}.Release|Any CPU.ActiveCfg = Release|Any CPU

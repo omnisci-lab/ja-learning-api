@@ -13,5 +13,5 @@ public class JapaneseRepository : IJapaneseRepository
         _client = new AmazonDynamoDBClient(basicAWSCredentials, dynamoDBConfig);
     }
 
-    public IKanjiRepository KanjiRepository => new KanjiRepository(_client, "Kanji");
+    public IKanjiRepository KanjiRepository => new KanjiRepository(_client);
 }

@@ -1,4 +1,5 @@
 ﻿using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 using Japanese.Core.RepositoryBase;
 using Japanese.Models;
@@ -9,19 +10,21 @@ namespace Japanese.Repositories.Implements;
 public class KanjiRepository : AsyncRepository<KanjiModel>, IKanjiRepository
 {
     private readonly AmazonDynamoDBClient _client;
-    private readonly string _tableName;
 
-    public KanjiRepository(AmazonDynamoDBClient client, string tableName) 
-        : base(client, tableName)
+    public KanjiRepository(AmazonDynamoDBClient client) 
+        : base(client)
     {
         _client = client;
-        _tableName = tableName;
     }
 
-    public async Task<List<KanjiModel>> SearchAsync()
+    public async Task<List<KanjiModel>> GetListByJlptAsync(int? jlpt)
     {
-        Table table = Table.LoadTable(_client, _tableName);
+        ScanFilter scanFilter = new ScanFilter();
+        scanFilter.AddCondition("jlpt", ScanOperator.Equal, jlpt);
 
-        return null;
+        ScanOperationConfig scanConfig = new ScanOperationConfig { Filter = scanFilter };
+        AsyncSearch<KanjiModel> search = Context.FromScanAsync<KanjiModel>(scanConfig);
+
+        return await search.GetNextSetAsync();
     }
 }

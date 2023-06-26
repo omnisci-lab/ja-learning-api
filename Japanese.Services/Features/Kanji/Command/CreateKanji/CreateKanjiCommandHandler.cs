@@ -21,7 +21,7 @@ public class CreateKanjiCommandHandler : IRequestHandler<CreateKanjiCommand, Exe
 
         };
 
-        await _kanjiRepository.AddAsync(kanjiModel);
+        await _kanjiRepository.SaveItem(kanjiModel);
 
         return new ExecResult { Status = ExecStatus.Success };
     }

@@ -22,7 +22,7 @@ public class UpdateKanjiCommandHandler : IRequestHandler<UpdateKanjiCommand, Exe
 
 
 
-        await _kanjiRepository.UpdateAsync(kanjiModel);
+        await _kanjiRepository.SaveItem(kanjiModel);
 
         return new ExecResult { Status = ExecStatus.Success };
     }

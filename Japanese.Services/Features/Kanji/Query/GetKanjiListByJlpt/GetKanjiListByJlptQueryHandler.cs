@@ -1,25 +1,24 @@
 ﻿using Japanese.Models;
 using Japanese.Repositories.Interfaces;
+using Japanese.Services.Features.Kanji.Queries.GetKanji;
 using MediatR;
 
-namespace Japanese.Services.Features.Kanji.Queries.GetKanji;
+namespace Japanese.Services.Features.Kanji.Query.GetKanjiListByJlpt;
 
-public class GetKanjiQueryHandler : IRequestHandler<GetKanjiQuery, KanjiDetailOutput?>
+public class GetKanjiListByJlptQueryHandler : IRequestHandler<GetKanjiListByJlptQuery, List<KanjiDetailOutput>>
 {
     private readonly IKanjiRepository _kanjiRepository;
 
-    public GetKanjiQueryHandler(IJapaneseRepository repository)
+    public GetKanjiListByJlptQueryHandler(IJapaneseRepository repository)
     {
         _kanjiRepository = repository.KanjiRepository;
     }
 
-    public async Task<KanjiDetailOutput?> Handle(GetKanjiQuery request, CancellationToken cancellationToken)
+    public async Task<List<KanjiDetailOutput>> Handle(GetKanjiListByJlptQuery request, CancellationToken cancellationToken)
     {
-        KanjiModel? kanjiModel = await _kanjiRepository.GetAsync(request.Kanji);
-        if (kanjiModel is null)
-            return null;
+        List<KanjiModel> kanjiModels = await _kanjiRepository.GetListByJlptAsync(request.JlptLevel);
 
-        return new KanjiDetailOutput
+        return kanjiModels.Select(kanjiModel => new KanjiDetailOutput
         {
             Kanji = kanjiModel.Kanji,
             StrokeCount = kanjiModel.StrokeCount,
@@ -30,6 +29,6 @@ public class GetKanjiQueryHandler : IRequestHandler<GetKanjiQuery, KanjiDetailOu
             Meanings = kanjiModel.Meanings,
             Jlpt = kanjiModel.Jlpt,
             Unicode = kanjiModel.Unicode
-        };
+        }).ToList();
     }
 }

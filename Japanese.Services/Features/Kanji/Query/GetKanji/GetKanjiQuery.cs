@@ -1,5 +1,6 @@
 ﻿using Japanese.Services.Cache;
 using MediatR;
+using Newtonsoft.Json;
 
 namespace Japanese.Services.Features.Kanji.Queries.GetKanji;
 
