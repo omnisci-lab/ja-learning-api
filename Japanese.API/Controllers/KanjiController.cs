@@ -20,13 +20,13 @@ public class KanjiController : ApiControllerBase
         _mediator = mediator;
     }
 
-    //[HttpGet]
-    //[Route("list")]
-    //[ProducesResponseType(typeof(List<KanjiOutput>), (int)HttpStatusCode.OK)]
-    //public async Task<IActionResult> GetList()
-    //{
-    //    return Ok(await _mediator.Send(new GetKanjiListQuery()));
-    //}
+    [HttpGet]
+    [Route("list")]
+    [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> GetList()
+    {
+        return Ok(new {});
+    }
 
     [HttpGet]
     [Route("details")]
@@ -41,12 +41,12 @@ public class KanjiController : ApiControllerBase
     }
 
     [HttpGet]
-    [Route("n1-kanji-list")]
+    [Route("kanji-list-by-jlpt-level")]
     [ProducesResponseType(typeof(KanjiDetailOutput), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetN1KanjiList([FromQuery] GetKanjiListByJlptQuery query)
+    public async Task<IActionResult> GetKanjiListByJlpt([FromQuery] GetKanjiListByJlptQuery query)
     {
-        List<KanjiDetailOutput> n1kanjiList = await _mediator.Send(query);
-        return Ok(n1kanjiList);
+        List<KanjiDetailOutput> kanjiList = await _mediator.Send(query);
+        return Ok(kanjiList);
     }
 
     [HttpPost]

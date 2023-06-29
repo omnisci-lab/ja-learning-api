@@ -11,7 +11,7 @@ public class KanjiRepository : AsyncRepository<KanjiModel>, IKanjiRepository
 {
     private readonly AmazonDynamoDBClient _client;
 
-    public KanjiRepository(AmazonDynamoDBClient client) 
+    internal KanjiRepository(AmazonDynamoDBClient client) 
         : base(client)
     {
         _client = client;
