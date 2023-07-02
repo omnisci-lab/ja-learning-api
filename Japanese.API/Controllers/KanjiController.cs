@@ -4,10 +4,10 @@ using System.Net;
 using Japanese.Services.Features.Kanji.Queries.GetKanji;
 using Japanese.API.Base;
 using Japanese.Domain.Common;
-using Japanese.Services.Features.Kanji.Command.UpdateKanji;
-using Japanese.Services.Features.Kanji.Command.CreateKanji;
-using Japanese.Services.Features.Kanji.Query.GetKanjiListByJlpt;
-using Japanese.Services.Features.Kanji.Query.GetPagedKanji;
+using Japanese.Services.Features.Kanji.Commands.UpdateKanji;
+using Japanese.Services.Features.Kanji.Commands.CreateKanji;
+using Japanese.Services.Features.Kanji.Queries.GetKanjiListByJlpt;
+using Japanese.Services.Features.Kanji.Queries.GetPagedKanji;
 using Japanese.Core.CommonModels;
 
 namespace Japanese.API.Controllers;

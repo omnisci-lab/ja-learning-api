@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Japanese.Repositories\Japanese.Repositories.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\User\Queries\GetPagedUsers\" />
+  </ItemGroup>
+
 </Project>
