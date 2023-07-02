@@ -4,8 +4,8 @@ using Japanese.Services.Features.Sentence.Commands.CreateSentence;
 using Japanese.Services.Features.Sentence.Commands.DeleteSentence;
 using Japanese.Services.Features.Sentence.Commands.UpdateSentence;
 using Japanese.Services.Features.Sentence.Queries;
+using Japanese.Services.Features.Sentence.Queries.GetPagedSentences;
 using Japanese.Services.Features.Sentence.Queries.GetSentence;
-using Japanese.Services.Features.Sentence.Queries.SearchSentences;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -32,15 +32,6 @@ public class SentenceController : ApiControllerBase
             return NotFound();
 
         return Ok(sentence);
-    }
-
-    [Route("search")]
-    [HttpGet]
-    [ProducesResponseType(typeof(List<SentenceOutput>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Search([FromQuery] SearchSentencesQuery query)
-    {
-        List<SentenceOutput> sentences = await _mediator.Send(query);
-        return Ok(sentences);
     }
 
     [Route("create")]

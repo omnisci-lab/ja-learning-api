@@ -21,7 +21,10 @@ public class GetSentenceQueryHandler : IRequestHandler<GetSentenceQuery, Sentenc
 
         return new SentenceOutput
         {
-
+            SentenceId = sentenceModel.SentenceId,
+            Text = sentenceModel.Text,
+            EnMeanings = sentenceModel.EnMeanings,
+            ViMeanings = sentenceModel.ViMeanings
         };
     }
 }

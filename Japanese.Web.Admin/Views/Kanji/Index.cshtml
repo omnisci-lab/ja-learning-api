@@ -1,0 +1,71 @@
+﻿@using Japanese.Services.Features.Kanji.Queries.GetPagedKanji;
+@using Japanese.Services.Features.Kanji.Queries.GetKanji;
+@model Pagination<KanjiDetailOutput>
+
+<div class="card">
+    <div class="card-header">
+        <p>List of Kanji</p>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Kanji</th>
+                    <th scope="col">On Readings</th>
+                    <th scope="col">Kun Readings</th>
+                    <th scope="col">Name Readings</th>
+                    <th scope="col">JLPT</th>
+                    <th scope="col">Unicode</th>
+                    <th scope="col">Stroke Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int count = 1;
+                }
+                @foreach (KanjiDetailOutput kanji in Model.Items!)
+                {
+                    <tr ondblclick="location.href = '@Url.Action("Details", new { kanji = kanji.Kanji })'">
+                        <th scope="row">@count</th>
+                        <td>@kanji.Kanji</td>
+                        <td>
+                            <ul>
+                                @foreach (string onreading in kanji.OnReadings!)
+                                {
+                                    <li>@onreading</li>
+                                }
+                            </ul>
+                            
+                        </td>
+                        <td>
+                            <ul>
+                                @foreach (string kunreading in kanji.KunReadings!)
+                                {
+                                    <li>@kunreading</li>
+                                }
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                @foreach (string namereading in kanji.NameReadings!)
+                                {
+                                    <li>@namereading</li>
+                                }
+                            </ul>
+                            
+                        </td>
+                        <td>@kanji.Jlpt</td>
+                        <td>@kanji.Unicode</td>
+                        <td>@kanji.StrokeCount</td>
+                    </tr>
+                    count++;
+                }
+            </tbody>
+        </table>
+
+    </div>
+    <div class="card-footer">
+        <a class="text-center" asp-action="Index" asp-route-PaginationToken="@Model.PaginationToken">Trang tiếp theo</a>
+    </div>
+</div>

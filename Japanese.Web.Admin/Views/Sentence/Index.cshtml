@@ -1,0 +1,44 @@
+﻿@using Japanese.Services.Features.Sentence.Queries.GetPagedSentences;
+@using Japanese.Services.Features.Sentence.Queries;
+@model Pagination<SentenceOutput>
+
+<div class="">
+    <a asp-action="Create">Create</a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <p>List of Sentences</p>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Text</th>
+                    <th scope="col">En Meanings</th>
+                    <th scope="col">Vi Meanings</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int count = 1;
+                }
+                @foreach (SentenceOutput sentence in Model.Items!)
+                {
+                    <tr ondblclick="location.href = '@Url.Action("GetDetails", new { sentenceId = sentence.SentenceId })'">
+                        <th scope="row">@count</th>
+                        <td>@sentence.Text</td>
+                        <td>@sentence.EnMeanings</td>
+                        <td>@sentence.ViMeanings</td>
+                    </tr>
+                    count++;
+                }
+            </tbody>
+        </table>
+
+    </div>
+    <div class="card-footer">
+        <a class="text-center" asp-action="Index" asp-route-PaginationToken="@Model.PaginationToken">Trang tiếp theo</a>
+    </div>
+</div>

@@ -20,6 +20,10 @@ public class UpdateSentenceCommandHandler : IRequestHandler<UpdateSentenceComman
         if (sentenceModel is null)
             return new ExecResult { Status = ExecStatus.NotFound };
 
+        sentenceModel.Text = request.Text;
+        sentenceModel.EnMeanings = request.EnMeanings;
+        sentenceModel.ViMeanings = request.ViMeanings;
+        sentenceModel.LastModifiedDate = DateTime.Now;
 
         await _sentenceRepository.SaveItemAsync(sentenceModel);
         return new ExecResult { Status = ExecStatus.Success };
