@@ -1,7 +1,11 @@
 ﻿using Japanese.API.Base;
-using Japanese.Application.Sentence.Commands.CreateSentence;
-using Japanese.Application.Sentence.Queries;
-using Japanese.Application.Sentence.Queries.GetSentence;
+using Japanese.Domain.Common;
+using Japanese.Services.Features.Sentence.Command.CreateSentence;
+using Japanese.Services.Features.Sentence.Command.DeleteSentence;
+using Japanese.Services.Features.Sentence.Command.UpdateSentence;
+using Japanese.Services.Features.Sentence.Query;
+using Japanese.Services.Features.Sentence.Query.GetSentence;
+using Japanese.Services.Features.Sentence.Query.SearchSentences;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -18,26 +22,54 @@ public class SentenceController : ApiControllerBase
         _mediator = mediator;
     }
 
-    [Route("details/{sentenceId}")]
+    [Route("details")]
     [HttpGet]
     [ProducesResponseType(typeof(SentenceOutput), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetDetails(string sentenceId)
+    public async Task<IActionResult> GetDetails([FromQuery] GetSentenceQuery query)
     {
-        GetSentenceQuery getSentenceQuery = new GetSentenceQuery { SentenceId = sentenceId };
-        SentenceOutput sentence = await _mediator.Send(getSentenceQuery);
+        SentenceOutput sentence = await _mediator.Send(query);
         if (sentence == null)
             return NotFound();
 
         return Ok(sentence);
     }
 
+    [Route("search")]
+    [HttpGet]
+    [ProducesResponseType(typeof(List<SentenceOutput>), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Search([FromQuery] SearchSentencesQuery query)
+    {
+        List<SentenceOutput> sentences = await _mediator.Send(query);
+        return Ok(sentences);
+    }
+
     [Route("create")]
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Create(CreateSentenceCommand input)
+    public async Task<IActionResult> Create(CreateSentenceCommand command)
     {
-        int result = await _mediator.Send(input);
+        ExecResult execResult = await _mediator.Send(command);
 
-        return Ok();
+        return GetResult(execResult);
+    }
+
+    [Route("update")]
+    [HttpPut]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Update(UpdateSentenceCommand command)
+    {
+        ExecResult execResult = await _mediator.Send(command);
+
+        return GetResult(execResult);
+    }
+
+    [Route("delete")]
+    [HttpDelete]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Delete([FromQuery] DeleteSentenceCommand command)
+    {
+        ExecResult execResult = await _mediator.Send(command);
+
+        return GetResult(execResult);
     }
 }

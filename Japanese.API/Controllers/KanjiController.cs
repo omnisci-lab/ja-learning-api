@@ -7,6 +7,8 @@ using Japanese.Domain.Common;
 using Japanese.Services.Features.Kanji.Command.UpdateKanji;
 using Japanese.Services.Features.Kanji.Command.CreateKanji;
 using Japanese.Services.Features.Kanji.Query.GetKanjiListByJlpt;
+using Japanese.Services.Features.Kanji.Query.GetPagedKanji;
+using Japanese.Core.CommonModels;
 
 namespace Japanese.API.Controllers;
 
@@ -23,9 +25,10 @@ public class KanjiController : ApiControllerBase
     [HttpGet]
     [Route("list")]
     [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetList()
+    public async Task<IActionResult> GetPaged([FromQuery] GetPagedKanjiQuery query)
     {
-        return Ok(new {});
+        Pagination<KanjiDetailOutput> paged = await _mediator.Send(query);
+        return Ok(paged);
     }
 
     [HttpGet]

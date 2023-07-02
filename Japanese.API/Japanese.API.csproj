@@ -15,7 +15,6 @@
     <Compile Remove="Controllers\KanjiRadicalController.cs" />
     <Compile Remove="Controllers\KanjiTypeController.cs" />
     <Compile Remove="Controllers\KatakanaController.cs" />
-    <Compile Remove="Controllers\SentenceController.cs" />
   </ItemGroup>
 
   <ItemGroup>

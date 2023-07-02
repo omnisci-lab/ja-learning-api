@@ -17,23 +17,25 @@ public class DynamoDBExecution<TModel> : IDynamoDBExecution<TModel>
         _context = new DynamoDBContext(dynamoDBClient);
     }
 
-    public async Task<List<TModel>> GetPagedItems(int pageSize)
+    public async Task<Pagination<TModel>> GetPagedAsync(Pagination pagination)
     {
-        string token = "";
+        Table table = _context.GetTargetTable<TModel>();
 
-        var queryConfig = new QueryOperationConfig
+        ScanOperationConfig scanConfig = new ScanOperationConfig() { Limit = pagination.PageSize };
+
+        if (!string.IsNullOrEmpty(pagination.PaginationToken))
+            scanConfig.PaginationToken = pagination.PaginationToken;
+
+        Search search = table.Scan(scanConfig);
+        List<Document> data = await search.GetNextSetAsync();
+
+        List<TModel> items = _context.FromDocuments<TModel>(data).ToList();
+
+        return new Pagination<TModel>
         {
-            Limit = pageSize,
-            PaginationToken = token,
+            PaginationToken = search.PaginationToken,
+            Items = items
         };
-
-        AsyncSearch<TModel> search = _context.FromQueryAsync<TModel>(queryConfig);
-        //search.Pa
-        //var results = await search.GetNextSetAsync();
-
-        //return results.ToList();
-
-        return null;
     }
 
     public async Task<List<TModel>> GetListAsync(int limit)
@@ -54,24 +56,27 @@ public class DynamoDBExecution<TModel> : IDynamoDBExecution<TModel>
         return await _context.LoadAsync<TModel>(key);
     }
 
-    public async Task SaveItem(TModel item)
+    public async Task SaveItemAsync(TModel item)
     {
         await _context.SaveAsync(item);
     }
 
-    public async Task DeleteItem(object? key)
+    public async Task DeleteItemAsync(object? key)
     {
         await _context.DeleteAsync<TModel>(key);
     }
 
-    public async Task<int> CountItems()
+    public async Task<int> CountItemsAsync()
     {
         ScanOperationConfig operationConfig = new ScanOperationConfig
         {
             Select = SelectValues.Count
         };
 
-        var a = _context.FromScanAsync<TModel>(operationConfig);
+        //_context.FromScanAsync(operationConfig);
+
+        AsyncSearch<int> search = _context.FromScanAsync<int>(operationConfig);
+        List<int> a = await search.GetNextSetAsync();
 
         return 0;
     }
