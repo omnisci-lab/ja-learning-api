@@ -1,4 +1,4 @@
-﻿using Japanese.Domain.Common;
+﻿using Japanese.Core.CommonModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Japanese.API.Base;

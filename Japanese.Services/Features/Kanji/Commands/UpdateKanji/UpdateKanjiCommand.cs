@@ -1,4 +1,4 @@
-﻿using Japanese.Domain.Common;
+﻿using Japanese.Core.CommonModels;
 using MediatR;
 
 namespace Japanese.Services.Features.Kanji.Commands.UpdateKanji;

@@ -1,10 +1,9 @@
 ﻿using Japanese.API.Base;
-using Japanese.Domain.Common;
+using Japanese.Core.CommonModels;
 using Japanese.Services.Features.Sentence.Commands.CreateSentence;
 using Japanese.Services.Features.Sentence.Commands.DeleteSentence;
 using Japanese.Services.Features.Sentence.Commands.UpdateSentence;
 using Japanese.Services.Features.Sentence.Queries;
-using Japanese.Services.Features.Sentence.Queries.GetPagedSentences;
 using Japanese.Services.Features.Sentence.Queries.GetSentence;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Japanese.Domain.Common;
+namespace Japanese.Core.CommonModels;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum ExecStatus

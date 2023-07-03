@@ -2,13 +2,31 @@
 @using Japanese.Services.Features.Sentence.Queries;
 @model Pagination<SentenceOutput>
 
-<div class="">
-    <a asp-action="Create">Create</a>
-</div>
+@await Component.InvokeAsync("Notif")
 
 <div class="card">
     <div class="card-header">
-        <p>List of Sentences</p>
+        <div class="d-flex justify-content-between">
+            <div>
+                <p class="m-0">List of Sentences</p>
+            </div>
+            <div>
+                <form asp-action="Index" method="get">
+                    <label>Số bản ghi/trang:</label>
+                    <select name="PageSize" class="form-control" style="display: inline; width: 50px;">
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                    </select>
+                    <input type="text" />
+                </form>
+            </div>
+            <div>
+                <a class="btn btn-success btn-sm" asp-action="Create">Create</a>
+            </div>
+            
+        </div>
     </div>
     <div class="card-body">
         <table class="table table-hover">
@@ -39,6 +57,8 @@
 
     </div>
     <div class="card-footer">
-        <a class="text-center" asp-action="Index" asp-route-PaginationToken="@Model.PaginationToken">Trang tiếp theo</a>
+        <div class="d-flex justify-content-center">
+            <a class="text-center" asp-action="Index" asp-route-PaginationToken="@Model.PaginationToken">Trang tiếp theo</a>
+        </div>
     </div>
 </div>

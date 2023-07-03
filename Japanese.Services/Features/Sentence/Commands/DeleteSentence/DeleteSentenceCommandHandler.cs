@@ -1,4 +1,4 @@
-﻿using Japanese.Domain.Common;
+﻿using Japanese.Core.CommonModels;
 using Japanese.Repositories.Interfaces;
 using MediatR;
 

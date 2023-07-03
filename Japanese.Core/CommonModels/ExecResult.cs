@@ -1,4 +1,4 @@
-﻿namespace Japanese.Domain.Common;
+﻿namespace Japanese.Core.CommonModels;
 
 public class ExecResult
 {

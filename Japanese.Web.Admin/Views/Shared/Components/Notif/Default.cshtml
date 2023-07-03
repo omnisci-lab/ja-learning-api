@@ -1,0 +1,26 @@
+﻿@{
+    ExecResult? execResult = null;
+    if(ViewData["ExecResult"] != null){
+        execResult = ViewData["ExecResult"] as ExecResult;
+    }else{
+        if(TempData["ExecResult"] != null){
+            execResult = TempData.Get<ExecResult>("ExecResult");
+        }
+    }
+}
+
+@if(execResult is not null){
+    if(execResult.Status == ExecStatus.Success){
+        <div class="alert alert-success" role="alert">
+            @execResult.Status.ToString()
+        </div>
+    }else if(execResult.Status == ExecStatus.AlreadyExists && execResult.Status == ExecStatus.Invalid){
+        <div class="alert alert-warning" role="alert">
+            @execResult.Status.ToString()
+        </div>
+    }else{
+        <div class="alert alert-danger" role="alert">
+            @execResult.Status.ToString()
+        </div>
+    }
+}

@@ -1,4 +1,4 @@
-﻿using Japanese.Domain.Common;
+﻿using Japanese.Core.CommonModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Net;

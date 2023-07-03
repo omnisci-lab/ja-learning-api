@@ -1,46 +1,55 @@
 ﻿@model Japanese.Services.Features.Sentence.Commands.UpdateSentence.UpdateSentenceCommand
 
-@{
-    ViewData["Title"] = "Edit";
-}
+@await Component.InvokeAsync("Notif")
 
-<h1>Edit</h1>
-
-<h4>UpdateSentenceCommand</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="SentenceId" class="control-label"></label>
-                <input asp-for="SentenceId" class="form-control" />
-                <span asp-validation-for="SentenceId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Text" class="control-label"></label>
-                <input asp-for="Text" class="form-control" />
-                <span asp-validation-for="Text" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EnMeanings" class="control-label"></label>
-                <input asp-for="EnMeanings" class="form-control" />
-                <span asp-validation-for="EnMeanings" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ViMeanings" class="control-label"></label>
-                <input asp-for="ViMeanings" class="form-control" />
-                <span asp-validation-for="ViMeanings" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="card">
+    <div class="card-header">
+        Edit: @Model.Text
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Edit" id="editSentence">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="SentenceId" class="control-label"></label>
+                        <input asp-for="SentenceId" class="form-control" readonly/>
+                        <span asp-validation-for="SentenceId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Text" class="control-label"></label>
+                        <input asp-for="Text" class="form-control" />
+                        <span asp-validation-for="Text" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EnMeanings" class="control-label"></label>
+                        <input asp-for="EnMeanings" class="form-control" />
+                        <span asp-validation-for="EnMeanings" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ViMeanings" class="control-label"></label>
+                        <input asp-for="ViMeanings" class="form-control" />
+                        <span asp-validation-for="ViMeanings" class="text-danger"></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="d-flex justify-content-between">
+            <div class="btn-group">
+                <a class="btn btn-dark btn-sm m-1" asp-action="Index">Back to List</a>
+                <a class="btn btn-primary btn-sm m-1" asp-action="GetDetails" asp-route-sentenceId="@Model.SentenceId">Details</a>
+                <button class="btn btn-danger btn-sm m-1" form="deleteSentence">Delete</button>
+                <form asp-action="Delete" id="deleteSentence">
+                    <input type="hidden" name="SentenceId" value="@Model.SentenceId" />
+                </form>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-success btn-sm m-1" form="editSentence">Save</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {

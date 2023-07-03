@@ -1,10 +1,11 @@
 ﻿using Japanese.Core.CommonModels;
-using Japanese.Domain.Common;
 using Japanese.Services.Features.Sentence.Commands.CreateSentence;
+using Japanese.Services.Features.Sentence.Commands.DeleteSentence;
 using Japanese.Services.Features.Sentence.Commands.UpdateSentence;
 using Japanese.Services.Features.Sentence.Queries;
 using Japanese.Services.Features.Sentence.Queries.GetPagedSentences;
 using Japanese.Services.Features.Sentence.Queries.GetSentence;
+using Japanese.Web.Admin.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,7 @@ public class SentenceController : Controller
     }
 
     [Route("list")]
+    [PageTitle(Title = "List of Sentences")]
     public async Task<IActionResult> Index([FromQuery] GetPagedSentencesQuery query)
     {
         if (query.PageSize == 0)
@@ -32,6 +34,7 @@ public class SentenceController : Controller
     }
 
     [Route("details/{sentenceId}")]
+    [PageTitle(Title = "Sentence Details")]
     public async Task<IActionResult> GetDetails(string sentenceId)
     {
         GetSentenceQuery query = new GetSentenceQuery() { SentenceId = sentenceId, Bypass = true };
@@ -43,6 +46,7 @@ public class SentenceController : Controller
     }
 
     [Route("create")]
+    [PageTitle(Title = "Create new a Sentences")]
     public IActionResult Create()
     {
         return View();
@@ -51,13 +55,17 @@ public class SentenceController : Controller
     [Route("create")]
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [PageTitle(Title = "Create new a Sentences")]
     public async Task<IActionResult> Create(CreateSentenceCommand command)
     {
         ExecResult execResult = await _mediator.Send(command);
+        ViewData["ExecResult"] = execResult;
+
         return View();
     }
 
     [Route("edit/{sentenceId}")]
+    [PageTitle(Title = "Edit a Sentences")]
     public async Task<IActionResult> Edit(string sentenceId)
     {
         GetSentenceQuery query = new GetSentenceQuery() { SentenceId = sentenceId, Bypass = true };
@@ -76,15 +84,23 @@ public class SentenceController : Controller
     [Route("edit/{sentenceId}")]
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [PageTitle(Title = "Edit a Sentences")]
     public async Task<IActionResult> Edit(UpdateSentenceCommand command)
     {
         ExecResult execResult = await _mediator.Send(command);
-        return View();
+        ViewData["ExecResult"] = execResult;
+
+        return View(command);
     }
 
     [Route("delete")]
-    public async Task<IActionResult> Delete()
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(DeleteSentenceCommand command)
     {
-        return View();
+        ExecResult execResult = await _mediator.Send(command);
+        TempData.Put("ExecResult", execResult);
+
+        return RedirectToAction("Index");
     }
 }
