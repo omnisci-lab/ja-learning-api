@@ -12,7 +12,7 @@
             </div>
             <div>
                 <form asp-action="Index" method="get">
-                    <label>Số bản ghi/trang:</label>
+                    <label>Records/page:</label>
                     <select name="PageSize" class="form-control" style="display: inline; width: 50px;">
                         <option value="20">20</option>
                         <option value="50">50</option>
@@ -29,12 +29,17 @@
         </div>
     </div>
     <div class="card-body">
-        @await Component.InvokeAsync("DynamicTable", new { 
-            headerType = typeof(SentenceOutputMetadata),
-            bodyType = typeof(SentenceOutput),
+        @await Component.InvokeAsync("DynamicTable", new {
+            type = typeof(SentenceOutput),
+            metadataType = typeof(SentenceOutputMetadata),
             data = Model.Items!.ToArray(),
-            actionName = "GetDetails",
-            routeKeys = new Dictionary<string, string>{ { "SentenceId", "sentenceId" } }
+            detailUrl = new UrlInfo { 
+                ActionName = "GetDetails",
+                ControllerName = "Sentence",
+                RouteValues = new List<RouteValueObject>{
+                    new RouteValueObject { RouteProperty = "sentenceId", MapToProperty = "SentenceId" }
+                }
+            }
         })
     </div>
     <div class="card-footer">

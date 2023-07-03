@@ -17,6 +17,6 @@ public class Pagination<TModel> : Pagination
 
     public List<T> ToList<T>()
     {
-        return null;
+        return null!;
     }
 }

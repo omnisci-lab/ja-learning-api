@@ -33,7 +33,7 @@ public class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
         cacheValue = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(response));
         DistributedCacheEntryOptions options = new DistributedCacheEntryOptions
         {
-            AbsoluteExpiration = DateTimeOffset.UtcNow.AddMinutes(5)
+            AbsoluteExpiration = DateTimeOffset.UtcNow.AddMinutes(30)
         };
 
         await _cache.SetAsync(request.CacheKey!, cacheValue, options);

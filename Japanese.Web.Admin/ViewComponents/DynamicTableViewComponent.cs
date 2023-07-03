@@ -1,4 +1,5 @@
-﻿using Japanese.Web.Admin.Common.DynamicTable;
+﻿using Japanese.Web.Admin.Common;
+using Japanese.Web.Admin.Common.DynamicTable;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
@@ -8,11 +9,11 @@ namespace Japanese.Web.Admin.ViewComponents;
 [ViewComponent(Name = "DynamicTable")]
 public class DynamicTableViewComponent : ViewComponent
 {
-    public IViewComponentResult Invoke(Type headerType, Type bodyType, object[] data, string actionName, Dictionary<string, string> routeKeys)
+    public IViewComponentResult Invoke(Type type, Type metadataType, object[] data, UrlInfo detailUrl)
     {
         DynamicTable dynamicTable = new DynamicTable();
 
-        dynamicTable.ColumnHeaders.AddRange(headerType
+        dynamicTable.ColumnHeaders.AddRange(metadataType
             .GetProperties().Where(x => x.GetCustomAttribute<DynamicTableColumnAttribute>() is not null)
             .Select(s =>
             {
@@ -28,7 +29,7 @@ public class DynamicTableViewComponent : ViewComponent
                 return columnHeader;
             }).ToList());
 
-        PropertyInfo[] tableProperties = bodyType.GetProperties()
+        PropertyInfo[] tableProperties = type.GetProperties()
             .Where(x => dynamicTable.ColumnHeaders.Any(h => h.OriginName == x.Name)).ToArray();
 
         foreach(object item in data)
@@ -37,13 +38,14 @@ public class DynamicTableViewComponent : ViewComponent
                 Name = s.Name, Value = s.GetValue(item)
             }).ToList();
 
-            Dictionary<string, object> routeValues = new Dictionary<string, object>();
-            foreach(KeyValuePair<string, string> routeKey in routeKeys)
+            RouteValueDictionary routeValueDict = new RouteValueDictionary();
+            foreach (RouteValueObject routeValueObject in detailUrl.RouteValues!)
             {
-                routeValues.Add(routeKey.Value, columns.SingleOrDefault(x => x.Name == routeKey.Key)!.Value!);
+                object? value = columns.SingleOrDefault(x => x.Name == routeValueObject.MapToProperty)?.Value;
+                routeValueDict.Add(routeValueObject.RouteProperty!, value);
             }
 
-            columns.Add(new DynamicTableColumn { Name = "DetailURL", Value = Url.Action(actionName, routeValues) });
+            columns.Add(new DynamicTableColumn { Name = "DetailURL", Value = Url.Action(detailUrl.ActionName, detailUrl.ControllerName, routeValueDict) });
 
             dynamicTable.Rows.Add(new DynamicTableRow { Columns = columns });
         }
