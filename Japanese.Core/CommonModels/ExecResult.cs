@@ -1,4 +1,6 @@
-﻿namespace Japanese.Core.CommonModels;
+﻿using Japanese.Core.Enum;
+
+namespace Japanese.Core.CommonModels;
 
 public class ExecResult
 {

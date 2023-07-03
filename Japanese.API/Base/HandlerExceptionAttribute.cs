@@ -1,4 +1,5 @@
 ﻿using Japanese.Core.CommonModels;
+using Japanese.Core.Enum;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Net;

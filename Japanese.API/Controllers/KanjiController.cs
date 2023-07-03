@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Japanese.Services.Features.Kanji.Queries.GetKanji;
 using Japanese.API.Base;
-using Japanese.Domain.Common;
 using Japanese.Services.Features.Kanji.Commands.UpdateKanji;
 using Japanese.Services.Features.Kanji.Commands.CreateKanji;
 using Japanese.Services.Features.Kanji.Queries.GetKanjiListByJlpt;

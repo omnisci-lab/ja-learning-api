@@ -1,4 +1,5 @@
 ﻿using Japanese.Core.CommonModels;
+using Japanese.Core.Enum;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Japanese.API.Base;

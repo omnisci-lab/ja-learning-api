@@ -1,5 +1,4 @@
 ﻿using Japanese.Core.CommonModels;
-using Japanese.Domain.Common;
 using Japanese.Services.Features.Kanji.Commands.UpdateKanji;
 using Japanese.Services.Features.Kanji.Queries.GetKanji;
 using Japanese.Services.Features.Kanji.Queries.GetPagedKanji;
