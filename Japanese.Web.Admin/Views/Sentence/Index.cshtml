@@ -25,36 +25,17 @@
             <div>
                 <a class="btn btn-success btn-sm" asp-action="Create">Create</a>
             </div>
-            
+
         </div>
     </div>
     <div class="card-body">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Text</th>
-                    <th scope="col">En Meanings</th>
-                    <th scope="col">Vi Meanings</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    int count = 1;
-                }
-                @foreach (SentenceOutput sentence in Model.Items!)
-                {
-                    <tr ondblclick="location.href = '@Url.Action("GetDetails", new { sentenceId = sentence.SentenceId })'">
-                        <th scope="row">@count</th>
-                        <td>@sentence.Text</td>
-                        <td>@sentence.EnMeanings</td>
-                        <td>@sentence.ViMeanings</td>
-                    </tr>
-                    count++;
-                }
-            </tbody>
-        </table>
-
+        @await Component.InvokeAsync("DynamicTable", new { 
+            headerType = typeof(SentenceOutputMetadata),
+            bodyType = typeof(SentenceOutput),
+            data = Model.Items!.ToArray(),
+            actionName = "GetDetails",
+            routeKeys = new Dictionary<string, string>{ { "SentenceId", "sentenceId" } }
+        })
     </div>
     <div class="card-footer">
         <div class="d-flex justify-content-center">

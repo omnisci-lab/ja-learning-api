@@ -20,8 +20,11 @@ public class CreateSentenceCommandHandler : IRequestHandler<CreateSentenceComman
         {
             SentenceId = Guid.NewGuid().ToString(),
             Text = request.Text,
+            Structure = request.Structure,
+            Jlpt = request.Jlpt,
             EnMeanings = request.EnMeanings,
             ViMeanings = request.ViMeanings,
+            References = request.References,
             CreatedDate = DateTime.Now
         };
 

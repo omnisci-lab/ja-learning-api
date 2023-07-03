@@ -1,0 +1,29 @@
+﻿@model DynamicTable
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            @foreach (DynamicColumnHeader columnHeader in Model.ColumnHeaders)
+            {
+                <th scope="col">@columnHeader.DisplayName</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 1;
+        }
+        @foreach (DynamicTableRow row in Model.Rows)
+        {
+            <tr ondblclick="location.href = '@row.Columns.SingleOrDefault(x => x.Name == "DetailURL")?.Value'">
+                <th scope="row">@count</th>
+                @foreach (DynamicTableColumn column in row.Columns.Where(x => x.Name != "DetailURL").ToList())
+                {
+                    <td>@column.Value</td>
+                }
+            </tr>
+            count++;
+        }
+    </tbody>
+</table>

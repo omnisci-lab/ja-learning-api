@@ -23,8 +23,11 @@ public class GetSentenceQueryHandler : IRequestHandler<GetSentenceQuery, Sentenc
         {
             SentenceId = sentenceModel.SentenceId,
             Text = sentenceModel.Text,
+            Structure = sentenceModel.Structure,
+            Jlpt = sentenceModel.Jlpt,
             EnMeanings = sentenceModel.EnMeanings,
-            ViMeanings = sentenceModel.ViMeanings
+            ViMeanings = sentenceModel.ViMeanings,
+            References = sentenceModel.References
         };
     }
 }

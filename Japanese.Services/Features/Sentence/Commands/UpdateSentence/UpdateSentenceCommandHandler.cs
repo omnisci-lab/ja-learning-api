@@ -21,8 +21,11 @@ public class UpdateSentenceCommandHandler : IRequestHandler<UpdateSentenceComman
             return new ExecResult { Status = ExecStatus.NotFound };
 
         sentenceModel.Text = request.Text;
+        sentenceModel.Structure = request.Structure;
+        sentenceModel.Jlpt = request.Jlpt;
         sentenceModel.EnMeanings = request.EnMeanings;
         sentenceModel.ViMeanings = request.ViMeanings;
+        sentenceModel.References = request.References;
         sentenceModel.LastModifiedDate = DateTime.Now;
 
         await _sentenceRepository.SaveItemAsync(sentenceModel);
