@@ -7,7 +7,7 @@ using WebCore.Extensions;
 
 namespace Japanese.Web.Admin.ViewComponents;
 
-[ViewComponent(Name = "DynamicDetail")]
+[ViewComponent(Name = "DynamicDetailView")]
 public class DynamicDetailViewComponent : ViewComponent
 {
     public IViewComponentResult Invoke(Type type, Type metadataType, object data, UrlInfo listUrl, UrlInfo editUrl, DynamicForm deletionForm)

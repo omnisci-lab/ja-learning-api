@@ -1,6 +1,5 @@
-﻿namespace Japanese.Web.Admin.ViewComponents
-{
-    public class DynamicUpdateViewComponent
-    {
-    }
-}
+﻿namespace Japanese.Web.Admin.ViewComponents;
+
+//public class DynamicUpdateViewComponent
+//{
+//}

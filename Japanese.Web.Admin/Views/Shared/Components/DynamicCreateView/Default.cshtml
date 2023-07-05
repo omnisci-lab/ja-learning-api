@@ -1,0 +1,40 @@
+﻿@model DynamicForm
+
+<div class="card">
+    <div class="card-header">
+        Create
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-">
+                <form action="@Url.Action(Model.ActionName, Model.ControllerName)" method="post" asp-antiforgery="true" id="createItem">
+                    @foreach (DynamicFormField formField in Model.FormFields)
+                    {
+                        <div class="form-group mt-3">
+                            @if (formField.FieldType == FormFieldType.TextArea)
+                            {
+                                <label class="control-label" for="@formField.Name">@formField.Name</label>
+                                <textarea class="form-control" name="@formField.Name" id="@formField.Name">@formField.Value</textarea>
+                            }
+                            else
+                            {
+                                <label class="control-label" for="@formField.Name">@formField.Name</label>
+                                <input class="form-control" type="@formField.FieldType.ToString().ToLower()" name="@formField.Name" id="@formField.Name" value="@formField.Value" />
+                            }
+                        </div>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="d-flex justify-content-between">
+            <div class="btn-group">
+                <a class="btn btn-dark btn-sm m-1" href="@ViewData["ListUrl"]">Back to List</a>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-success btn-sm m-1" form="createItem">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

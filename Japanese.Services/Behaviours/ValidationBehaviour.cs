@@ -1,4 +1,7 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
+using Japanese.Core.CommonModels;
+using Japanese.Core.Enum;
 using MediatR;
 using ValidationException = FluentValidation.ValidationException;
 
@@ -18,13 +21,24 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
     {
         if (_validators.Any())
         {
-            var context = new ValidationContext<TRequest>(request);
+            ValidationContext<TRequest> context = new ValidationContext<TRequest>(request);
 
-            var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
-            var failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
+            ValidationResult[] validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
+            List<ValidationFailure> failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
 
             if (failures.Count != 0)
+            {
+                if (typeof(TResponse) == typeof(ExecResult))
+                    return (TResponse)Convert.ChangeType(
+                        new ExecResult { 
+                            Status = ExecStatus.Invalid,
+                            Message = string.Join(" | ", failures.Select(p => p.ErrorMessage))
+                        }, 
+                        typeof(TResponse)
+                    );
+
                 throw new ValidationException(failures);
+            }
         }
         return await next();
     }

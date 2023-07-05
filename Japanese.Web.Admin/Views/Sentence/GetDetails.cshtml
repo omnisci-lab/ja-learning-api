@@ -1,7 +1,7 @@
 ﻿@using Japanese.Services.Features.Sentence.Queries
 @model SentenceOutput
 
-@await Component.InvokeAsync("DynamicDetail", new {
+@await Component.InvokeAsync("DynamicDetailView", new {
     type = typeof(SentenceOutput),
     metadataType = typeof(SentenceOutputMetadata),
     data = Model,

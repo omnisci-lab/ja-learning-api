@@ -2,5 +2,5 @@
 
 public class DynamicTableRow
 {
-    public List<DynamicTableColumn> Columns { get; set; } = default!;
+    public List<DynamicTableColumn> Columns { get; set; } = new List<DynamicTableColumn>();
 }
