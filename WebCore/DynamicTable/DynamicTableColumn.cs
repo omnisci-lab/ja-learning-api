@@ -1,4 +1,4 @@
-﻿namespace Japanese.Web.Admin.Common.DynamicTable;
+﻿namespace WebCore.DynamicTable;
 
 public class DynamicTableColumn
 {

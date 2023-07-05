@@ -1,4 +1,4 @@
-﻿namespace Japanese.Web.Admin.Common;
+﻿namespace WebCore;
 
 public class RouteValueObject
 {

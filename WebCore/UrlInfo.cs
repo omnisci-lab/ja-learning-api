@@ -1,10 +1,10 @@
 ﻿
-namespace Japanese.Web.Admin.Common;
+namespace WebCore;
 
 public class UrlInfo
 {
     public string? ActionName { get; set; }
     public string? ControllerName { get; set; }
 
-    public List<RouteValueObject>? RouteValues { get; set; }
+    public List<RouteValueObject> RouteValues { get; set; } = default!;
 }

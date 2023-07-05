@@ -5,9 +5,10 @@ using Japanese.Services.Features.Sentence.Commands.UpdateSentence;
 using Japanese.Services.Features.Sentence.Queries;
 using Japanese.Services.Features.Sentence.Queries.GetPagedSentences;
 using Japanese.Services.Features.Sentence.Queries.GetSentence;
-using Japanese.Web.Admin.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebCore.Attributes;
+using WebCore.Extensions;
 
 namespace Japanese.Web.Admin.Controllers;
 

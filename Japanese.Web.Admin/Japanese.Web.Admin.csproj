@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Japanese.Services\Japanese.Services.csproj" />
+    <ProjectReference Include="..\WebCore\WebCore.csproj" />
   </ItemGroup>
 
 </Project>

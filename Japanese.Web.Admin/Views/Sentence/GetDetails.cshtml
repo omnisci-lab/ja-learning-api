@@ -1,26 +1,26 @@
 ﻿@using Japanese.Services.Features.Sentence.Queries
 @model SentenceOutput
 
-@await Component.InvokeAsync("Detail", new { 
+@await Component.InvokeAsync("DynamicDetail", new {
     type = typeof(SentenceOutput),
     metadataType = typeof(SentenceOutputMetadata),
     data = Model,
     listUrl = new UrlInfo{
         ActionName = "Index",
-        ControllerName = "Sentence" 
+        ControllerName = "Sentence"
     },
     editUrl = new UrlInfo{
         ActionName = "Edit",
         ControllerName = "Sentence",
-        RouteValues = new List<RouteValueObject>{
+        RouteValues = new List<RouteValueObject> {
             new RouteValueObject{ RouteProperty = "sentenceId", MapToProperty = "SentenceId" }
         }
     },
-    deleteUrl = new UrlInfo{
+    deletionForm = new DynamicForm {
         ActionName = "Delete",
         ControllerName = "Sentence",
-        RouteValues = new List<RouteValueObject>{
-            new RouteValueObject{ RouteProperty = "sentenceId", MapToProperty = "SentenceId" }
+        FormFields = new List<DynamicFormField> {
+            new DynamicFormField { Name = "SentenceId", MapToProperty = "SentenceId" }
         }
     }
 });

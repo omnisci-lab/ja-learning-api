@@ -2,11 +2,12 @@
 
 <div class="card">
     <div class="card-header">
-        Details: 
+        Details:
     </div>
     <div class="card-body">
         <dl class="row">
-            @foreach (KeyValuePair<string, object> pair in Model){
+            @foreach (KeyValuePair<string, object> pair in Model)
+            {
                 <dt class="col-sm-2">
                     @pair.Key
                 </dt>
@@ -21,8 +22,12 @@
             <a class="btn btn-success btn-sm m-1" href="@ViewData["ListUrl"]">Back to List</a>
             <a class="btn btn-primary btn-sm m-1" href="@ViewData["EditUrl"]">Edit</a>
             <button class="btn btn-danger btn-sm m-1" form="deleteSentence">Delete</button>
-            <form action="@ViewData["DeleteUrl"]" id="deleteSentence">
-                <input type="hidden" name="SentenceId" value="1" />
+            <form action="@ViewData["DeleteUrl"]" method="post" asp-antiforgery="true" id="deleteSentence">
+                @foreach (KeyValuePair<string, object?> formField in (ViewData["DeletionFormFieldDict"] as FormFieldDictionary)!)
+                {
+                    
+                    <input type="hidden" name="@formField.Key" value="@formField.Value" />
+                }
             </form>
         </div>
     </div>

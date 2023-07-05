@@ -1,8 +1,10 @@
-﻿using Japanese.Web.Admin.Common;
-using Japanese.Web.Admin.Common.DynamicTable;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using WebCore;
+using WebCore.Attributes;
+using WebCore.DynamicTable;
+using WebCore.Extensions;
 
 namespace Japanese.Web.Admin.ViewComponents;
 
@@ -13,9 +15,18 @@ public class DynamicTableViewComponent : ViewComponent
     {
         DynamicTable dynamicTable = new DynamicTable();
 
-        dynamicTable.ColumnHeaders.AddRange(metadataType
-            .GetProperties().Where(x => x.GetCustomAttribute<DynamicTableColumnAttribute>() is not null)
-            .Select(s =>
+        dynamicTable.ColumnHeaders.AddRange(metadataType.GetProperties()
+            .Where(x =>
+            {
+                DynamicViewAttribute? dynamicViewAttribute = x.GetCustomAttribute<DynamicViewAttribute>();
+                if (dynamicViewAttribute is null)
+                    return false;
+
+                if (dynamicViewAttribute.Table)
+                    return true;
+
+                return false;
+            }).Select(s =>
             {
                 DynamicColumnHeader columnHeader = new DynamicColumnHeader
                 {
@@ -39,15 +50,12 @@ public class DynamicTableViewComponent : ViewComponent
             }).ToList();
 
             RouteValueDictionary routeValueDict = new RouteValueDictionary();
-            foreach (RouteValueObject routeValueObject in detailUrl.RouteValues!)
-            {
-                object? value = columns.SingleOrDefault(x => x.Name == routeValueObject.MapToProperty)?.Value;
-                routeValueDict.Add(routeValueObject.RouteProperty!, value);
-            }
+            DynamicTableRow row = new DynamicTableRow { Columns = columns };
 
+            routeValueDict.From(detailUrl.RouteValues, row);
             columns.Add(new DynamicTableColumn { Name = "DetailURL", Value = Url.Action(detailUrl.ActionName, detailUrl.ControllerName, routeValueDict) });
-
-            dynamicTable.Rows.Add(new DynamicTableRow { Columns = columns });
+            
+            dynamicTable.Rows.Add(row);
         }
 
         return View(dynamicTable);

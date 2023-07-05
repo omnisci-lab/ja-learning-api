@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Newtonsoft.Json;
 
-namespace Japanese.Web.Admin.Common;
+namespace WebCore.Extensions;
 
 public static class TempDataExtensions
 {
