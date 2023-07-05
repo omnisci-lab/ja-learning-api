@@ -1,4 +1,5 @@
 ﻿using Japanese.Core.CommonModels;
+using Japanese.Core.Enum;
 using Japanese.Services.Features.Sentence.Commands.CreateSentence;
 using Japanese.Services.Features.Sentence.Commands.DeleteSentence;
 using Japanese.Services.Features.Sentence.Commands.UpdateSentence;
@@ -30,8 +31,11 @@ public class SentenceController : Controller
             query.PageSize = 10;
 
         query.RefreshCache = true;
-        Pagination<SentenceOutput> paged = await _mediator.Send(query);
-        return View(paged);
+        ExecResult<Pagination<SentenceOutput>> execResult = await _mediator.Send(query);
+        if (execResult.Status != ExecStatus.Success)
+            return BadRequest();
+
+        return View(execResult.Data);
     }
 
     [Route("details/{sentenceId}")]
@@ -39,18 +43,21 @@ public class SentenceController : Controller
     public async Task<IActionResult> GetDetails(string sentenceId)
     {
         GetSentenceQuery query = new GetSentenceQuery() { SentenceId = sentenceId, Bypass = true };
-        SentenceOutput sentence = await _mediator.Send(query);
-        if (sentence is null)
+        ExecResult<SentenceOutput?> execResult = await _mediator.Send(query);
+        if (execResult.Status == ExecStatus.NotFound)
             return NotFound();
 
-        return View(sentence);
+        if (execResult.Status != ExecStatus.Success)
+            return BadRequest();
+
+        return View(execResult.Data);
     }
 
     [Route("create")]
     [PageTitle(Title = "Create new a Sentences")]
     public IActionResult Create()
     {
-        return View();
+        return View(new CreateSentenceCommand { Jlpt = 1 });
     }
 
     [Route("create")]
@@ -70,9 +77,14 @@ public class SentenceController : Controller
     public async Task<IActionResult> Edit(string sentenceId)
     {
         GetSentenceQuery query = new GetSentenceQuery() { SentenceId = sentenceId, Bypass = true };
-        SentenceOutput sentence = await _mediator.Send(query);
-        if (sentence is null)
+        ExecResult<SentenceOutput?> execResult = await _mediator.Send(query);
+        if (execResult.Status == ExecStatus.NotFound)
             return NotFound();
+
+        if (execResult.Status != ExecStatus.Success)
+            return BadRequest();
+
+        SentenceOutput sentence = execResult.Data!;
 
         return View(new UpdateSentenceCommand { 
             SentenceId = sentence.SentenceId,

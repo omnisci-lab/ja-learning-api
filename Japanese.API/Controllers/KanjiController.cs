@@ -22,12 +22,11 @@ public class KanjiController : ApiControllerBase
     }
 
     [HttpGet]
-    [Route("list")]
+    [Route("paged")]
     [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetPaged([FromQuery] GetPagedKanjiQuery query)
     {
-        Pagination<KanjiDetailOutput> paged = await _mediator.Send(query);
-        return Ok(paged);
+        return Ok(await _mediator.Send(query));
     }
 
     [HttpGet]
@@ -35,11 +34,7 @@ public class KanjiController : ApiControllerBase
     [ProducesResponseType(typeof(KanjiDetailOutput), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetDetails([FromQuery] GetKanjiQuery query)
     {
-        KanjiDetailOutput kanjiDetail = await _mediator.Send(query);
-        if (kanjiDetail == null)
-            return NotFound();
-
-        return Ok(kanjiDetail);
+        return Ok(await _mediator.Send(query));
     }
 
     [HttpGet]
@@ -47,8 +42,7 @@ public class KanjiController : ApiControllerBase
     [ProducesResponseType(typeof(KanjiDetailOutput), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetKanjiListByJlpt([FromQuery] GetKanjiListByJlptQuery query)
     {
-        List<KanjiDetailOutput> kanjiList = await _mediator.Send(query);
-        return Ok(kanjiList);
+        return Ok(await _mediator.Send(query));
     }
 
     [HttpPost]
@@ -56,8 +50,7 @@ public class KanjiController : ApiControllerBase
     [ProducesResponseType(typeof(ExecResult), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Create(CreateKanjiCommand command)
     {
-        ExecResult execResult = await _mediator.Send(command);
-        return GetResult(execResult);
+        return ApiResult(await _mediator.Send(command));
     }
 
     [HttpPut]
@@ -65,7 +58,6 @@ public class KanjiController : ApiControllerBase
     [ProducesResponseType(typeof(ExecResult), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Update(UpdateKanjiCommand command)
     {
-        ExecResult execResult = await _mediator.Send(command);
-        return GetResult(execResult);
+        return ApiResult(await _mediator.Send(command));
     }
 }

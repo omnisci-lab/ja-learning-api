@@ -1,11 +1,12 @@
 ﻿using Japanese.Core.CommonModels;
+using Japanese.Core.Enum;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 using MediatR;
 
 namespace Japanese.Services.Features.Sentence.Queries.GetPagedSentences;
 
-public class GetPagedSentencesQueryHandler : IRequestHandler<GetPagedSentencesQuery, Pagination<SentenceOutput>>
+public class GetPagedSentencesQueryHandler : IRequestHandler<GetPagedSentencesQuery, ExecResult<Pagination<SentenceOutput>>>
 {
     private readonly ISentenceRepository _sentenceRepository;
 
@@ -14,23 +15,27 @@ public class GetPagedSentencesQueryHandler : IRequestHandler<GetPagedSentencesQu
         _sentenceRepository = repository.SentenceRepository;
     }
 
-    public async Task<Pagination<SentenceOutput>> Handle(GetPagedSentencesQuery request, CancellationToken cancellationToken)
+    public async Task<ExecResult<Pagination<SentenceOutput>>> Handle(GetPagedSentencesQuery request, CancellationToken cancellationToken)
     {
         Pagination<SentenceModel> paged = await _sentenceRepository.GetPagedAsync(request);
 
-        return new Pagination<SentenceOutput>
+        return new ExecResult<Pagination<SentenceOutput>>
         {
-            PaginationToken = paged.PaginationToken,
-            Items = paged.Items.Select(sentenceModel => new SentenceOutput
+            Status = ExecStatus.Success,
+            Data = new Pagination<SentenceOutput>
             {
-                SentenceId = sentenceModel.SentenceId,
-                Text = sentenceModel.Text,
-                Structure = sentenceModel.Structure,
-                Jlpt = sentenceModel.Jlpt,
-                EnMeanings = sentenceModel.EnMeanings,
-                ViMeanings = sentenceModel.ViMeanings,
-                References = sentenceModel.References
-            }).ToList()
+                PaginationToken = paged.PaginationToken,
+                Items = paged.Items.Select(sentenceModel => new SentenceOutput
+                {
+                    SentenceId = sentenceModel.SentenceId,
+                    Text = sentenceModel.Text,
+                    Structure = sentenceModel.Structure,
+                    Jlpt = sentenceModel.Jlpt,
+                    EnMeanings = sentenceModel.EnMeanings,
+                    ViMeanings = sentenceModel.ViMeanings,
+                    References = sentenceModel.References
+                }).ToList()
+            }
         };
     }
 }

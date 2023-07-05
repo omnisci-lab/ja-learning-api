@@ -9,25 +9,17 @@ namespace Japanese.API.Base;
 public class ApiControllerBase : ControllerBase
 {
     [NonAction]
-    public IActionResult GetResult(ExecResult execResult)
+    public ObjectResult ApiResult<T>(T value) where T : ExecResult
     {
-        switch (execResult.Status)
+        switch (value.Status)
         {
-            case ExecStatus.Success: return Ok(execResult);
-            case ExecStatus.NotFound: return NotFound(execResult);
-            case ExecStatus.AlreadyExists: return Conflict(execResult);
-            case ExecStatus.Failed: return BadRequest(execResult);
+            case ExecStatus.Success: return Ok(value);
+            case ExecStatus.NotFound: return NotFound(value);
+            case ExecStatus.AlreadyExists: return Conflict(value);
+            case ExecStatus.Invalid:
+            case ExecStatus.Failed: return BadRequest(value);
             default:
-                return Ok(execResult);
+                return Ok(value);
         }
-    }
-
-    [NonAction]
-    public IActionResult GetResult<TOutput>(TOutput output)
-    {
-        if(output is null)
-            return NotFound(new ExecResult { Status = ExecStatus.NotFound });
-
-        return Ok(output);
     }
 }

@@ -1,10 +1,12 @@
-﻿using Japanese.Models;
+﻿using Japanese.Core.CommonModels;
+using Japanese.Core.Enum;
+using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 using MediatR;
 
 namespace Japanese.Services.Features.Sentence.Queries.GetSentence;
 
-public class GetSentenceQueryHandler : IRequestHandler<GetSentenceQuery, SentenceOutput?>
+public class GetSentenceQueryHandler : IRequestHandler<GetSentenceQuery, ExecResult<SentenceOutput?>>
 {
     private readonly ISentenceRepository _sentenceRepository;
 
@@ -13,21 +15,25 @@ public class GetSentenceQueryHandler : IRequestHandler<GetSentenceQuery, Sentenc
         _sentenceRepository = repository.SentenceRepository;
     }
 
-    public async Task<SentenceOutput?> Handle(GetSentenceQuery request, CancellationToken cancellationToken)
+    public async Task<ExecResult<SentenceOutput?>> Handle(GetSentenceQuery request, CancellationToken cancellationToken)
     {
         SentenceModel? sentenceModel = await _sentenceRepository.GetAsync(request.SentenceId);
         if (sentenceModel is null)
-            return null;
+            return new ExecResult<SentenceOutput?> { Status = ExecStatus.NotFound };
 
-        return new SentenceOutput
+        return new ExecResult<SentenceOutput?>
         {
-            SentenceId = sentenceModel.SentenceId,
-            Text = sentenceModel.Text,
-            Structure = sentenceModel.Structure,
-            Jlpt = sentenceModel.Jlpt,
-            EnMeanings = sentenceModel.EnMeanings,
-            ViMeanings = sentenceModel.ViMeanings,
-            References = sentenceModel.References
+            Status = ExecStatus.Success,
+            Data = new SentenceOutput
+            {
+                SentenceId = sentenceModel.SentenceId,
+                Text = sentenceModel.Text,
+                Structure = sentenceModel.Structure,
+                Jlpt = sentenceModel.Jlpt,
+                EnMeanings = sentenceModel.EnMeanings,
+                ViMeanings = sentenceModel.ViMeanings,
+                References = sentenceModel.References
+            }
         };
     }
 }

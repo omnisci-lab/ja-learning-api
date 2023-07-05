@@ -8,7 +8,7 @@ public class CreateSentenceCommandMetadata
     [DynamicView(FieldType = FormFieldType.TextArea)]
     public string? Text { get; set; }
 
-    [DynamicView(FieldType = FormFieldType.Password)]
+    [DynamicView(FieldType = FormFieldType.Text)]
     public string? Structure { get; set; }
 
     [DynamicView(FieldType = FormFieldType.Text)]

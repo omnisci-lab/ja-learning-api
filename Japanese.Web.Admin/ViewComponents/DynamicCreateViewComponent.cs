@@ -48,7 +48,7 @@ public class DynamicCreateViewComponent : ViewComponent
             DynamicFormField formField = new DynamicFormField { Name = s.Name };
 
             PropertyInfo? property = type.GetProperty(s.Name);
-            formField.Value = (property is null) ? null : property.GetValue(data);
+            formField.Value = property?.GetValue(data);
 
             DynamicViewAttribute? dynamicViewAttribute = s.GetCustomAttribute<DynamicViewAttribute>();
             if (dynamicViewAttribute is null)

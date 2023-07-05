@@ -11,6 +11,6 @@ public class GetPagedSentencesQueryValidator : AbstractValidator<GetPagedSentenc
 {
     public GetPagedSentencesQueryValidator()
     {
-        RuleFor(x => x.PageSize).GreaterThan(0);
+        RuleFor(x => x.PageSize).GreaterThanOrEqualTo(1);
     }
 }

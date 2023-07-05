@@ -15,9 +15,9 @@ public class DynamicDetailViewComponent : ViewComponent
         Dictionary<string, object?> keyValuePairs = metadataType.GetProperties().Select(s =>
         {
             DisplayAttribute? displayAttribute = s.GetCustomAttribute<DisplayAttribute>();
-
             PropertyInfo? property = type.GetProperty(s.Name);
-            object? propertyValue = (property is null) ? null : property.GetValue(data);
+
+            object? propertyValue = property?.GetValue(data);
 
             if (displayAttribute is not null && !string.IsNullOrEmpty(displayAttribute.Name))
                 return new { Name = displayAttribute.Name, Value = propertyValue };

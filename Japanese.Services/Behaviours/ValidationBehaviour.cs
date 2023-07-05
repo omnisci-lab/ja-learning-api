@@ -37,6 +37,16 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
                         typeof(TResponse)
                     );
 
+                if (typeof(TResponse).IsGenericType && typeof(TResponse).GetGenericTypeDefinition() == typeof(ExecResult<>))
+                {
+                    object execResult = Activator.CreateInstance(typeof(TResponse))!;
+                    Type execResultType = execResult.GetType();
+                    execResultType.GetProperty(nameof(ExecResult.Status))?.SetValue(execResult, ExecStatus.Invalid);
+                    execResultType.GetProperty(nameof(ExecResult.Message))?.SetValue(execResult, string.Join(" | ", failures.Select(p => p.ErrorMessage)));
+
+                    return (TResponse)execResult;
+                }
+
                 throw new ValidationException(failures);
             }
         }

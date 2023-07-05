@@ -1,9 +1,10 @@
-﻿using Japanese.Services.Cache;
+﻿using Japanese.Core.CommonModels;
+using Japanese.Services.Cache;
 using MediatR;
 
 namespace Japanese.Services.Features.Sentence.Queries.GetSentence;
 
-public class GetSentenceQuery : IRequest<SentenceOutput>, ICacheableQuery
+public class GetSentenceQuery : IRequest<ExecResult<SentenceOutput?>>, ICacheableQuery
 {
     public string? SentenceId { get; set; }
 

@@ -1,5 +1,12 @@
-﻿namespace Japanese.Web.Admin.ViewComponents;
+﻿using Microsoft.AspNetCore.Mvc;
 
-//public class DynamicUpdateViewComponent
-//{
-//}
+namespace Japanese.Web.Admin.ViewComponents;
+
+[ViewComponent(Name = "DynamicUpdateView")]
+public class DynamicUpdateViewComponent : ViewComponent
+{
+    public IViewComponentResult Invoke()
+    {
+        return View();
+    }
+}
