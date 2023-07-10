@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using WebCore;
+using WebCore.Attributes;
 using WebCore.DynamicForm;
 using WebCore.Extensions;
 
@@ -12,19 +13,32 @@ public class DynamicDetailViewComponent : ViewComponent
 {
     public IViewComponentResult Invoke(Type type, Type metadataType, object data, UrlInfo listUrl, UrlInfo editUrl, DynamicForm deletionForm)
     {
-        Dictionary<string, object?> keyValuePairs = metadataType.GetProperties().Select(s =>
+        Dictionary<string, object?> keyValues = new Dictionary<string, object?>();
+        string? titleOnDetail = null;
+        foreach (PropertyInfo metadataType_property in metadataType.GetRuntimeProperties())
         {
-            DisplayAttribute? displayAttribute = s.GetCustomAttribute<DisplayAttribute>();
-            PropertyInfo? property = type.GetProperty(s.Name);
+            DisplayAttribute? displayAttribute = metadataType_property.GetCustomAttribute<DisplayAttribute>();
+            PropertyInfo? property = type.GetProperty(metadataType_property.Name);
 
             object? propertyValue = property?.GetValue(data);
 
             if (displayAttribute is not null && !string.IsNullOrEmpty(displayAttribute.Name))
-                return new { Name = displayAttribute.Name, Value = propertyValue };
+                keyValues.Add(displayAttribute.Name!, propertyValue);
             else
-                return new { Name = s.Name, Value = propertyValue };
+                keyValues.Add(metadataType_property.Name, propertyValue);
 
-        }).ToDictionary(d => d.Name, d => d.Value);
+            if (titleOnDetail is null)
+            {
+                DynamicViewAttribute? dynamicViewAttribute = metadataType_property.GetCustomAttribute<DynamicViewAttribute>();
+                if (dynamicViewAttribute is not null && dynamicViewAttribute.IsTitleOnDetail)
+                    titleOnDetail = $"{propertyValue}";
+            }
+        }
+
+        ViewData["TitleOnDetail"] = titleOnDetail;
+
+        RouteValueDictionary list_RouteValueDict = new RouteValueDictionary();
+        list_RouteValueDict.From(listUrl.RouteValues, type, data);
 
         ViewData["ListUrl"] = Url.Action(listUrl.ActionName, listUrl.ControllerName);
 
@@ -39,6 +53,6 @@ public class DynamicDetailViewComponent : ViewComponent
         ViewData["DeleteUrl"] = Url.Action(deletionForm.ActionName, deletionForm.ControllerName);
         ViewData["DeletionFormFieldDict"] = deletionFormFieldDict;
 
-        return View(keyValuePairs);
+        return View(keyValues);
     }
 }

@@ -6,11 +6,13 @@
 @await Component.InvokeAsync("DynamicCreateView", new {
     type = typeof(CreateSentenceCommand),
     data = Model,
-    metadataType = typeof(CreateSentenceCommandMetadata),
+    metadataType = typeof(SentenceMetadata.CreateSentenceCommand),
     formUrl = new UrlInfo { ActionName = "Create", ControllerName = "Sentence" },
     listUrl = new UrlInfo { ActionName = "Index", ControllerName = "Sentence" }
 })
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

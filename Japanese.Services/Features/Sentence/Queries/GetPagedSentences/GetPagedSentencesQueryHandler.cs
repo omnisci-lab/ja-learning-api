@@ -25,6 +25,7 @@ public class GetPagedSentencesQueryHandler : IRequestHandler<GetPagedSentencesQu
             Data = new Pagination<SentenceOutput>
             {
                 PaginationToken = paged.PaginationToken,
+                PageSize = paged.PageSize,
                 Items = paged.Items.Select(sentenceModel => new SentenceOutput
                 {
                     SentenceId = sentenceModel.SentenceId,

@@ -3,7 +3,7 @@
 
 @await Component.InvokeAsync("DynamicDetailView", new {
     type = typeof(SentenceOutput),
-    metadataType = typeof(SentenceOutputMetadata),
+    metadataType = typeof(SentenceMetadata.SentenceOutput),
     data = Model,
     listUrl = new UrlInfo{
         ActionName = "Index",

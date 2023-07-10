@@ -4,6 +4,7 @@ using System.Reflection;
 using FluentValidation;
 using Japanese.Services.Behaviours;
 using Microsoft.Extensions.Configuration;
+using Japanese.Core.Plugin;
 
 namespace Japanese.Services;
 
@@ -25,6 +26,9 @@ public static class ApplicationServiceRegistration
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PluginExecutionBehaviour<,>));
+
+        services.AddSingleton<PluginCollection>();
 
         return services;
     }

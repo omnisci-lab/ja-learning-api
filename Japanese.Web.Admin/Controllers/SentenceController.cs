@@ -25,6 +25,7 @@ public class SentenceController : Controller
 
     [Route("list")]
     [PageTitle(Title = "List of Sentences")]
+    [HttpGet]
     public async Task<IActionResult> Index([FromQuery] GetPagedSentencesQuery query)
     {
         if (query.PageSize == 0)

@@ -1,1 +1,52 @@
-﻿
+﻿@model DynamicForm
+
+<div class="card">
+    <div class="card-header">
+        Edit: @ViewData["TitleOnEdit"]
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-">
+                <form action="@Url.Action(Model.ActionName, Model.ControllerName)" method="post" asp-antiforgery="true" id="editItem">
+                    @foreach (DynamicFormField formField in Model.FormFields)
+                    {
+                        <div class="form-group mt-3">
+                            @if (formField.FieldType == FormFieldType.Hidden)
+                            {
+                                <input class="form-control" type="@formField.FieldType.ToString().ToLower()" name="@formField.Name" id="@formField.Name" value="@formField.Value" />
+                            }
+                            else if (formField.FieldType == FormFieldType.TextArea)
+                            {
+                                <label class="control-label" for="@formField.Name">@formField.Name</label>
+                                <textarea class="form-control" name="@formField.Name" id="@formField.Name">@formField.Value</textarea>
+                            }
+                            else
+                            {
+                                <label class="control-label" for="@formField.Name">@formField.Name</label>
+                                <input class="form-control" type="@formField.FieldType.ToString().ToLower()" name="@formField.Name" id="@formField.Name" value="@formField.Value" />
+                            }
+                        </div>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="d-flex justify-content-between">
+            <div class="btn-group">
+                <a class="btn btn-dark btn-sm m-1" href="@ViewData["ListUrl"]">Back to List</a>
+                <a class="btn btn-primary btn-sm m-1" href="@ViewData["DetailUrl"]">Details</a>
+                <button class="btn btn-danger btn-sm m-1" form="deleteItem">Delete</button>
+                <form action="@ViewData["DeleteUrl"]" method="post" asp-antiforgery="true" id="deleteItem">
+                    @foreach (KeyValuePair<string, object?> formField in (ViewData["DeletionFormFieldDict"] as FormFieldDictionary)!)
+                    {
+                        <input type="hidden" name="@formField.Key" value="@formField.Value" />
+                    }
+                </form>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-success btn-sm m-1" form="editItem">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

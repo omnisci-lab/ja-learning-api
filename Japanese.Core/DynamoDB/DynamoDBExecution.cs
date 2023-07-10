@@ -34,6 +34,7 @@ public class DynamoDBExecution<TModel> : IDynamoDBExecution<TModel>
         return new Pagination<TModel>
         {
             PaginationToken = search.PaginationToken,
+            PageSize = pagination.PageSize,
             Items = items
         };
     }

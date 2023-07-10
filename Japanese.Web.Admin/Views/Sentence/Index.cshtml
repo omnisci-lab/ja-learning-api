@@ -4,6 +4,10 @@
 
 @await Component.InvokeAsync("Notif")
 
+@{
+    List<int> pageSizes = new List<int> { 20, 50, 100, 200 };
+}
+
 <div class="card">
     <div class="card-header">
         <div class="d-flex justify-content-between">
@@ -12,14 +16,38 @@
             </div>
             <div>
                 <form asp-action="Index" method="get">
-                    <label>Records/page:</label>
-                    <select name="PageSize" class="form-control" style="display: inline; width: 50px;">
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        <option value="200">200</option>
-                    </select>
-                    <input type="text" />
+                    <div class="row">
+                        <div class="col">
+                            <label>Records/page</label>
+                            <select name="PageSize" class="form-control" style="width: 100px;" onchange="this.form.submit();">
+                                @foreach (int pageSize in pageSizes)
+                                {
+                                    if (pageSize == Model.PageSize)
+                                    {
+                                        <option value="@pageSize" selected>@pageSize</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@pageSize">@pageSize</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label>Sort by</label>
+                            <select name="OrderBy" class="form-control" style="width: 100px;" onchange="this.form.submit();">
+                                <option value="20">A</option>
+                                <option value="50">B</option>
+                                <option value="100">C</option>
+                                <option value="200">D</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label>Search</label>
+                            <input type="text" class="form-control" name="Keyword" value="" style="width: 150px;" />
+                        </div>
+                    </div>
+                    <input type="hidden" name="PaginationToken" value="@Model.PaginationToken" />
                 </form>
             </div>
             <div>
@@ -30,16 +58,16 @@
     </div>
     <div class="card-body">
         @await Component.InvokeAsync("DynamicTable", new {
-            type = typeof(SentenceOutput),
-            metadataType = typeof(SentenceOutputMetadata),
-            data = Model.Items!.ToArray(),
-            detailUrl = new UrlInfo { 
-                ActionName = "GetDetails",
-                ControllerName = "Sentence",
-                RouteValues = new List<RouteValueObject>{
-                    new RouteValueObject { RouteProperty = "sentenceId", MapToProperty = "SentenceId" }
-                }
-            }
+        type = typeof(SentenceOutput),
+        metadataType = typeof(SentenceMetadata.SentenceOutput),
+        data = Model.Items!.ToArray(),
+        detailUrl = new UrlInfo {
+        ActionName = "GetDetails",
+        ControllerName = "Sentence",
+        RouteValues = new List<RouteValueObject>{
+        new RouteValueObject { RouteProperty = "sentenceId", MapToProperty = "SentenceId" }
+        }
+        }
         })
     </div>
     <div class="card-footer">
