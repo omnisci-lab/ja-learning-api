@@ -1,7 +1,7 @@
 ﻿using Japanese.Core.CommonModels;
-using Japanese.Services.Features.Kanji.Commands.UpdateKanji;
-using Japanese.Services.Features.Kanji.Queries.GetKanji;
-using Japanese.Services.Features.Kanji.Queries.GetPagedKanji;
+using Japanese.Services.Kanji.Commands.UpdateKanji;
+using Japanese.Services.Kanji.Queries.GetKanji;
+using Japanese.Services.Kanji.Queries.GetPagedKanji;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

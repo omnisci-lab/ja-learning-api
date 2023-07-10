@@ -2,9 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using FluentValidation;
-using Japanese.Services.Behaviours;
 using Microsoft.Extensions.Configuration;
 using Japanese.Core.Plugin;
+using Japanese.CQRS.Behaviours;
 
 namespace Japanese.Services;
 

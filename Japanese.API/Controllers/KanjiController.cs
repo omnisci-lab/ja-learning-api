@@ -1,12 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using Japanese.Services.Features.Kanji.Queries.GetKanji;
+using Japanese.Services.Kanji.Queries.GetKanji;
 using Japanese.API.Base;
-using Japanese.Services.Features.Kanji.Commands.UpdateKanji;
-using Japanese.Services.Features.Kanji.Commands.CreateKanji;
-using Japanese.Services.Features.Kanji.Queries.GetKanjiListByJlpt;
-using Japanese.Services.Features.Kanji.Queries.GetPagedKanji;
+using Japanese.Services.Kanji.Commands.UpdateKanji;
+using Japanese.Services.Kanji.Commands.CreateKanji;
+using Japanese.Services.Kanji.Queries.GetKanjiListByJlpt;
+using Japanese.Services.Kanji.Queries.GetPagedKanji;
 using Japanese.Core.CommonModels;
 
 namespace Japanese.API.Controllers;
