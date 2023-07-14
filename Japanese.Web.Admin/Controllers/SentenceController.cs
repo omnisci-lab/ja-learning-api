@@ -90,8 +90,8 @@ public class SentenceController : Controller
         return View(new UpdateSentenceCommand { 
             SentenceId = sentence.SentenceId,
             Text = sentence.Text,
-            EnMeanings = sentence.EnMeanings,
-            ViMeanings = sentence.ViMeanings
+            EnMeaning = sentence.EnMeaning,
+            ViMeaning = sentence.ViMeaning
         });
     }
 

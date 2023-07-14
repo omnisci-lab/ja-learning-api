@@ -20,10 +20,10 @@ public class SentenceModel : EntityBase
     public int Jlpt { get; set; }
 
     [DynamoDBProperty("en_meanings")]
-    public string? EnMeanings { get; set; }
+    public string? EnMeaning { get; set; }
 
-    [DynamoDBProperty("vi_meanings")]
-    public string? ViMeanings { get; set; }
+    [DynamoDBProperty("vi_meaning")]
+    public string? ViMeaning { get; set; }
 
     [DynamoDBProperty("references")]
     public string? References { get; set; }

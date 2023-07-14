@@ -19,4 +19,13 @@ public class Base64
         byte[] bytes = Convert.FromBase64String(base64);
         return System.Text.Encoding.UTF8.GetString(bytes);
     }
+
+    public bool IsBase64String(string? base64)
+    {
+        if (base64 is null)
+            return false;
+
+        Span<byte> buffer = new Span<byte>(new byte[base64.Length]);
+        return Convert.TryFromBase64String(base64, buffer, out int bytesParsed);
+    }
 }

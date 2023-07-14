@@ -1,5 +1,6 @@
 ﻿using Japanese.Core.CommonModels;
 using Japanese.Core.Enum;
+using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 using MediatR;
 
@@ -16,7 +17,18 @@ public class DeleteSentenceCommandHandler : IRequestHandler<DeleteSentenceComman
 
     public async Task<ExecResult> Handle(DeleteSentenceCommand request, CancellationToken cancellationToken)
     {
-        await _sentenceRepository.DeleteItemAsync(request.SentenceId);
+        if (request.ForceDelete)
+        {
+            await _sentenceRepository.DeleteItemAsync(request.SentenceId);
+            return new ExecResult { Status = ExecStatus.Success };
+        }
+
+        SentenceModel? sentenceModel = await _sentenceRepository.GetAsync(request.SentenceId);
+        if (sentenceModel is null)
+            return new ExecResult { Status = ExecStatus.NotFound };
+
+        sentenceModel.IsDeleted = true;
+        await _sentenceRepository.SaveItemAsync(sentenceModel);
 
         return new ExecResult { Status = ExecStatus.Success };
     }

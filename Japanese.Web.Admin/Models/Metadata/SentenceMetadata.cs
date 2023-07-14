@@ -25,9 +25,9 @@ public class SentenceMetadata
 
         public string? EnMeanings { get; set; }
 
-        [Display(Name = "Vi Meanings")]
+        [Display(Name = "Vi Meaning")]
         [DynamicView(Table = true, Detail = true)]
-        public string? ViMeanings { get; set; }
+        public string? ViMeaning { get; set; }
 
         public string? References { get; set; }
     }
@@ -44,10 +44,10 @@ public class SentenceMetadata
         public int Jlpt { get; set; }
 
         [DynamicView(FieldType = FormFieldType.TextArea)]
-        public string? EnMeanings { get; set; }
+        public string? EnMeaning { get; set; }
 
         [DynamicView(FieldType = FormFieldType.TextArea)]
-        public string? ViMeanings { get; set; }
+        public string? ViMeaning { get; set; }
 
         [DynamicView(FieldType = FormFieldType.Text)]
         public string? References { get; set; }
@@ -68,10 +68,10 @@ public class SentenceMetadata
         public int Jlpt { get; set; }
 
         [DynamicView(FieldType = FormFieldType.TextArea)]
-        public string? EnMeanings { get; set; }
+        public string? EnMeaning { get; set; }
 
         [DynamicView(FieldType = FormFieldType.TextArea)]
-        public string? ViMeanings { get; set; }
+        public string? ViMeaning { get; set; }
 
         [DynamicView(FieldType = FormFieldType.Text)]
         public string? References { get; set; }

@@ -8,6 +8,6 @@ public class CreateSentenceCommandValidator : AbstractValidator<CreateSentenceCo
     {
         RuleFor(x => x.Text).NotNull().NotEmpty();
         RuleFor(x => x.Jlpt).GreaterThanOrEqualTo(1).LessThanOrEqualTo(5);
-        RuleFor(x => x.ViMeanings).NotEmpty();
+        RuleFor(x => x.ViMeaning).NotEmpty();
     }
 }

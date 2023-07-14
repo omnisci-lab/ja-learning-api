@@ -1,4 +1,5 @@
-﻿using Japanese.Core.CommonModels;
+﻿using AutoMapper;
+using Japanese.Core.CommonModels;
 using Japanese.Core.Enum;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
@@ -9,10 +10,12 @@ namespace Japanese.Services.Sentence.Commands.UpdateSentence;
 public class UpdateSentenceCommandHandler : IRequestHandler<UpdateSentenceCommand, ExecResult>
 {
     private readonly ISentenceRepository _sentenceRepository;
+    private readonly IMapper _mapper;
 
-    public UpdateSentenceCommandHandler(IJapaneseRepository japaneseRepository)
+    public UpdateSentenceCommandHandler(IJapaneseRepository japaneseRepository, IMapper mapper)
     {
         _sentenceRepository = japaneseRepository.SentenceRepository;
+        _mapper = mapper;
     }
 
     public async Task<ExecResult> Handle(UpdateSentenceCommand request, CancellationToken cancellationToken)
@@ -21,15 +24,11 @@ public class UpdateSentenceCommandHandler : IRequestHandler<UpdateSentenceComman
         if (sentenceModel is null)
             return new ExecResult { Status = ExecStatus.NotFound };
 
-        sentenceModel.Text = request.Text;
-        sentenceModel.Structure = request.Structure;
-        sentenceModel.Jlpt = request.Jlpt;
-        sentenceModel.EnMeanings = request.EnMeanings;
-        sentenceModel.ViMeanings = request.ViMeanings;
-        sentenceModel.References = request.References;
-        sentenceModel.LastModifiedDate = DateTime.Now;
+        _mapper.Map(request, sentenceModel);
 
+        sentenceModel.LastModifiedDate = DateTime.Now;
         await _sentenceRepository.SaveItemAsync(sentenceModel);
+
         return new ExecResult { Status = ExecStatus.Success };
     }
 }
