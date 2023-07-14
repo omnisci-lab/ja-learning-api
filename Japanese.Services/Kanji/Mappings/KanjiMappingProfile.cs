@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
+using Japanese.Core.CommonModels;
 using Japanese.Models;
 using Japanese.Services.Kanji.Commands.CreateKanji;
 using Japanese.Services.Kanji.Commands.UpdateKanji;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Japanese.Services.Kanji.Queries.GetKanji;
 
 namespace Japanese.Services.Kanji.Mappings;
 
@@ -16,5 +13,6 @@ public class KanjiMappingProfile : Profile
     {
         CreateMap<CreateKanjiCommand, KanjiModel>().ReverseMap();
         CreateMap<UpdateKanjiCommand, KanjiModel>().ReverseMap();
+        CreateMap<PagedResult<KanjiModel>, PagedResult<KanjiDetailOutput>>().ReverseMap();
     }
 }

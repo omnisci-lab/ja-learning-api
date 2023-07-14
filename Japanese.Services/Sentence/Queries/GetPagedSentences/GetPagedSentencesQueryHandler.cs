@@ -3,11 +3,12 @@ using Japanese.Core.CommonModels;
 using Japanese.Core.Enum;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
+using Japanese.Services.Sentence.Consts;
 using MediatR;
 
 namespace Japanese.Services.Sentence.Queries.GetPagedSentences;
 
-public class GetPagedSentencesQueryHandler : IRequestHandler<GetPagedSentencesQuery, ExecResult<Pagination<SentenceOutput>>>
+public class GetPagedSentencesQueryHandler : IRequestHandler<GetPagedSentencesQuery, ExecResult<PagedResult<SentenceOutput>>>
 {
     private readonly ISentenceRepository _sentenceRepository;
     private readonly IMapper _mapper;
@@ -18,14 +19,23 @@ public class GetPagedSentencesQueryHandler : IRequestHandler<GetPagedSentencesQu
         _mapper = mapper;
     }
 
-    public async Task<ExecResult<Pagination<SentenceOutput>>> Handle(GetPagedSentencesQuery request, CancellationToken cancellationToken)
+    public async Task<ExecResult<PagedResult<SentenceOutput>>> Handle(GetPagedSentencesQuery request, CancellationToken cancellationToken)
     {
-        Pagination<SentenceModel> paged_raw = await _sentenceRepository.GetPagedAsync(request);
+        PagedResult<SentenceModel>? paged_raw = null;
 
-        return new ExecResult<Pagination<SentenceOutput>>
+        if (string.IsNullOrEmpty(request.Keyword))
+            paged_raw = await _sentenceRepository.GetPagedAsync(request);
+        else if (request.SearchBy == SentenceConsts.ByText)
+            paged_raw = await _sentenceRepository.SearchByTextAsync(request);
+        else if (request.SearchBy == SentenceConsts.ByViMeaning)
+            paged_raw = await _sentenceRepository.SearchByViMeaningAsync(request);
+        else
+            paged_raw = await _sentenceRepository.GetPagedAsync(request);
+
+        return new ExecResult<PagedResult<SentenceOutput>>
         {
             Status = ExecStatus.Success,
-            Data = _mapper.Map<Pagination<SentenceModel>, Pagination<SentenceOutput>>(paged_raw)
+            Data = _mapper.Map<PagedResult<SentenceModel>, PagedResult<SentenceOutput>>(paged_raw)
         };
     }
 }

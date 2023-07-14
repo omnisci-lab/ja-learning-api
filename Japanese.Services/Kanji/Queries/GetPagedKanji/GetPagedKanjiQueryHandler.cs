@@ -1,43 +1,29 @@
-﻿using Japanese.Core.CommonModels;
+﻿using AutoMapper;
+using Japanese.Core.CommonModels;
 using Japanese.Core.Encoding;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 using Japanese.Services.Kanji.Queries.GetKanji;
+using Japanese.Services.Sentence.Queries;
 using MediatR;
 
 namespace Japanese.Services.Kanji.Queries.GetPagedKanji;
 
-public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, Pagination<KanjiDetailOutput>>
+public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, PagedResult<KanjiDetailOutput>>
 {
     private readonly IKanjiRepository _kanjiRepository;
+    private readonly IMapper _mapper;
 
-    public GetPagedKanjiQueryHandler(IJapaneseRepository japaneseRepository)
+    public GetPagedKanjiQueryHandler(IJapaneseRepository japaneseRepository, IMapper mapper)
     {
         _kanjiRepository = japaneseRepository.KanjiRepository;
+        _mapper = mapper;
     }
 
-    public async Task<Pagination<KanjiDetailOutput>> Handle(GetPagedKanjiQuery request, CancellationToken cancellationToken)
+    public async Task<PagedResult<KanjiDetailOutput>> Handle(GetPagedKanjiQuery request, CancellationToken cancellationToken)
     {
-        Base64 base64 = new Base64();
-        request.PaginationToken = base64.Decode(request.PaginationToken);
-        Pagination<KanjiModel> paged = await _kanjiRepository.GetPagedAsync(request);
+        PagedResult<KanjiModel> paged_raw = await _kanjiRepository.GetPagedAsync(request);
 
-        return new Pagination<KanjiDetailOutput>
-        {
-            PaginationToken = base64.Encode(paged.PaginationToken),
-            PageSize = paged.PageSize,
-            Items = paged.Items.Select(kanjiModel => new KanjiDetailOutput
-            {
-                Kanji = kanjiModel.Kanji,
-                StrokeCount = kanjiModel.StrokeCount,
-                Grade = kanjiModel.Grade,
-                OnReadings = kanjiModel.OnReadings,
-                KunReadings = kanjiModel.KunReadings,
-                NameReadings = kanjiModel.NameReadings,
-                Meanings = kanjiModel.Meanings,
-                Jlpt = kanjiModel.Jlpt,
-                Unicode = kanjiModel.Unicode
-            }).ToList()
-        };
+        return _mapper.Map<PagedResult<KanjiModel>, PagedResult<KanjiDetailOutput>>(paged_raw);
     }
 }

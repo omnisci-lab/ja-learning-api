@@ -24,7 +24,7 @@ public class SentenceController : ApiControllerBase
 
     [Route("paged")]
     [HttpGet]
-    [ProducesResponseType(typeof(Pagination<SentenceOutput>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(PagedResult<SentenceOutput>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetPaged([FromQuery] GetPagedSentencesQuery query)
     {
         return ApiResult(await _mediator.Send(query));

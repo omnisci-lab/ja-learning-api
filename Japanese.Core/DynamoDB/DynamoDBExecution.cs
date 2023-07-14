@@ -17,7 +17,7 @@ public class DynamoDBExecution<TModel> : IDynamoDBExecution<TModel>
         _context = new DynamoDBContext(dynamoDBClient);
     }
 
-    public async Task<Pagination<TModel>> GetPagedAsync(Pagination pagination)
+    public async Task<PagedResult<TModel>> GetPagedAsync(Pagination pagination)
     {
         Table table = _context.GetTargetTable<TModel>();
 
@@ -29,13 +29,35 @@ public class DynamoDBExecution<TModel> : IDynamoDBExecution<TModel>
         Search search = table.Scan(scanConfig);
         List<Document> data = await search.GetNextSetAsync();
 
-        List<TModel> items = _context.FromDocuments<TModel>(data).ToList();
-
-        return new Pagination<TModel>
+        return new PagedResult<TModel>
         {
             PaginationToken = search.PaginationToken,
             PageSize = pagination.PageSize,
-            Items = items
+            Items = _context.FromDocuments<TModel>(data).ToList()
+        };
+    }
+
+    protected async Task<PagedResult<TModel>> GetPagedAsync(Pagination pagination, ScanFilter filter)
+    {
+        Table table = _context.GetTargetTable<TModel>();
+        ScanOperationConfig scanConfig = new ScanOperationConfig() { Limit = pagination.PageSize };
+
+        if (!string.IsNullOrEmpty(pagination.PaginationToken))
+            scanConfig.PaginationToken = pagination.PaginationToken;
+
+        scanConfig.Filter = filter;
+        Search search = table.Scan(scanConfig);
+        List<Document> data = await search.GetNextSetAsync();
+
+        pagination.PaginationToken = search.PaginationToken;
+
+        return new PagedResult<TModel>
+        {
+            PaginationToken = search.PaginationToken,
+            PageSize = pagination.PageSize,
+            SearchBy = pagination.SearchBy,
+            Keyword = pagination.Keyword,
+            Items = _context.FromDocuments<TModel>(data).ToList()
         };
     }
 

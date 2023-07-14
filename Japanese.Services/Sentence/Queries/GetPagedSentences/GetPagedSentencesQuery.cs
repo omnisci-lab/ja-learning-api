@@ -4,9 +4,9 @@ using MediatR;
 
 namespace Japanese.Services.Sentence.Queries.GetPagedSentences;
 
-public class GetPagedSentencesQuery : Pagination, IRequest<ExecResult<Pagination<SentenceOutput>>>, ICacheableQuery
+public class GetPagedSentencesQuery : Pagination, IRequest<ExecResult<PagedResult<SentenceOutput>>>, ICacheableQuery
 {
-    public string? CacheKey => $"get_sentences_token";
+    public string? CacheKey => $"get_sentences_pagesize";
 
     public bool Bypass { get; set; }
     public bool RefreshCache { get; set; }

@@ -14,6 +14,6 @@ public class SentenceMappingProfile : Profile
         CreateMap<CreateSentenceCommand, SentenceModel>().ReverseMap();
         CreateMap<UpdateSentenceCommand, SentenceModel>().ReverseMap();
         CreateMap<SentenceModel, SentenceOutput>().ReverseMap();
-        CreateMap<Pagination<SentenceModel>, Pagination<SentenceOutput>>().ReverseMap();
+        CreateMap<PagedResult<SentenceModel>, PagedResult<SentenceOutput>>().ReverseMap();
     }
 }

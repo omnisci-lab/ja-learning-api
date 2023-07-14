@@ -3,11 +3,13 @@ using Japanese.Core.Enum;
 using Japanese.Services.Sentence.Commands.CreateSentence;
 using Japanese.Services.Sentence.Commands.DeleteSentence;
 using Japanese.Services.Sentence.Commands.UpdateSentence;
+using Japanese.Services.Sentence.Consts;
 using Japanese.Services.Sentence.Queries;
 using Japanese.Services.Sentence.Queries.GetPagedSentences;
 using Japanese.Services.Sentence.Queries.GetSentence;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 using WebCore.Attributes;
 using WebCore.Extensions;
 
@@ -32,7 +34,7 @@ public class SentenceController : Controller
             query.PageSize = 10;
 
         query.RefreshCache = true;
-        ExecResult<Pagination<SentenceOutput>> execResult = await _mediator.Send(query);
+        ExecResult<PagedResult<SentenceOutput>> execResult = await _mediator.Send(query);
         if (execResult.Status != ExecStatus.Success)
             return BadRequest();
 
@@ -87,11 +89,14 @@ public class SentenceController : Controller
 
         SentenceOutput sentence = execResult.Data!;
 
-        return View(new UpdateSentenceCommand { 
+        return View(new UpdateSentenceCommand {
             SentenceId = sentence.SentenceId,
             Text = sentence.Text,
+            Jlpt = sentence.Jlpt,
+            Structure = sentence.Structure,
             EnMeaning = sentence.EnMeaning,
-            ViMeaning = sentence.ViMeaning
+            ViMeaning = sentence.ViMeaning,
+            References = sentence.References
         });
     }
 

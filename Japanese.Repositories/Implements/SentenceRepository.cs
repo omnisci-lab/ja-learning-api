@@ -1,6 +1,6 @@
 ﻿using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
+using Japanese.Core.CommonModels;
 using Japanese.Core.RepositoryBase;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
@@ -12,17 +12,22 @@ public class SentenceRepository : AsyncRepository<SentenceModel>, ISentenceRepos
     internal SentenceRepository(AmazonDynamoDBClient client) 
         : base(client)
     {
+
     }
 
-    public async Task<List<SentenceModel>> SearchAsync(string searchBy, string keyword)
+    public async Task<PagedResult<SentenceModel>> SearchByTextAsync(Pagination pagination)
     {
         ScanFilter scanFilter = new ScanFilter();
-        if(searchBy == "vi-meanings")
-            scanFilter.AddCondition("vi_meanings", ScanOperator.Contains, keyword);
+        scanFilter.AddCondition("text", ScanOperator.Contains, pagination.Keyword);
 
-        ScanOperationConfig scanConfig = new ScanOperationConfig { Filter = scanFilter };
-        AsyncSearch<SentenceModel> search = Context.FromScanAsync<SentenceModel>(scanConfig);
+        return await GetPagedAsync(pagination, scanFilter);
+    }
 
-        return await search.GetNextSetAsync();
+    public async Task<PagedResult<SentenceModel>> SearchByViMeaningAsync(Pagination pagination)
+    {
+        ScanFilter scanFilter = new ScanFilter();
+        scanFilter.AddCondition("vi_meaning", ScanOperator.Contains, pagination.Keyword);
+
+        return await GetPagedAsync(pagination, scanFilter);
     }
 }

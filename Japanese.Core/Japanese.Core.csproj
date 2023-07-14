@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <Folder Include="Encryption\" />
-    <Folder Include="Hashing\" />
   </ItemGroup>
 
 </Project>

@@ -23,9 +23,7 @@ public class KanjiController : Controller
         if (query.PageSize == 0)
             query.PageSize = 10;
 
-        
-        Pagination<KanjiDetailOutput> paged = await _mediator.Send(query);
-        return View(paged);
+        return View(await _mediator.Send(query));
     }
 
     [Route("details")]
@@ -44,8 +42,7 @@ public class KanjiController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(UpdateKanjiCommand command)
     {
-        ExecResult execResult = await _mediator.Send(command);
-        return View(execResult);
+        return View(await _mediator.Send(command));
     }
 
     [Route("delete")]
