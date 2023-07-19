@@ -1,10 +1,11 @@
-﻿using Japanese.Services.Cache;
+﻿using Japanese.Core.CommonModels;
+using Japanese.Services.Cache;
 using MediatR;
 using Newtonsoft.Json;
 
 namespace Japanese.Services.Kanji.Queries.GetKanji;
 
-public class GetKanjiQuery : IRequest<KanjiDetailOutput>, ICacheableQuery
+public class GetKanjiQuery : IRequest<ExecResult<KanjiDetailOutput?>>, ICacheableQuery
 {
     public string? Kanji { get; set; }
 

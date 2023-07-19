@@ -19,37 +19,27 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        if (_validators.Any())
+        if(!_validators.Any())
+            return await next();
+
+        ValidationContext<TRequest> context = new ValidationContext<TRequest>(request);
+
+        ValidationResult[] validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
+        List<ValidationFailure> failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
+
+        if(failures.Count == 0)
+            return await next();
+
+        if (typeof(TResponse).GetType() == typeof(ExecResult) || (typeof(TResponse).IsGenericType && typeof(TResponse).GetGenericTypeDefinition() == typeof(ExecResult<>)))
         {
-            ValidationContext<TRequest> context = new ValidationContext<TRequest>(request);
+            object execResult = Activator.CreateInstance(typeof(TResponse))!;
+            Type execResultType = execResult.GetType();
+            execResultType.GetProperty(nameof(ExecResult.Status))?.SetValue(execResult, ExecStatus.Invalid);
+            execResultType.GetProperty(nameof(ExecResult.Message))?.SetValue(execResult, string.Join(" | ", failures.Select(p => p.ErrorMessage)));
 
-            ValidationResult[] validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
-            List<ValidationFailure> failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
-
-            if (failures.Count != 0)
-            {
-                if (typeof(TResponse) == typeof(ExecResult))
-                    return (TResponse)Convert.ChangeType(
-                        new ExecResult { 
-                            Status = ExecStatus.Invalid,
-                            Message = string.Join(" | ", failures.Select(p => p.ErrorMessage))
-                        }, 
-                        typeof(TResponse)
-                    );
-
-                if (typeof(TResponse).IsGenericType && typeof(TResponse).GetGenericTypeDefinition() == typeof(ExecResult<>))
-                {
-                    object execResult = Activator.CreateInstance(typeof(TResponse))!;
-                    Type execResultType = execResult.GetType();
-                    execResultType.GetProperty(nameof(ExecResult.Status))?.SetValue(execResult, ExecStatus.Invalid);
-                    execResultType.GetProperty(nameof(ExecResult.Message))?.SetValue(execResult, string.Join(" | ", failures.Select(p => p.ErrorMessage)));
-
-                    return (TResponse)execResult;
-                }
-
-                throw new ValidationException(failures);
-            }
+            return (TResponse)execResult;
         }
-        return await next();
+
+        throw new ValidationException(failures);
     }
 }

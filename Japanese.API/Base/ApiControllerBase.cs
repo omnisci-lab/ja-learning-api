@@ -1,5 +1,6 @@
 ﻿using Japanese.Core.CommonModels;
 using Japanese.Core.Enum;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Japanese.API.Base;
@@ -8,18 +9,35 @@ namespace Japanese.API.Base;
 [HandlerException]
 public class ApiControllerBase : ControllerBase
 {
-    [NonAction]
-    public ObjectResult ApiResult<T>(T value) where T : ExecResult
+    private readonly IMediator _mediator;
+
+    public ApiControllerBase(IMediator mediator)
     {
-        switch (value.Status)
+        _mediator = mediator;
+    }
+
+    [NonAction]
+    public async Task<ObjectResult> ApiResult<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
+        where TResponse : ExecResult
+    {
+         TResponse response = await _mediator.Send(request, cancellationToken);
+
+        switch (response.Status)
         {
-            case ExecStatus.Success: return Ok(value);
-            case ExecStatus.NotFound: return NotFound(value);
-            case ExecStatus.AlreadyExists: return Conflict(value);
+            case ExecStatus.Success: return Ok(response);
+            case ExecStatus.NotFound: return NotFound(response);
+            case ExecStatus.AlreadyExists: return Conflict(response);
             case ExecStatus.Invalid:
-            case ExecStatus.Failed: return BadRequest(value);
+            case ExecStatus.Failed: return BadRequest(response);
             default:
-                return Ok(value);
+                return Ok(response);
         }
+    }
+
+    [NonAction]
+    public async Task<ObjectResult> ApiResult(IRequest request, CancellationToken cancellationToken = default)
+    {
+        await _mediator.Send(request, cancellationToken);
+        return Ok(new ExecResult { Status = ExecStatus.Success });
     }
 }

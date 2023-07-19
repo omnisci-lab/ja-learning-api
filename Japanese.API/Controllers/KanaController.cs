@@ -7,10 +7,8 @@ namespace Japanese.API.Controllers;
 [Route("api/kana")]
 public class KanaController : ApiControllerBase
 {
-    private readonly IMediator _mediator;
-
-    public KanaController(IMediator mediator)
+    public KanaController(IMediator mediator) 
+        : base(mediator)
     {
-        _mediator = mediator;
     }
 }

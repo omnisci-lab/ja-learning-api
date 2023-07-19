@@ -14,35 +14,34 @@ namespace Japanese.API.Controllers;
 [Route("api/kanji")]
 public class KanjiController : ApiControllerBase
 {
-    private readonly IMediator _mediator;
-
-    public KanjiController(IMediator mediator)
+    public KanjiController(IMediator mediator) 
+        : base(mediator)
     {
-        _mediator = mediator;
+
     }
 
     [HttpGet]
     [Route("paged")]
-    [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ExecResult<PagedResult<KanjiDetailOutput>>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetPaged([FromQuery] GetPagedKanjiQuery query)
     {
-        return Ok(await _mediator.Send(query));
+        return await ApiResult(query);
     }
 
     [HttpGet]
     [Route("details")]
-    [ProducesResponseType(typeof(KanjiDetailOutput), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ExecResult<KanjiDetailOutput>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetDetails([FromQuery] GetKanjiQuery query)
     {
-        return Ok(await _mediator.Send(query));
+        return await ApiResult(query);
     }
 
     [HttpGet]
     [Route("kanji-list-by-jlpt-level")]
-    [ProducesResponseType(typeof(KanjiDetailOutput), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ExecResult<PagedResult<KanjiDetailOutput>>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetKanjiListByJlpt([FromQuery] GetKanjiListByJlptQuery query)
     {
-        return Ok(await _mediator.Send(query));
+        return await ApiResult(query);
     }
 
     [HttpPost]
@@ -50,7 +49,7 @@ public class KanjiController : ApiControllerBase
     [ProducesResponseType(typeof(ExecResult), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Create(CreateKanjiCommand command)
     {
-        return ApiResult(await _mediator.Send(command));
+        return await ApiResult(command);
     }
 
     [HttpPut]
@@ -58,6 +57,6 @@ public class KanjiController : ApiControllerBase
     [ProducesResponseType(typeof(ExecResult), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Update(UpdateKanjiCommand command)
     {
-        return ApiResult(await _mediator.Send(command));
+        return await ApiResult(command);
     }
 }

@@ -6,6 +6,7 @@ using Japanese.Services.Sentence.Commands.UpdateSentence;
 using Japanese.Services.Sentence.Queries;
 using Japanese.Services.Sentence.Queries.GetPagedSentences;
 using Japanese.Services.Sentence.Queries.GetSentence;
+using Japanese.Services.Sentence.Queries.GetSentenceAudio;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -15,11 +16,10 @@ namespace Japanese.API.Controllers;
 [Route("api/sentence")]
 public class SentenceController : ApiControllerBase
 {
-    private readonly IMediator _mediator;
-
-    public SentenceController(IMediator mediator)
+    public SentenceController(IMediator mediator) 
+        : base(mediator)
     {
-        _mediator = mediator;
+
     }
 
     [Route("paged")]
@@ -27,7 +27,7 @@ public class SentenceController : ApiControllerBase
     [ProducesResponseType(typeof(ExecResult<PagedResult<SentenceOutput>>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetPaged([FromQuery] GetPagedSentencesQuery query)
     {
-        return ApiResult(await _mediator.Send(query));
+        return await ApiResult(query);
     }
 
     [Route("details")]
@@ -35,7 +35,15 @@ public class SentenceController : ApiControllerBase
     [ProducesResponseType(typeof(ExecResult<SentenceOutput>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetDetails([FromQuery] GetSentenceQuery query)
     {
-        return ApiResult(await _mediator.Send(query));
+        return await ApiResult(query);
+    }
+
+    [Route("get-audio")]
+    [HttpGet]
+    [ProducesResponseType(typeof(ExecResult<SentenceOutput>), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> GetAudio([FromQuery] GetSentenceAudioQuery query)
+    {
+        return await ApiResult(query);
     }
 
     [Route("create")]
@@ -43,7 +51,7 @@ public class SentenceController : ApiControllerBase
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<IActionResult> Create(CreateSentenceCommand command)
     {
-        return ApiResult(await _mediator.Send(command));
+        return await ApiResult(command);
     }
 
     [Route("update")]
@@ -51,7 +59,7 @@ public class SentenceController : ApiControllerBase
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<IActionResult> Update(UpdateSentenceCommand command)
     {
-        return ApiResult(await _mediator.Send(command));
+        return await ApiResult(command);
     }
 
     [Route("delete")]
@@ -59,6 +67,6 @@ public class SentenceController : ApiControllerBase
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<IActionResult> Delete([FromQuery] DeleteSentenceCommand command)
     {
-        return ApiResult(await _mediator.Send(command));
+        return await ApiResult(command);
     }
 }

@@ -1,35 +1,33 @@
-﻿using Japanese.Models;
+﻿using AutoMapper;
+using Japanese.Core.CommonModels;
+using Japanese.Core.Enum;
+using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 using MediatR;
 
 namespace Japanese.Services.Kanji.Queries.GetKanji;
 
-public class GetKanjiQueryHandler : IRequestHandler<GetKanjiQuery, KanjiDetailOutput?>
+public class GetKanjiQueryHandler : IRequestHandler<GetKanjiQuery, ExecResult<KanjiDetailOutput?>>
 {
     private readonly IKanjiRepository _kanjiRepository;
+    private readonly IMapper _mapper;
 
-    public GetKanjiQueryHandler(IJapaneseRepository repository)
+    public GetKanjiQueryHandler(IJapaneseRepository repository, IMapper mapper)
     {
         _kanjiRepository = repository.KanjiRepository;
+        _mapper = mapper;
     }
 
-    public async Task<KanjiDetailOutput?> Handle(GetKanjiQuery request, CancellationToken cancellationToken)
+    public async Task<ExecResult<KanjiDetailOutput?>> Handle(GetKanjiQuery request, CancellationToken cancellationToken)
     {
         KanjiModel? kanjiModel = await _kanjiRepository.GetAsync(request.Kanji);
         if (kanjiModel is null)
-            return null;
+            return new ExecResult<KanjiDetailOutput?> { Status = ExecStatus.NotFound };
 
-        return new KanjiDetailOutput
+        return new ExecResult<KanjiDetailOutput?>
         {
-            Kanji = kanjiModel.Kanji,
-            StrokeCount = kanjiModel.StrokeCount,
-            Grade = kanjiModel.Grade,
-            OnReadings = kanjiModel.OnReadings,
-            KunReadings = kanjiModel.KunReadings,
-            NameReadings = kanjiModel.NameReadings,
-            Meanings = kanjiModel.Meanings,
-            Jlpt = kanjiModel.Jlpt,
-            Unicode = kanjiModel.Unicode
+            Status = ExecStatus.Success,
+            Data = _mapper.Map<KanjiModel, KanjiDetailOutput>(kanjiModel)
         };
     }
 }

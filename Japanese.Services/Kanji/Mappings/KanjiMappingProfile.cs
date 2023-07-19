@@ -13,6 +13,7 @@ public class KanjiMappingProfile : Profile
     {
         CreateMap<CreateKanjiCommand, KanjiModel>().ReverseMap();
         CreateMap<UpdateKanjiCommand, KanjiModel>().ReverseMap();
+        CreateMap<KanjiModel, KanjiDetailOutput>().ReverseMap();
         CreateMap<PagedResult<KanjiModel>, PagedResult<KanjiDetailOutput>>().ReverseMap();
     }
 }

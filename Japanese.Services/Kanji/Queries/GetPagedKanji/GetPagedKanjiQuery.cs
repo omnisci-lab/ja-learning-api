@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Japanese.Services.Kanji.Queries.GetPagedKanji;
 
-public class GetPagedKanjiQuery : Pagination, IRequest<PagedResult<KanjiDetailOutput>>
+public class GetPagedKanjiQuery : Pagination, IRequest<ExecResult<PagedResult<KanjiDetailOutput>>>
 {
 
 }

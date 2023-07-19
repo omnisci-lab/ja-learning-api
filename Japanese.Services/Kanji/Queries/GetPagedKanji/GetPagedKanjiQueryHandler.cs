@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
 using Japanese.Core.CommonModels;
-using Japanese.Core.Encoding;
+using Japanese.Core.Enum;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 using Japanese.Services.Kanji.Queries.GetKanji;
-using Japanese.Services.Sentence.Queries;
 using MediatR;
 
 namespace Japanese.Services.Kanji.Queries.GetPagedKanji;
 
-public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, PagedResult<KanjiDetailOutput>>
+public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, ExecResult<PagedResult<KanjiDetailOutput>>>
 {
     private readonly IKanjiRepository _kanjiRepository;
     private readonly IMapper _mapper;
@@ -20,10 +19,14 @@ public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, Pag
         _mapper = mapper;
     }
 
-    public async Task<PagedResult<KanjiDetailOutput>> Handle(GetPagedKanjiQuery request, CancellationToken cancellationToken)
+    public async Task<ExecResult<PagedResult<KanjiDetailOutput>>> Handle(GetPagedKanjiQuery request, CancellationToken cancellationToken)
     {
         PagedResult<KanjiModel> paged_raw = await _kanjiRepository.GetPagedAsync(request);
 
-        return _mapper.Map<PagedResult<KanjiModel>, PagedResult<KanjiDetailOutput>>(paged_raw);
+        return new ExecResult<PagedResult<KanjiDetailOutput>>
+        {
+            Status = ExecStatus.Success,
+            Data = _mapper.Map<PagedResult<KanjiModel>, PagedResult<KanjiDetailOutput>>(paged_raw)
+        };
     }
 }
