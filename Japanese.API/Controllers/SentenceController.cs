@@ -46,13 +46,8 @@ public class SentenceController : ApiControllerBase
     [ProducesResponseType(typeof(ExecResult<SentenceOutput>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAudio([FromQuery] GetSentenceAudioQuery query)
     {
-        ExecResult<MemoryStream> execResult = await mediator.Send(query);
-        using(MemoryStream s = execResult.Data!)
-        {
-            Response.ContentType = new MediaTypeHeaderValue("audio/mpeg").ToString();
-            return File(s.ToArray(), "audio/mpeg");
-            //return new FileStreamResult(s, "audio/mpeg");
-        };
+        ExecResult<byte[]> execResult = await mediator.Send(query);
+        return File(execResult.Data!, "audio/mpeg");
     }
 
     [Route("create")]
