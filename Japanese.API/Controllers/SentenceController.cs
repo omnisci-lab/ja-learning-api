@@ -10,16 +10,19 @@ using Japanese.Services.Sentence.Queries.GetSentenceAudio;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Net.Http.Headers;
 
 namespace Japanese.API.Controllers;
 
 [Route("api/sentence")]
 public class SentenceController : ApiControllerBase
 {
+    private IMediator mediator;
+
     public SentenceController(IMediator mediator) 
         : base(mediator)
     {
-
+        this.mediator = mediator;
     }
 
     [Route("paged")]
@@ -43,7 +46,13 @@ public class SentenceController : ApiControllerBase
     [ProducesResponseType(typeof(ExecResult<SentenceOutput>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAudio([FromQuery] GetSentenceAudioQuery query)
     {
-        return await ApiResult(query);
+        ExecResult<MemoryStream> execResult = await mediator.Send(query);
+        using(MemoryStream s = execResult.Data!)
+        {
+            Response.ContentType = new MediaTypeHeaderValue("audio/mpeg").ToString();
+            return File(s.ToArray(), "audio/mpeg");
+            //return new FileStreamResult(s, "audio/mpeg");
+        };
     }
 
     [Route("create")]

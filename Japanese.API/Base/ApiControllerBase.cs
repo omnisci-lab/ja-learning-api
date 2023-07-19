@@ -20,8 +20,7 @@ public class ApiControllerBase : ControllerBase
     public async Task<ObjectResult> ApiResult<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
         where TResponse : ExecResult
     {
-         TResponse response = await _mediator.Send(request, cancellationToken);
-
+        TResponse response = await _mediator.Send(request, cancellationToken);
         switch (response.Status)
         {
             case ExecStatus.Success: return Ok(response);

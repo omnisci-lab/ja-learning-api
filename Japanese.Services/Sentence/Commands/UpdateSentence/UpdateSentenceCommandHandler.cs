@@ -27,7 +27,7 @@ public class UpdateSentenceCommandHandler : IRequestHandler<UpdateSentenceComman
         _mapper.Map(request, sentenceModel);
 
         sentenceModel.LastModifiedDate = DateTime.Now;
-        await _sentenceRepository.SaveItemAsync(sentenceModel);
+        await _sentenceRepository.SaveAsync(sentenceModel);
 
         return new ExecResult { Status = ExecStatus.Success };
     }

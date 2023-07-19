@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Japanese.Services.Sentence.Queries.GetSentenceAudio;
 
-public class GetSentenceAudioQuery : IRequest<ExecResult<SentenceOutput?>>, ICacheableQuery
+public class GetSentenceAudioQuery : IRequest<ExecResult<MemoryStream>>, ICacheableQuery
 {
     public string? SentenceId { get; set; }
 

@@ -1,13 +1,13 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Japanese.Core.CommonModels;
-using Japanese.Core.RepositoryBase;
+using Japanese.LanguageCore.AWS.DynamoDB;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 
 namespace Japanese.Repositories.Implements;
 
-public class SentenceRepository : AsyncRepository<SentenceModel>, ISentenceRepository
+public class SentenceRepository : DynamoDBService<SentenceModel>, ISentenceRepository
 {
     internal SentenceRepository(AmazonDynamoDBClient client) 
         : base(client)

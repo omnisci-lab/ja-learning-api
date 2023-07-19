@@ -19,7 +19,7 @@ public class DeleteSentenceCommandHandler : IRequestHandler<DeleteSentenceComman
     {
         if (request.ForceDelete)
         {
-            await _sentenceRepository.DeleteItemAsync(request.SentenceId);
+            await _sentenceRepository.DeleteAsync(request.SentenceId);
             return new ExecResult { Status = ExecStatus.Success };
         }
 
@@ -28,7 +28,7 @@ public class DeleteSentenceCommandHandler : IRequestHandler<DeleteSentenceComman
             return new ExecResult { Status = ExecStatus.NotFound };
 
         sentenceModel.IsDeleted = true;
-        await _sentenceRepository.SaveItemAsync(sentenceModel);
+        await _sentenceRepository.SaveAsync(sentenceModel);
 
         return new ExecResult { Status = ExecStatus.Success };
     }

@@ -1,10 +1,10 @@
 ﻿using Japanese.Core.CommonModels;
-using Japanese.Core.RepositoryBase;
+using Japanese.LanguageCore.AWS.DynamoDB;
 using Japanese.Models;
 
 namespace Japanese.Repositories.Interfaces;
 
-public interface ISentenceRepository : IAsyncRepository<SentenceModel>
+public interface ISentenceRepository : IDynamoDBService<SentenceModel>
 {
     Task<PagedResult<SentenceModel>> SearchByTextAsync(Pagination pagination);
     Task<PagedResult<SentenceModel>> SearchByViMeaningAsync(Pagination pagination);

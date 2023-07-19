@@ -26,7 +26,7 @@ public class UpdateKanjiCommandHandler : IRequestHandler<UpdateKanjiCommand, Exe
 
         _mapper.Map(request, kanjiModel);
 
-        await _kanjiRepository.SaveItemAsync(kanjiModel);
+        await _kanjiRepository.SaveAsync(kanjiModel);
 
         return new ExecResult { Status = ExecStatus.Success };
     }

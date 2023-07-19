@@ -22,7 +22,7 @@ public class CreateKanjiCommandHandler : IRequestHandler<CreateKanjiCommand, Exe
     {
         KanjiModel kanjiModel = _mapper.Map<CreateKanjiCommand, KanjiModel>(request);
 
-        await _kanjiRepository.SaveItemAsync(kanjiModel);
+        await _kanjiRepository.SaveAsync(kanjiModel);
 
         return new ExecResult { Status = ExecStatus.Success };
     }

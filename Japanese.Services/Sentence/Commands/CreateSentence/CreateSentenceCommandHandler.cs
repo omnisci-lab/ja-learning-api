@@ -25,7 +25,7 @@ public class CreateSentenceCommandHandler : IRequestHandler<CreateSentenceComman
         sentenceModel.SentenceId = Guid.NewGuid().ToString();
         sentenceModel.CreatedDate = DateTime.Now;
 
-        await _sentenceRepository.SaveItemAsync(sentenceModel);
+        await _sentenceRepository.SaveAsync(sentenceModel);
 
         return new ExecResult { Status = ExecStatus.Success };
     }

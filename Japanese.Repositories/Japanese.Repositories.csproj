@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Japanese.Core\Japanese.Core.csproj" />
+    <ProjectReference Include="..\Japanese.LanguageCore\Japanese.LanguageCore.csproj" />
     <ProjectReference Include="..\Japanese.Models\Japanese.Models.csproj" />
   </ItemGroup>
 

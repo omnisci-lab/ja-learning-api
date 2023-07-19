@@ -1,9 +1,9 @@
-﻿using Japanese.Core.RepositoryBase;
+﻿using Japanese.LanguageCore.AWS.DynamoDB;
 using Japanese.Models;
 
 namespace Japanese.Repositories.Interfaces;
 
-public interface IKanjiRepository : IAsyncRepository<KanjiModel>
+public interface IKanjiRepository : IDynamoDBService<KanjiModel>
 {
     Task<List<KanjiModel>> GetListByJlptAsync(int? jlpt);
 }

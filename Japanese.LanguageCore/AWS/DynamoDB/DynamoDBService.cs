@@ -1,18 +1,17 @@
-﻿using Amazon.DynamoDBv2.DocumentModel;
+﻿using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
 using Japanese.Core.CommonModels;
 
-namespace Japanese.Core.DynamoDB;
+namespace Japanese.LanguageCore.AWS.DynamoDB;
 
-public class DynamoDBExecution<TModel> : IDynamoDBExecution<TModel>
-    where TModel : EntityBase
+public class DynamoDBService<TModel> : IDynamoDBService<TModel> where TModel : EntityBase
 {
     private readonly IDynamoDBContext _context;
 
     public IDynamoDBContext Context => _context;
 
-    public DynamoDBExecution(IAmazonDynamoDB dynamoDBClient)
+    public DynamoDBService(IAmazonDynamoDB dynamoDBClient)
     {
         _context = new DynamoDBContext(dynamoDBClient);
     }
@@ -79,17 +78,17 @@ public class DynamoDBExecution<TModel> : IDynamoDBExecution<TModel>
         return await _context.LoadAsync<TModel>(key);
     }
 
-    public async Task SaveItemAsync(TModel item)
+    public async Task SaveAsync(TModel item)
     {
         await _context.SaveAsync(item);
     }
 
-    public async Task DeleteItemAsync(object? key)
+    public async Task DeleteAsync(object? key)
     {
         await _context.DeleteAsync<TModel>(key);
     }
 
-    public async Task<int> CountItemsAsync()
+    public async Task<int> CountAsync()
     {
         ScanOperationConfig operationConfig = new ScanOperationConfig
         {
