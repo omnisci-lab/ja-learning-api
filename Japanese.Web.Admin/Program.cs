@@ -7,6 +7,8 @@ IConfiguration configuration = builder.Configuration;
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddRedisServices(configuration);
+builder.Services.AddAwsServices(configuration);
 builder.Services.AddRepositories(configuration);
 builder.Services.AddBusinessServices(configuration);
 

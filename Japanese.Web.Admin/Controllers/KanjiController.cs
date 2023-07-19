@@ -1,4 +1,5 @@
 ﻿using Japanese.Core.CommonModels;
+using Japanese.Core.Enum;
 using Japanese.Services.Kanji.Commands.UpdateKanji;
 using Japanese.Services.Kanji.Queries.GetKanji;
 using Japanese.Services.Kanji.Queries.GetPagedKanji;
@@ -23,18 +24,22 @@ public class KanjiController : Controller
         if (query.PageSize == 0)
             query.PageSize = 10;
 
-        return View(await _mediator.Send(query));
+        ExecResult<PagedResult<KanjiDetailOutput>> execResult = await _mediator.Send(query);
+        if (execResult.Status != ExecStatus.Success)
+            return BadRequest();
+
+        return View(execResult.Data);
     }
 
     [Route("details")]
     public async Task<IActionResult> GetDetails([FromQuery] GetKanjiQuery query)
     {
         query.RefreshCache = true;
-        KanjiDetailOutput kanjiDetail = await _mediator.Send(query);
-        if (kanjiDetail is null)
+        ExecResult<KanjiDetailOutput?> result = await _mediator.Send(query);
+        if (result.Status == ExecStatus.NotFound)
             return NotFound();
 
-        return View(kanjiDetail);
+        return View(result.Data);
     }
 
     [Route("edit")]
