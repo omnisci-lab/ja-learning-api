@@ -24,7 +24,7 @@ public class SentenceController : ApiControllerBase
 
     [Route("paged")]
     [HttpGet]
-    [ProducesResponseType(typeof(PagedResult<SentenceOutput>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ExecResult<PagedResult<SentenceOutput>>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetPaged([FromQuery] GetPagedSentencesQuery query)
     {
         return ApiResult(await _mediator.Send(query));
@@ -32,7 +32,7 @@ public class SentenceController : ApiControllerBase
 
     [Route("details")]
     [HttpGet]
-    [ProducesResponseType(typeof(SentenceOutput), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ExecResult<SentenceOutput>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetDetails([FromQuery] GetSentenceQuery query)
     {
         return ApiResult(await _mediator.Send(query));

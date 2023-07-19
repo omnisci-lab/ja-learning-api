@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Japanese.Core.Hashing
+namespace Japanese.Core.Hashing;
+
+internal class HashFunctionHelper
 {
-    internal class HashFunctionHelper
-    {
-    }
+
 }
