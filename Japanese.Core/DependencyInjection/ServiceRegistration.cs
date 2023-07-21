@@ -18,6 +18,7 @@ public static class ServiceRegistration
         });
 
         services.AddSingleton<PluginCollection>();
+        services.AddScoped<PluginManager>();
 
         return services;
     }

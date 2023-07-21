@@ -8,7 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Japanese.Core\Japanese.Core.csproj" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.50" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Japanese.Core\Japanese.Core.csproj" />
   </ItemGroup>
 
 </Project>
