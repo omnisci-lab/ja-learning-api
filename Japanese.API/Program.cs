@@ -18,8 +18,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddRedisServices(configuration);
-builder.Services.AddAwsServices(configuration);
 builder.Services.AddRepositories(configuration);
 builder.Services.AddBusinessServices(configuration);
 

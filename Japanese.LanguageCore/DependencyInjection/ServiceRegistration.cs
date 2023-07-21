@@ -7,7 +7,7 @@ using Japanese.LanguageCore.SynthesizeSpeech;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Japanese.Services;
+namespace Japanese.LanguageCore.DependencyInjection;
 
 public static class ServiceRegistration
 {

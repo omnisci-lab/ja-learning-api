@@ -6,7 +6,7 @@ namespace Japanese.Services.Sentence.Queries.GetPagedSentences;
 
 public class GetPagedSentencesQuery : Pagination, IRequest<ExecResult<PagedResult<SentenceOutput>>>, ICacheableQuery
 {
-    public string? CacheKey => $"get_sentences_pagesize";
+    public string? CacheKey => $"sentences_ps_{PageSize}_ptk_{PaginationToken}_sb_{SearchBy}_k_{Keyword}";
 
     public bool Bypass { get; set; }
     public bool RefreshCache { get; set; }
