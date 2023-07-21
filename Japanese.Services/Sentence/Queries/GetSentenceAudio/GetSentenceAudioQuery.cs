@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Japanese.Services.Sentence.Queries.GetSentenceAudio;
 
-public class GetSentenceAudioQuery : IRequest<ExecResult<byte[]>>, ICacheableQuery
+public class GetSentenceAudioQuery : IRequest<FileResult>, ICacheableQuery
 {
     public string? SentenceId { get; set; }
     public VoiceOptions VoiceOptions { get; set; }

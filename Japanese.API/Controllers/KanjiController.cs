@@ -25,7 +25,7 @@ public class KanjiController : ApiControllerBase
     [ProducesResponseType(typeof(ExecResult<PagedResult<KanjiDetailOutput>>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetPaged([FromQuery] GetPagedKanjiQuery query)
     {
-        return await ApiResult(query);
+        return await GetObjectResult(query);
     }
 
     [HttpGet]
@@ -33,7 +33,7 @@ public class KanjiController : ApiControllerBase
     [ProducesResponseType(typeof(ExecResult<KanjiDetailOutput>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetDetails([FromQuery] GetKanjiQuery query)
     {
-        return await ApiResult(query);
+        return await GetObjectResult(query);
     }
 
     [HttpGet]
@@ -41,7 +41,7 @@ public class KanjiController : ApiControllerBase
     [ProducesResponseType(typeof(ExecResult<PagedResult<KanjiDetailOutput>>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetKanjiListByJlpt([FromQuery] GetKanjiListByJlptQuery query)
     {
-        return await ApiResult(query);
+        return await GetObjectResult(query);
     }
 
     [HttpPost]
@@ -49,7 +49,7 @@ public class KanjiController : ApiControllerBase
     [ProducesResponseType(typeof(ExecResult), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Create(CreateKanjiCommand command)
     {
-        return await ApiResult(command);
+        return await GetObjectResult(command);
     }
 
     [HttpPut]
@@ -57,6 +57,6 @@ public class KanjiController : ApiControllerBase
     [ProducesResponseType(typeof(ExecResult), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Update(UpdateKanjiCommand command)
     {
-        return await ApiResult(command);
+        return await GetObjectResult(command);
     }
 }

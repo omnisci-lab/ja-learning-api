@@ -9,7 +9,7 @@ using MediatR;
 
 namespace Japanese.Services.Sentence.Queries.GetSentenceAudio;
 
-public class GetSentenceAudioQueryHandler : IRequestHandler<GetSentenceAudioQuery, ExecResult<byte[]>>
+public class GetSentenceAudioQueryHandler : IRequestHandler<GetSentenceAudioQuery, FileResult>
 {
     private readonly ISentenceRepository _sentenceRepository;
     private readonly PollyService _pollyService;
@@ -22,11 +22,11 @@ public class GetSentenceAudioQueryHandler : IRequestHandler<GetSentenceAudioQuer
         _simpleStorageService = simpleStorageService;
     }
 
-    public async Task<ExecResult<byte[]>> Handle(GetSentenceAudioQuery request, CancellationToken cancellationToken)
+    public async Task<FileResult> Handle(GetSentenceAudioQuery request, CancellationToken cancellationToken)
     {
         SentenceModel? sentenceModel = await _sentenceRepository.GetAsync(request.SentenceId);
         if (sentenceModel is null)
-            return new ExecResult<byte[]> { Status = ExecStatus.NotFound };
+            return new FileResult { Status = ExecStatus.NotFound };
 
         string? voiceSoundKeyName;
         if (request.VoiceOptions == VoiceOptions.MaleVoiceSound)
@@ -49,27 +49,30 @@ public class GetSentenceAudioQueryHandler : IRequestHandler<GetSentenceAudioQuer
 
             await _sentenceRepository.SaveAsync(sentenceModel);
 
-            return new ExecResult<byte[]>
+            return new FileResult
             {
                 Status = ExecStatus.Success,
+                ContentType = "audio/mpeg",
                 Data = await GenerateAndUploadVoice(sentenceModel.Text!, voiceSoundKeyName, request.VoiceOptions)
             };
         }
 
         using Stream? stream = await _simpleStorageService.GetFile("files.japanese", voiceSoundKeyName);
         if (stream is null)
-            return new ExecResult<byte[]>
+            return new FileResult
             {
                 Status = ExecStatus.Success,
+                ContentType = "audio/mpeg",
                 Data = await GenerateAndUploadVoice(sentenceModel.Text!, voiceSoundKeyName, request.VoiceOptions)
             };
 
         using MemoryStream memoryStream = new MemoryStream();
         await stream.CopyToAsync(memoryStream);
 
-        return new ExecResult<byte[]>
+        return new FileResult
         {
             Status = ExecStatus.Success,
+            ContentType = "audio/mpeg",
             Data = memoryStream.ToArray()
         };
     }

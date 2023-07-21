@@ -17,7 +17,7 @@ public class ApiControllerBase : ControllerBase
     }
 
     [NonAction]
-    public async Task<ObjectResult> ApiResult<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetObjectResult<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
         where TResponse : ExecResult
     {
         TResponse response = await _mediator.Send(request, cancellationToken);
@@ -34,7 +34,25 @@ public class ApiControllerBase : ControllerBase
     }
 
     [NonAction]
-    public async Task<ObjectResult> ApiResult(IRequest request, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetFileResult<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
+        where TResponse : Core.CommonModels.FileResult
+    {
+        TResponse response = await _mediator.Send(request, cancellationToken);
+
+        switch (response.Status)
+        {
+            case ExecStatus.Success: return File(response.Data!, response.ContentType!);
+            case ExecStatus.NotFound: return NotFound(response);
+            case ExecStatus.AlreadyExists: return Conflict(response);
+            case ExecStatus.Invalid:
+            case ExecStatus.Failed: return BadRequest(response);
+            default:
+                return File(response.Data!, response.ContentType!);
+        }
+    }
+
+    [NonAction]
+    public async Task<IActionResult> GetObjectResult(IRequest request, CancellationToken cancellationToken = default)
     {
         await _mediator.Send(request, cancellationToken);
         return Ok(new ExecResult { Status = ExecStatus.Success });
