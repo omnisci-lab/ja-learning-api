@@ -1,6 +1,7 @@
 ﻿using Japanese.Core.CommonModels;
 using Japanese.Core.Enum;
 using Japanese.LanguageCore.AWS;
+using Japanese.LanguageCore.Enum;
 using Japanese.LanguageCore.SynthesizeSpeech;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
@@ -27,26 +28,57 @@ public class GetSentenceAudioQueryHandler : IRequestHandler<GetSentenceAudioQuer
         if (sentenceModel is null)
             return new ExecResult<byte[]> { Status = ExecStatus.NotFound };
 
-        using Stream? stream = await _simpleStorageService.GetFile("files.japanese", $"sentence_audios/{sentenceModel.SentenceId}.mp3");
-        if (stream is not null)
+        string? voiceSoundKeyName;
+        if (request.VoiceOptions == VoiceOptions.MaleVoiceSound)
+            voiceSoundKeyName = sentenceModel.MaleVoiceSound;
+        else
+            voiceSoundKeyName = sentenceModel.FemaleVoiceSound;
+
+        if (string.IsNullOrEmpty(voiceSoundKeyName))
         {
-            using MemoryStream memoryStream = new MemoryStream();
-            await stream.CopyToAsync(memoryStream);
+            if (request.VoiceOptions == VoiceOptions.MaleVoiceSound)
+            {
+                voiceSoundKeyName = $"sentence_audios/{sentenceModel.SentenceId}_male-voice-sound.mp3";
+                sentenceModel.MaleVoiceSound = voiceSoundKeyName;
+            }
+            else
+            {
+                voiceSoundKeyName = $"sentence_audios/{sentenceModel.SentenceId}_female-voice-sound.mp3";
+                sentenceModel.FemaleVoiceSound = voiceSoundKeyName;
+            }
+
+            await _sentenceRepository.SaveAsync(sentenceModel);
 
             return new ExecResult<byte[]>
             {
                 Status = ExecStatus.Success,
-                Data = memoryStream.ToArray()
+                Data = await GenerateAndUploadVoice(sentenceModel.Text!, voiceSoundKeyName, request.VoiceOptions)
             };
         }
 
-        using MemoryStream memoryStreamFromSynthesis = await _pollyService.SynthesizeSpeech(sentenceModel.Text!);
-        await _simpleStorageService.UploadFile("files.japanese", $"sentence_audios/{sentenceModel.SentenceId}.mp3", memoryStreamFromSynthesis);
+        using Stream? stream = await _simpleStorageService.GetFile("files.japanese", voiceSoundKeyName);
+        if (stream is null)
+            return new ExecResult<byte[]>
+            {
+                Status = ExecStatus.Success,
+                Data = await GenerateAndUploadVoice(sentenceModel.Text!, voiceSoundKeyName, request.VoiceOptions)
+            };
+
+        using MemoryStream memoryStream = new MemoryStream();
+        await stream.CopyToAsync(memoryStream);
 
         return new ExecResult<byte[]>
         {
             Status = ExecStatus.Success,
-            Data = memoryStreamFromSynthesis.ToArray()
+            Data = memoryStream.ToArray()
         };
+    }
+
+    private async Task<byte[]> GenerateAndUploadVoice(string text, string voiceSoundKeyName, VoiceOptions voiceOptions)
+    {
+        using MemoryStream memoryStreamFromSynthesis = await _pollyService.BasicSynthesizeSpeech(text, voiceOptions);
+        await _simpleStorageService.UploadFile("files.japanese", voiceSoundKeyName, memoryStreamFromSynthesis);
+
+        return memoryStreamFromSynthesis.ToArray();
     }
 }

@@ -27,4 +27,10 @@ public class SentenceModel : EntityBase
 
     [DynamoDBProperty("references")]
     public string? References { get; set; }
+
+    [DynamoDBProperty("male_voice_sound")]
+    public string? MaleVoiceSound { get; set; }
+
+    [DynamoDBProperty("female_voice_sound")]
+    public string? FemaleVoiceSound { get; set; }
 }
