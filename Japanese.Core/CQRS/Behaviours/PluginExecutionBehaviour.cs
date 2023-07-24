@@ -15,9 +15,8 @@ public class PluginExecutionBehaviour<TRequest, TResponse> : IPipelineBehavior<T
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        List<PluginInfo> pluginInfo = _pluginManager.GetList();
-
         TResponse? response = await next();
+        _pluginManager.ExecutePlugins(request, response);
 
         return response;
     }

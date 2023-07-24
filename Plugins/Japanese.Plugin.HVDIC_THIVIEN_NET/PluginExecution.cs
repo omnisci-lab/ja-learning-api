@@ -1,4 +1,5 @@
-﻿using Japanese.Core.Plugin;
+﻿using Japanese.Core.CommonModels;
+using Japanese.Core.Plugin;
 using System.Reflection;
 
 namespace Japanese.Plugin.HVDIC_THIVIEN_NET;
@@ -12,35 +13,41 @@ public class PluginExecution : IPluginExection
         _hvdic_ThiVien_Net = new Hvdic_ThiVien_Net();
     }
 
-    public void Run(object input)
+    public void Run(object? request, object? response)
     {
-        Type inputType = input.GetType();
-
-        if (inputType.Name != "GetKanjiQueryHandler")
+        PropertyInfo? dataProperty = response.GetType().GetProperty(nameof(ExecResult<object>.Data));
+        if (dataProperty is null)
             return;
 
-        PropertyInfo? kanjiProperty = inputType.GetProperty("Kanji");
+        object? value = dataProperty.GetValue(response);
+        Type valueType = value.GetType();
+
+        if (valueType.Name != "KanjiDetailOutput")
+            return;
+
+        PropertyInfo? kanjiProperty = valueType.GetProperty("Kanji");
         if (kanjiProperty is null)
             return;
 
-        object? kanji = kanjiProperty.GetValue(input);
+        object? kanji = kanjiProperty.GetValue(value);
         if (kanji is null)
             return;
 
-        PropertyInfo? sinoVietnameseProperty = inputType.GetProperty("SinoVietnamese");
+        PropertyInfo? sinoVietnameseProperty = valueType.GetProperty("SinoVietnamese");
         if (sinoVietnameseProperty is null)
             return;
         
-        object? sinoVietnamese = sinoVietnameseProperty.GetValue(input);
-        if (sinoVietnamese is not null)
-            sinoVietnameseProperty.SetValue(input, _hvdic_ThiVien_Net.GetSinoVietnamese(kanji?.ToString()!));
+        object? sinoVietnamese = sinoVietnameseProperty.GetValue(value);
+        if (sinoVietnamese is null)
+            //sinoVietnameseProperty.SetValue(input, _hvdic_ThiVien_Net.GetSinoVietnamese(kanji?.ToString()!));
+            sinoVietnameseProperty.SetValue(value, "SinoVietnamese");
 
-        PropertyInfo? viMeaningsProperty = inputType.GetProperty("ViMeanings");
+        PropertyInfo? viMeaningsProperty = valueType.GetProperty("ViMeanings");
         if (viMeaningsProperty is null)
             return;
 
-        object? viMeanings = viMeaningsProperty.GetValue(input);
+        object? viMeanings = viMeaningsProperty.GetValue(value);
         if (viMeanings is not null)
-            (viMeanings as List<string>)!.AddRange(null);
+            (viMeanings as List<string>)!.AddRange(new List<string> { "1", "2", "3", "4", "5" });
     }
 }

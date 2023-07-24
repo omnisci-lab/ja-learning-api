@@ -9,6 +9,8 @@ public class KanjiDetailOutput
     public List<string>? KunReadings { get; set; }
     public List<string>? NameReadings { get; set; }
     public List<string>? Meanings { get; set; }
+    public List<string>? ViMeanings { get; set; }
     public int? Jlpt { get; set; }
     public string? Unicode { get; set; }
+    public string? SinoVietnamese { get; set; }
 }
