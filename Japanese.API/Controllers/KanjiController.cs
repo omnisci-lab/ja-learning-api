@@ -5,7 +5,6 @@ using Japanese.Services.Kanji.Queries.GetKanji;
 using Japanese.API.Base;
 using Japanese.Services.Kanji.Commands.UpdateKanji;
 using Japanese.Services.Kanji.Commands.CreateKanji;
-using Japanese.Services.Kanji.Queries.GetKanjiListByJlpt;
 using Japanese.Services.Kanji.Queries.GetPagedKanji;
 using Japanese.Core.CommonModels;
 
@@ -32,14 +31,6 @@ public class KanjiController : ApiControllerBase
     [Route("details")]
     [ProducesResponseType(typeof(ExecResult<KanjiDetailOutput>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetDetails([FromQuery] GetKanjiQuery query)
-    {
-        return await GetObjectResult(query);
-    }
-
-    [HttpGet]
-    [Route("kanji-list-by-jlpt-level")]
-    [ProducesResponseType(typeof(ExecResult<PagedResult<KanjiDetailOutput>>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetKanjiListByJlpt([FromQuery] GetKanjiListByJlptQuery query)
     {
         return await GetObjectResult(query);
     }

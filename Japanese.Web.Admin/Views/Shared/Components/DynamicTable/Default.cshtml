@@ -17,10 +17,24 @@
         @foreach (DynamicTableRow row in Model.Rows)
         {
             <tr ondblclick="location.href = '@row.Columns.SingleOrDefault(x => x.Name == "DetailURL")?.Value'">
-                <th scope="row">@count</th>
+                <td scope="row">@count</td>
                 @foreach (DynamicTableColumn column in row.Columns.Where(x => x.Name != "DetailURL").ToList())
                 {
-                    <td>@column.Value</td>
+                    if (column.Value is List<string>)
+                    {
+                        <td>
+                            <ul>
+                                @foreach (string item in (column.Value as List<string>)!)
+                                {
+                                    <li>@item</li>
+                                }
+                            </ul>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>@column.Value</td>
+                    }
                 }
             </tr>
             count++;

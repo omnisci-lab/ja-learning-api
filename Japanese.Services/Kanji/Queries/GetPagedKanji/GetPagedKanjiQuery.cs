@@ -1,10 +1,14 @@
 ﻿using Japanese.Core.CommonModels;
+using Japanese.Services.Cache;
 using Japanese.Services.Kanji.Queries.GetKanji;
 using MediatR;
 
 namespace Japanese.Services.Kanji.Queries.GetPagedKanji;
 
-public class GetPagedKanjiQuery : Pagination, IRequest<ExecResult<PagedResult<KanjiDetailOutput>>>
+public class GetPagedKanjiQuery : Pagination, IRequest<ExecResult<PagedResult<KanjiDetailOutput>>>, ICacheableQuery
 {
+    public string? CacheKey => $"kanji_ps_{PageSize}_ptk_{PaginationToken}_sb_{SearchBy}_k_{Keyword}";
 
+    public bool Bypass { get; set; }
+    public bool RefreshCache { get; set; }
 }

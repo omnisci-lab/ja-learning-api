@@ -33,7 +33,7 @@ public class SentenceController : Controller
         if (query.PageSize == 0)
             query.PageSize = 10;
 
-        query.RefreshCache = true;
+        query.Bypass = true;
         ExecResult<PagedResult<SentenceOutput>> execResult = await _mediator.Send(query);
         if (execResult.Status != ExecStatus.Success)
             return BadRequest();

@@ -3,8 +3,10 @@ using Japanese.Core.Enum;
 using Japanese.Services.Kanji.Commands.UpdateKanji;
 using Japanese.Services.Kanji.Queries.GetKanji;
 using Japanese.Services.Kanji.Queries.GetPagedKanji;
+using Japanese.Services.Sentence.Commands.DeleteSentence;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebCore.Extensions;
 
 namespace Japanese.Web.Admin.Controllers;
 
@@ -24,6 +26,7 @@ public class KanjiController : Controller
         if (query.PageSize == 0)
             query.PageSize = 10;
 
+        query.Bypass = true;
         ExecResult<PagedResult<KanjiDetailOutput>> execResult = await _mediator.Send(query);
         if (execResult.Status != ExecStatus.Success)
             return BadRequest();
@@ -31,28 +34,59 @@ public class KanjiController : Controller
         return View(execResult.Data);
     }
 
-    [Route("details")]
-    public async Task<IActionResult> GetDetails([FromQuery] GetKanjiQuery query)
+    [Route("details/{kanji}")]
+    public async Task<IActionResult> GetDetails(string kanji)
     {
-        query.RefreshCache = true;
-        ExecResult<KanjiDetailOutput?> result = await _mediator.Send(query);
-        if (result.Status == ExecStatus.NotFound)
+        GetKanjiQuery query = new GetKanjiQuery() { Kanji = kanji, Bypass = true };
+        ExecResult<KanjiDetailOutput?> execResult = await _mediator.Send(query);
+        if (execResult.Status == ExecStatus.NotFound)
             return NotFound();
 
-        return View(result.Data);
+        return View(execResult.Data);
     }
 
-    [Route("edit")]
+    [Route("edit/{kanji}")]
+    [HttpGet]
+    public async Task<IActionResult> Edit(string kanji)
+    {
+        GetKanjiQuery query = new GetKanjiQuery() { Kanji = kanji, Bypass = true };
+        ExecResult<KanjiDetailOutput?> execResult = await _mediator.Send(query);
+        if (execResult.Status == ExecStatus.NotFound)
+            return NotFound();
+
+        if (execResult.Status != ExecStatus.Success)
+            return BadRequest();
+
+        KanjiDetailOutput kanjiDetail = execResult.Data!;
+
+        return View(new UpdateKanjiCommand
+        {
+            Kanji = kanji,
+            OnReadings = kanjiDetail.OnReadings,
+            KunReadings = kanjiDetail.KunReadings,
+            NameReadings = kanjiDetail.NameReadings
+        });
+    }
+
+    [Route("edit/{kanji}")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(UpdateKanjiCommand command)
     {
-        return View(await _mediator.Send(command));
+        ExecResult execResult = await _mediator.Send(command);
+        ViewData["ExecResult"] = execResult;
+
+        return View(command);
     }
 
     [Route("delete")]
-    public async Task<IActionResult> Delete()
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(DeleteSentenceCommand command)
     {
-        return View();
+        ExecResult execResult = await _mediator.Send(command);
+        TempData.Put("ExecResult", execResult);
+
+        return RedirectToAction("Index");
     }
 }

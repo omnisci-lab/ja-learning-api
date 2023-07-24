@@ -16,6 +16,9 @@ public class PluginManager
         _pluginCollection.Clear();
 
         string pluginFolderPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!, "plugins");
+        if(!Directory.Exists(pluginFolderPath))
+            Directory.CreateDirectory(pluginFolderPath);
+
         string[] subPluginFolderPaths = Directory.GetDirectories(pluginFolderPath);
         
         foreach(string subPluginFolderPath in subPluginFolderPaths)

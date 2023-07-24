@@ -1,71 +1,92 @@
-﻿@using Japanese.Services.Kanji.Queries.GetPagedKanji;
+﻿@using Japanese.Services.Kanji.Consts
+@using Japanese.Services.Kanji.Queries.GetPagedKanji;
 @using Japanese.Services.Kanji.Queries.GetKanji;
 @model PagedResult<KanjiDetailOutput>
 
+@{
+    List<int> pageSizes = new List<int> { 20, 50, 100, 200 };
+}
+
 <div class="card">
     <div class="card-header">
-        <p>List of Kanji</p>
+        <div class="d-flex justify-content-between">
+            <div>
+                <p class="m-0">List of Sentences</p>
+            </div>
+            <div class="align-middle">
+                <a class="btn btn-success btn-sm" asp-action="Create">Create</a>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center border-top mt-1">
+            <form asp-action="Index" method="get">
+                <div class="row">
+                    <div class="col">
+                        <label>Records/page</label>
+                        <select name="PageSize" class="form-control" style="width: 100px;" onchange="this.form.submit();">
+                            @foreach (int pageSize in pageSizes)
+                            {
+                                if (pageSize == Model.PageSize)
+                                {
+                                    <option value="@pageSize" selected>@pageSize</option>
+                                }
+                                else
+                                {
+                                    <option value="@pageSize">@pageSize</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <label>Search by</label>
+                        @{
+                            FieldInfo[] fields = typeof(SearchKanjiConsts).GetFields();
+                        }
+                        <select name="SearchBy" class="form-control" style="width: 100px;">
+                            @foreach (FieldInfo field in fields)
+                            {
+                                if (Model.SearchBy == field.GetRawConstantValue()?.ToString())
+                                {
+                                    <option value="@field.GetRawConstantValue()" selected>@field.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@field.GetRawConstantValue()">@field.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label>Search</label>
+                        <input type="text" class="form-control" name="Keyword" value="@Model.Keyword" style="width: 150px;" />
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
     <div class="card-body">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Kanji</th>
-                    <th scope="col">On Readings</th>
-                    <th scope="col">Kun Readings</th>
-                    <th scope="col">Name Readings</th>
-                    <th scope="col">JLPT</th>
-                    <th scope="col">Unicode</th>
-                    <th scope="col">Stroke Count</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    int count = 1;
+        @await Component.InvokeAsync("DynamicTable", new {
+            type = typeof(KanjiDetailOutput),
+            metadataType = typeof(KanjiMetadata.KanjiDetailOutput),
+            data = Model.Items!.ToArray(),
+            detailUrl = new UrlInfo {
+                ActionName = "GetDetails",
+                ControllerName = "Kanji",
+                RouteValues = new List<RouteValueObject> {
+                new RouteValueObject { RouteProperty = "kanji", MapToProperty = "Kanji" }
                 }
-                @foreach (KanjiDetailOutput kanji in Model.Items!)
-                {
-                    <tr ondblclick="location.href = '@Url.Action("Details", new { kanji = kanji.Kanji })'">
-                        <th scope="row">@count</th>
-                        <td>@kanji.Kanji</td>
-                        <td>
-                            <ul>
-                                @foreach (string onreading in kanji.OnReadings!)
-                                {
-                                    <li>@onreading</li>
-                                }
-                            </ul>
-                            
-                        </td>
-                        <td>
-                            <ul>
-                                @foreach (string kunreading in kanji.KunReadings!)
-                                {
-                                    <li>@kunreading</li>
-                                }
-                            </ul>
-                        </td>
-                        <td>
-                            <ul>
-                                @foreach (string namereading in kanji.NameReadings!)
-                                {
-                                    <li>@namereading</li>
-                                }
-                            </ul>
-                            
-                        </td>
-                        <td>@kanji.Jlpt</td>
-                        <td>@kanji.Unicode</td>
-                        <td>@kanji.StrokeCount</td>
-                    </tr>
-                    count++;
-                }
-            </tbody>
-        </table>
-
+            }
+        })
     </div>
     <div class="card-footer">
-        <a class="text-center" asp-action="Index" asp-route-PaginationToken="@Model.PaginationToken">Trang tiếp theo</a>
+        <div class="d-flex justify-content-center">
+            <form asp-action="Index" method="get">
+                <input type="hidden" asp-for="PageSize" />
+                <input type="hidden" asp-for="SearchBy" />
+                <input type="hidden" asp-for="PaginationToken" />
+                <button class="btn btn-link">Next page</button>
+            </form>
+        </div>
     </div>
 </div>
