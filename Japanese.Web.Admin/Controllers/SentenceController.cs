@@ -57,7 +57,7 @@ public class SentenceController : Controller
     }
 
     [Route("create")]
-    [PageTitle(Title = "Create new a Sentences")]
+    [PageTitle(Title = "Create new a Sentence")]
     public IActionResult Create()
     {
         return View(new CreateSentenceCommand { Jlpt = 1 });
@@ -66,7 +66,7 @@ public class SentenceController : Controller
     [Route("create")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [PageTitle(Title = "Create new a Sentences")]
+    [PageTitle(Title = "Create new a Sentence")]
     public async Task<IActionResult> Create(CreateSentenceCommand command)
     {
         ExecResult execResult = await _mediator.Send(command);
@@ -76,7 +76,7 @@ public class SentenceController : Controller
     }
 
     [Route("edit/{sentenceId}")]
-    [PageTitle(Title = "Edit a Sentences")]
+    [PageTitle(Title = "Edit a Sentence")]
     public async Task<IActionResult> Edit(string sentenceId)
     {
         GetSentenceQuery query = new GetSentenceQuery() { SentenceId = sentenceId, Bypass = true };
@@ -103,7 +103,7 @@ public class SentenceController : Controller
     [Route("edit/{sentenceId}")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [PageTitle(Title = "Edit a Sentences")]
+    [PageTitle(Title = "Edit a Sentence")]
     public async Task<IActionResult> Edit(UpdateSentenceCommand command)
     {
         ExecResult execResult = await _mediator.Send(command);

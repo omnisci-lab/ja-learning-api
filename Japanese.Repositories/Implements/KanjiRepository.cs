@@ -1,7 +1,5 @@
 ﻿using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
-using Amazon.DynamoDBv2.Model;
 using Japanese.Core.CommonModels;
 using Japanese.LanguageCore.AWS.DynamoDB;
 using Japanese.Models;
@@ -26,7 +24,7 @@ public class KanjiRepository : DynamoDBService<KanjiModel>, IKanjiRepository
             throw new InvalidCastException();
 
         ScanFilter scanFilter = new ScanFilter();
-        scanFilter.AddCondition("jlpt", ScanOperator.IsNotNull);
+
         scanFilter.AddCondition("jlpt", ScanOperator.Equal, jlptLevel);
 
         return await GetPagedAsync(pagination, scanFilter);

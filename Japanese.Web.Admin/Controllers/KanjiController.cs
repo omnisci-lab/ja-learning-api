@@ -6,6 +6,7 @@ using Japanese.Services.Kanji.Queries.GetPagedKanji;
 using Japanese.Services.Sentence.Commands.DeleteSentence;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebCore.Attributes;
 using WebCore.Extensions;
 
 namespace Japanese.Web.Admin.Controllers;
@@ -21,6 +22,7 @@ public class KanjiController : Controller
     }
 
     [Route("list")]
+    [PageTitle(Title = "List of Sentences")]
     public async Task<IActionResult> Index([FromQuery] GetPagedKanjiQuery query)
     {
         if (query.PageSize == 0)
@@ -35,6 +37,7 @@ public class KanjiController : Controller
     }
 
     [Route("details/{kanji}")]
+    [PageTitle(Title = "Kanji Details")]
     public async Task<IActionResult> GetDetails(string kanji)
     {
         GetKanjiQuery query = new GetKanjiQuery() { Kanji = kanji, Bypass = true };
@@ -47,6 +50,7 @@ public class KanjiController : Controller
 
     [Route("edit/{kanji}")]
     [HttpGet]
+    [PageTitle(Title = "Edit a Kanji")]
     public async Task<IActionResult> Edit(string kanji)
     {
         GetKanjiQuery query = new GetKanjiQuery() { Kanji = kanji, Bypass = true };
@@ -71,6 +75,7 @@ public class KanjiController : Controller
     [Route("edit/{kanji}")]
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [PageTitle(Title = "Edit a Kanji")]
     public async Task<IActionResult> Edit(UpdateKanjiCommand command)
     {
         ExecResult execResult = await _mediator.Send(command);

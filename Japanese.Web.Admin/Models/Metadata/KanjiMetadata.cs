@@ -25,7 +25,10 @@ public class KanjiMetadata
         public List<string>? NameReadings { get; set; }
 
         [DynamicView(Table = false, Detail = true)]
-        public List<string>? Meanings { get; set; }
+        public List<string>? EnMeanings { get; set; }
+
+        [DynamicView(Table = false, Detail = true)]
+        public List<string>? SinoVietnamese { get; set; }
 
         [DynamicView(Table = false, Detail = true)]
         public List<string>? ViMeanings { get; set; }
@@ -35,8 +38,5 @@ public class KanjiMetadata
 
         [DynamicView(Table = false, Detail = true)]
         public string? Unicode { get; set; }
-
-        [DynamicView(Table = false, Detail = true)]
-        public string? SinoVietnamese { get; set; }
     }
 }

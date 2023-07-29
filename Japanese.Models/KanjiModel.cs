@@ -26,7 +26,13 @@ public class KanjiModel : EntityBase
     public List<string>? NameReadings { get; set; }
 
     [DynamoDBProperty("meanings")]
-    public List<string>? Meanings { get; set; }
+    public List<string>? EnMeanings { get; set; }
+
+    [DynamoDBProperty("sino_vietnames")]
+    public List<string>? SinoVietnamese { get; set; }
+
+    [DynamoDBProperty("vi_meanings")]
+    public List<string>? ViMeanings { get; set; }
 
     [DynamoDBProperty("jlpt")]
     public int? Jlpt { get; set; }

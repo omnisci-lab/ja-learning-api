@@ -39,7 +39,7 @@ public class DynamoDBService<TModel> : IDynamoDBService<TModel> where TModel : E
     protected async Task<PagedResult<TModel>> GetPagedAsync(Pagination pagination, ScanFilter filter)
     {
         Table table = _context.GetTargetTable<TModel>();
-        ScanOperationConfig scanConfig = new ScanOperationConfig() { Limit = pagination.PageSize };
+        ScanOperationConfig scanConfig = new ScanOperationConfig() { /*Limit = pagination.PageSize*/ };
 
         if (!string.IsNullOrEmpty(pagination.PaginationToken))
             scanConfig.PaginationToken = pagination.PaginationToken;
