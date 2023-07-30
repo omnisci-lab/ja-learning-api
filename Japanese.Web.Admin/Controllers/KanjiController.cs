@@ -1,5 +1,6 @@
 ﻿using Japanese.Core.CommonModels;
 using Japanese.Core.Enum;
+using Japanese.Services.Kanji.Commands.CreateKanji;
 using Japanese.Services.Kanji.Commands.UpdateKanji;
 using Japanese.Services.Kanji.Queries.GetKanji;
 using Japanese.Services.Kanji.Queries.GetPagedKanji;
@@ -48,6 +49,25 @@ public class KanjiController : Controller
         return View(execResult.Data);
     }
 
+    [Route("create")]
+    [PageTitle(Title = "Create new a Kanji")]
+    public IActionResult Create()
+    {
+        return View(new CreateKanjiCommand { Jlpt = 1 });
+    }
+
+    [Route("create")]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [PageTitle(Title = "Create new a Kanji")]
+    public async Task<IActionResult> Create(CreateKanjiCommand command)
+    {
+        ExecResult execResult = await _mediator.Send(command);
+        ViewData["ExecResult"] = execResult;
+
+        return View();
+    }
+
     [Route("edit/{kanji}")]
     [HttpGet]
     [PageTitle(Title = "Edit a Kanji")]
@@ -66,9 +86,14 @@ public class KanjiController : Controller
         return View(new UpdateKanjiCommand
         {
             Kanji = kanji,
+            StrokeCount = kanjiDetail.StrokeCount,
+            Grade = kanjiDetail.Grade,
             OnReadings = kanjiDetail.OnReadings,
             KunReadings = kanjiDetail.KunReadings,
-            NameReadings = kanjiDetail.NameReadings
+            NameReadings = kanjiDetail.NameReadings,
+            EnMeanings = kanjiDetail.EnMeanings,
+            ViMeanings = kanjiDetail.ViMeanings,
+            SinoVietnamese = kanjiDetail.SinoVietnamse
         });
     }
 

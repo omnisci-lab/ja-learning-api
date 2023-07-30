@@ -1,0 +1,32 @@
+﻿@using Japanese.Services.Kanji.Commands.UpdateKanji
+@model UpdateKanjiCommand
+
+@await Component.InvokeAsync("Notif")
+
+@await Component.InvokeAsync("DynamicUpdateView", new {
+    type = typeof(UpdateKanjiCommand),
+    metadataType = typeof(KanjiMetadata.UpdateKanjiCommand),
+    data = Model,
+    formUrl = new UrlInfo { ActionName = "Edit", ControllerName = "Sentence" },
+    listUrl = new UrlInfo { ActionName = "Index", ControllerName = "Sentence" },
+    detailUrl = new UrlInfo {
+        ActionName = "GetDetails",
+        ControllerName = "Kanji",
+        RouteValues = new List<RouteValueObject> {
+            new RouteValueObject { RouteProperty = "kanji", MapToProperty = nameof(UpdateKanjiCommand.Kanji) }
+        }
+    },
+    deletionForm = new DynamicForm {
+        ActionName = "Delete",
+        ControllerName = "Kanji",
+        FormFields = new List<DynamicFormField>{
+            new DynamicFormField { Name = "kanji", MapToProperty = "Kanji" }
+        }
+    }
+});
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
