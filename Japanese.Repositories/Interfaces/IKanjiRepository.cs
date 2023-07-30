@@ -11,4 +11,7 @@ public interface IKanjiRepository : IDynamoDBService<KanjiModel>
     Task<PagedResult<KanjiModel>> SearchByOnReadingAsync(Pagination pagination);
     Task<PagedResult<KanjiModel>> SearchByKunReadingAsync(Pagination pagination);
     Task<PagedResult<KanjiModel>> SearchByNameReadingAsync(Pagination pagination);
+    Task<PagedResult<KanjiModel>> SearchByEnMeaningAsync(Pagination pagination);
+    Task<PagedResult<KanjiModel>> SearchByViMeaningAsync(Pagination pagination);
+    Task<PagedResult<KanjiModel>> SearchBySinoVietnameseAsync(Pagination pagination);
 }

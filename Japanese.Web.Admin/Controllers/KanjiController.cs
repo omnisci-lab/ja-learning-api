@@ -27,7 +27,7 @@ public class KanjiController : Controller
     public async Task<IActionResult> Index([FromQuery] GetPagedKanjiQuery query)
     {
         if (query.PageSize == 0)
-            query.PageSize = 10;
+            query.PageSize = 20;
 
         query.Bypass = true;
         ExecResult<PagedResult<KanjiDetailOutput>> execResult = await _mediator.Send(query);

@@ -48,8 +48,6 @@ public class DynamoDBService<TModel> : IDynamoDBService<TModel> where TModel : E
         Search search = table.Scan(scanConfig);
         List<Document> data = await search.GetNextSetAsync();
 
-        pagination.PaginationToken = search.PaginationToken;
-
         return new PagedResult<TModel>
         {
             PaginationToken = search.PaginationToken,
@@ -88,18 +86,8 @@ public class DynamoDBService<TModel> : IDynamoDBService<TModel> where TModel : E
         await _context.DeleteAsync<TModel>(key);
     }
 
-    public async Task<int> CountAsync()
+    public Task<int> CountAsync()
     {
-        ScanOperationConfig operationConfig = new ScanOperationConfig
-        {
-            Select = SelectValues.Count
-        };
-
-        //_context.FromScanAsync(operationConfig);
-
-        AsyncSearch<int> search = _context.FromScanAsync<int>(operationConfig);
-        List<int> a = await search.GetNextSetAsync();
-
-        return 0;
+        throw new NotImplementedException();
     }
 }

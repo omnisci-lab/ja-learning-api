@@ -43,7 +43,7 @@
                         @{
                             FieldInfo[] fields = typeof(SearchKanjiConsts).GetFields();
                         }
-                        <select name="SearchBy" class="form-control" style="width: 100px;">
+                        <select name="SearchBy" class="form-control" value="@Model.SearchBy" style="width: 100px;">
                             @foreach (FieldInfo field in fields)
                             {
                                 if (Model.SearchBy == field.GetRawConstantValue()?.ToString())
@@ -82,9 +82,10 @@
     <div class="card-footer">
         <div class="d-flex justify-content-center">
             <form asp-action="Index" method="get">
-                <input type="hidden" asp-for="PageSize" />
-                <input type="hidden" asp-for="SearchBy" />
-                <input type="hidden" asp-for="PaginationToken" />
+                <input type="hidden" name="PageSize" value="@Model.PageSize" />
+                <input type="hidden" name="SearchBy" value="@Model.SearchBy" />
+                <input type="hidden" name="Keyword" value="@Model.Keyword" />
+                <input type="hidden" name="PaginationToken" value="@Model.PaginationToken" />
                 <button class="btn btn-link">Next page</button>
             </form>
         </div>

@@ -31,7 +31,7 @@ public class SentenceController : Controller
     public async Task<IActionResult> Index([FromQuery] GetPagedSentencesQuery query)
     {
         if (query.PageSize == 0)
-            query.PageSize = 10;
+            query.PageSize = 20;
 
         query.Bypass = true;
         ExecResult<PagedResult<SentenceOutput>> execResult = await _mediator.Send(query);

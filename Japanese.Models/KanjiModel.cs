@@ -28,7 +28,7 @@ public class KanjiModel : EntityBase
     [DynamoDBProperty("meanings")]
     public List<string>? EnMeanings { get; set; }
 
-    [DynamoDBProperty("sino_vietnames")]
+    [DynamoDBProperty("sino_vietnamese")]
     public List<string>? SinoVietnamese { get; set; }
 
     [DynamoDBProperty("vi_meanings")]
