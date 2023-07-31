@@ -93,7 +93,7 @@ public class KanjiController : Controller
             NameReadings = kanjiDetail.NameReadings,
             EnMeanings = kanjiDetail.EnMeanings,
             ViMeanings = kanjiDetail.ViMeanings,
-            SinoVietnamese = kanjiDetail.SinoVietnamse
+            SinoVietnamese = kanjiDetail.SinoVietnamese
         });
     }
 

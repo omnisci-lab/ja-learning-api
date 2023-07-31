@@ -6,8 +6,8 @@ namespace Japanese.Models;
 [DynamoDBTable("Kanji")]
 public class KanjiModel : EntityBase
 {
-    [DynamoDBHashKey]
-    [DynamoDBProperty("kanji")]
+    [DynamoDBHashKey(AttributeName = "kanji")]
+    //[DynamoDBProperty("kanji")]
     public string? Kanji { get; set; }
 
     [DynamoDBProperty("stroke_count")]

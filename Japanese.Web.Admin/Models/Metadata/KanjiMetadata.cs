@@ -88,22 +88,22 @@ public class KanjiMetadata
         [DynamicView(FieldType = FormFieldType.Text)]
         public int? Grade { get; set; }
 
-        [DynamicView(FieldType = FormFieldType.Text)]
+        [DynamicView(FieldType = FormFieldType.List)]
         public List<string>? OnReadings { get; set; }
 
-        [DynamicView(FieldType = FormFieldType.Text)]
+        [DynamicView(FieldType = FormFieldType.List)]
         public List<string>? KunReadings { get; set; }
 
-        [DynamicView(FieldType = FormFieldType.Text)]
+        [DynamicView(FieldType = FormFieldType.List)]
         public List<string>? NameReadings { get; set; }
 
-        [DynamicView(FieldType = FormFieldType.Text)]
+        [DynamicView(FieldType = FormFieldType.List)]
         public List<string>? EnMeanings { get; set; }
 
-        [DynamicView(FieldType = FormFieldType.Text)]
+        [DynamicView(FieldType = FormFieldType.List)]
         public List<string>? SinoVietnamese { get; set; }
 
-        [DynamicView(FieldType = FormFieldType.Text)]
+        [DynamicView(FieldType = FormFieldType.List)]
         public List<string>? ViMeanings { get; set; }
 
         [DynamicView(FieldType = FormFieldType.Text)]

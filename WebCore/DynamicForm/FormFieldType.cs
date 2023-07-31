@@ -2,5 +2,5 @@
 
 public enum FormFieldType
 {
-    Text, Password, Hidden, TextArea
+    Text, Password, Hidden, TextArea, List
 }

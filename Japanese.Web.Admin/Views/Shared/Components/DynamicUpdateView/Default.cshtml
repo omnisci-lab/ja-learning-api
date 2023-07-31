@@ -20,6 +20,16 @@
                                 <label class="control-label" for="@formField.Name">@formField.Name</label>
                                 <textarea class="form-control" name="@formField.Name" id="@formField.Name">@formField.Value</textarea>
                             }
+                            else if (formField.FieldType == FormFieldType.List)
+                            {
+                                <label class="control-label" for="@formField.Name">@formField.Name</label>
+                                @if (formField.Value is List<string>)
+                                {
+                                    foreach (string item in (formField.Value as List<string>)!){
+                                        <textarea class="form-control" name="@formField.Name" id="@formField.Name">@item</textarea>
+                                    }
+                                }
+                            }
                             else
                             {
                                 <label class="control-label" for="@formField.Name">@formField.Name</label>
