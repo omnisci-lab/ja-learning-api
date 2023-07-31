@@ -16,6 +16,29 @@
                                 <label class="control-label" for="@formField.Name">@formField.Name</label>
                                 <textarea class="form-control" name="@formField.Name" id="@formField.Name">@formField.Value</textarea>
                             }
+                            else if (formField.FieldType == FormFieldType.List)
+                            {
+                                <label class="control-label" for="@formField.Name">@formField.Name</label>
+                                <div class="my-2 p-2" id="formSubGroup_@formField.Name" style="background-color: #ebf0f5;">
+                                    @if (formField.Value is List<string>)
+                                    {
+                                        int index = 0;
+                                        foreach (string subFormFieldValue in (formField.Value as List<string>)!)
+                                        {
+                                            <div class="row" id="formSubGroup_@($"{formField.Name}_{index}_")" idx="@index">
+                                                <div class="col-11">
+                                                    <input class="form-control my-2" id="@($"{formField.Name}_{index}_")" type="@formField.FieldType.ToString().ToLower()" name="@($"{formField.Name}[{index}]")" value="@subFormFieldValue" />
+                                                </div>
+                                                <div class="col-1">
+                                                    <button type="button" class="btn btn-sm btn-danger my-2" onclick="deleteSubFormField('@formField.Name', @index)" style="padding: 7px;">Delete</button>
+                                                </div>
+                                            </div>
+                                            index++;
+                                        }
+                                    }
+                                    <button type="button" class="btn btn-sm btn-success" onclick="addSubFormField('@formField.Name')">+ Add</button>
+                                </div>
+                            }
                             else
                             {
                                 <label class="control-label" for="@formField.Name">@formField.Name</label>
