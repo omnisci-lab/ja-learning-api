@@ -1,20 +1,17 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
-using Amazon.DynamoDBv2;
 using Japanese.Core.CommonModels;
 using System.Reflection;
 
 namespace Japanese.LanguageCore.AWS.DynamoDB;
 
-public class DynamoDBService<TModel> : IDynamoDBService<TModel> where TModel : EntityBase
+public class DynamoDBHelper<TModel> where TModel : EntityBase
 {
     private readonly IDynamoDBContext _context;
 
-    public IDynamoDBContext Context => _context;
-
-    public DynamoDBService(IAmazonDynamoDB dynamoDBClient)
+    public DynamoDBHelper(IDynamoDBContext context)
     {
-        _context = new DynamoDBContext(dynamoDBClient);
+        _context = context;
     }
 
     public async Task<PagedResult<TModel>> GetPagedAsync(Pagination pagination)
@@ -37,7 +34,7 @@ public class DynamoDBService<TModel> : IDynamoDBService<TModel> where TModel : E
         };
     }
 
-    protected async Task<PagedResult<TModel>> GetPagedAsync(Pagination pagination, ScanFilter filter)
+    public async Task<PagedResult<TModel>> GetPagedAsync(Pagination pagination, ScanFilter filter)
     {
         Table table = _context.GetTargetTable<TModel>();
         ScanOperationConfig scanConfig = new ScanOperationConfig();
@@ -91,25 +88,5 @@ public class DynamoDBService<TModel> : IDynamoDBService<TModel> where TModel : E
         List<TModel> items = await search.GetNextSetAsync();
 
         return items;
-    }
-
-    public async Task<TModel?> GetAsync(object? key)
-    {
-        return await _context.LoadAsync<TModel>(key);
-    }
-
-    public async Task SaveAsync(TModel item)
-    {
-        await _context.SaveAsync(item);
-    }
-
-    public async Task DeleteAsync(object? key)
-    {
-        await _context.DeleteAsync<TModel>(key);
-    }
-
-    public Task<int> CountAsync()
-    {
-        throw new NotImplementedException();
     }
 }

@@ -1,10 +1,10 @@
 ﻿using Japanese.Core.CommonModels;
-using Japanese.LanguageCore.AWS.DynamoDB;
+using Japanese.LanguageCore.Repositories;
 using Japanese.Models;
 
 namespace Japanese.Repositories.Interfaces;
 
-public interface IKanjiRepository : IDynamoDBService<KanjiModel>
+public interface IKanjiRepository : IAppRepository<KanjiModel>
 {
     Task<PagedResult<KanjiModel>> SearchByStrokeCountAsync(Pagination pagination);
     Task<PagedResult<KanjiModel>> SearchByJlptAsync(Pagination pagination);

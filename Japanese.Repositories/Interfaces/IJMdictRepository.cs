@@ -3,6 +3,7 @@ using Japanese.Models;
 
 namespace Japanese.Repositories.Interfaces;
 
-public interface IKanjiRadicalRepository : IAppRepository<KanjiRadicalModel>
+public interface IJMdictRepository : IAppRepository<JMdictModel>
 {
+    Task TestAsync();
 }

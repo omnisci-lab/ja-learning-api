@@ -4,11 +4,11 @@ using Amazon.S3.Model;
 
 namespace Japanese.LanguageCore.AWS;
 
-public class SimpleStorageService
+public class S3Helper
 {
     private readonly AmazonS3Client _s3client;
 
-    public SimpleStorageService(BasicAWSCredentials basicAWSCredentials, AmazonS3Config s3Config)
+    public S3Helper(BasicAWSCredentials basicAWSCredentials, AmazonS3Config s3Config)
     {
         _s3client = new AmazonS3Client(basicAWSCredentials, s3Config);
     }

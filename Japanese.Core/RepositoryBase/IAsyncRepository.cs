@@ -9,5 +9,5 @@ public interface IAsyncRepository<TModel> where TModel : EntityBase
     Task<TModel?> GetAsync(object? key);
     Task SaveAsync(TModel item);
     Task DeleteAsync(object? key);
-    Task<int> CountAsync();
+    Task<long> CountAsync();
 }

@@ -1,20 +1,19 @@
 ﻿using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 using Japanese.Core.CommonModels;
-using Japanese.LanguageCore.AWS.DynamoDB;
+using Japanese.LanguageCore.Repositories;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
+using ServiceStack.Aws.DynamoDb;
 
 namespace Japanese.Repositories.Implements;
 
-public class KanjiRepository : DynamoDBService<KanjiModel>, IKanjiRepository
+public class KanjiRepository : AppRepository<KanjiModel>, IKanjiRepository
 {
-    private readonly AmazonDynamoDBClient _client;
-
-    internal KanjiRepository(AmazonDynamoDBClient client) 
-        : base(client)
+    internal KanjiRepository(IAmazonDynamoDB dynamoDB, IDynamoDBContext context, IPocoDynamo pocoDynamo) 
+        : base(dynamoDB, context, pocoDynamo)
     {
-        _client = client;
     }
 
     public async Task<PagedResult<KanjiModel>> SearchByEnMeaningAsync(Pagination pagination)
@@ -22,7 +21,7 @@ public class KanjiRepository : DynamoDBService<KanjiModel>, IKanjiRepository
         ScanFilter scanFilter = new ScanFilter();
         scanFilter.AddCondition("en_meanings", ScanOperator.Contains, pagination.Keyword);
 
-        return await GetPagedAsync(pagination, scanFilter);
+        return await DynamoDbHelper.GetPagedAsync(pagination, scanFilter);
     }
 
     public async Task<PagedResult<KanjiModel>> SearchByJlptAsync(Pagination pagination)
@@ -35,7 +34,7 @@ public class KanjiRepository : DynamoDBService<KanjiModel>, IKanjiRepository
 
         scanFilter.AddCondition("jlpt", ScanOperator.Equal, jlptLevel);
 
-        return await GetPagedAsync(pagination, scanFilter);
+        return await DynamoDbHelper.GetPagedAsync(pagination, scanFilter);
     }
 
     public async Task<PagedResult<KanjiModel>> SearchByKunReadingAsync(Pagination pagination)
@@ -43,7 +42,7 @@ public class KanjiRepository : DynamoDBService<KanjiModel>, IKanjiRepository
         ScanFilter scanFilter = new ScanFilter();
         scanFilter.AddCondition("kun_readings", ScanOperator.Contains, pagination.Keyword);
 
-        return await GetPagedAsync(pagination, scanFilter);
+        return await DynamoDbHelper.GetPagedAsync(pagination, scanFilter);
     }
 
     public async Task<PagedResult<KanjiModel>> SearchByNameReadingAsync(Pagination pagination)
@@ -51,7 +50,7 @@ public class KanjiRepository : DynamoDBService<KanjiModel>, IKanjiRepository
         ScanFilter scanFilter = new ScanFilter();
         scanFilter.AddCondition("name_readings", ScanOperator.Contains, pagination.Keyword);
 
-        return await GetPagedAsync(pagination, scanFilter);
+        return await DynamoDbHelper.GetPagedAsync(pagination, scanFilter);
     }
 
     public async Task<PagedResult<KanjiModel>> SearchByOnReadingAsync(Pagination pagination)
@@ -59,7 +58,7 @@ public class KanjiRepository : DynamoDBService<KanjiModel>, IKanjiRepository
         ScanFilter scanFilter = new ScanFilter();
         scanFilter.AddCondition("on_readings", ScanOperator.Contains, pagination.Keyword);
 
-        return await GetPagedAsync(pagination, scanFilter);
+        return await DynamoDbHelper.GetPagedAsync(pagination, scanFilter);
     }
 
     public async Task<PagedResult<KanjiModel>> SearchBySinoVietnameseAsync(Pagination pagination)
@@ -67,7 +66,7 @@ public class KanjiRepository : DynamoDBService<KanjiModel>, IKanjiRepository
         ScanFilter scanFilter = new ScanFilter();
         scanFilter.AddCondition("sino_vietnamese", ScanOperator.Contains, pagination.Keyword);
 
-        return await GetPagedAsync(pagination, scanFilter);
+        return await DynamoDbHelper.GetPagedAsync(pagination, scanFilter);
     }
 
     public async Task<PagedResult<KanjiModel>> SearchByStrokeCountAsync(Pagination pagination)
@@ -79,7 +78,7 @@ public class KanjiRepository : DynamoDBService<KanjiModel>, IKanjiRepository
         ScanFilter scanFilter = new ScanFilter();
         scanFilter.AddCondition("stroke_count", ScanOperator.Equal, strokeCount);
 
-        return await GetPagedAsync(pagination, scanFilter);
+        return await DynamoDbHelper.GetPagedAsync(pagination, scanFilter);
     }
 
     public async Task<PagedResult<KanjiModel>> SearchByViMeaningAsync(Pagination pagination)
@@ -87,6 +86,6 @@ public class KanjiRepository : DynamoDBService<KanjiModel>, IKanjiRepository
         ScanFilter scanFilter = new ScanFilter();
         scanFilter.AddCondition("vi_meanings", ScanOperator.Contains, pagination.Keyword);
 
-        return await GetPagedAsync(pagination, scanFilter);
+        return await DynamoDbHelper.GetPagedAsync(pagination, scanFilter);
     }
 }

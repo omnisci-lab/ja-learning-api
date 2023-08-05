@@ -3,6 +3,6 @@ using Japanese.Models;
 
 namespace Japanese.Repositories.Interfaces;
 
-public interface IKanjiRadicalRepository : IAppRepository<KanjiRadicalModel>
+public interface IKanjidic2Repository : IAppRepository<Kanjidic2Model>
 {
 }

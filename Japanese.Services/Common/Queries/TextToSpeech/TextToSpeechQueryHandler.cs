@@ -7,9 +7,9 @@ namespace Japanese.Services.Common.Queries.TextToSpeech;
 
 public class TextToSpeechQueryHandler : IRequestHandler<TextToSpeechQuery, FileResult>
 {
-    private readonly PollyService _pollyService;
+    private readonly PollyHelper _pollyService;
 
-    public TextToSpeechQueryHandler(PollyService pollyService)
+    public TextToSpeechQueryHandler(PollyHelper pollyService)
     {
         _pollyService = pollyService;
     }

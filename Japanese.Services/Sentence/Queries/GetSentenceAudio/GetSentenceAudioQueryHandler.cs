@@ -12,14 +12,14 @@ namespace Japanese.Services.Sentence.Queries.GetSentenceAudio;
 public class GetSentenceAudioQueryHandler : IRequestHandler<GetSentenceAudioQuery, FileResult>
 {
     private readonly ISentenceRepository _sentenceRepository;
-    private readonly PollyService _pollyService;
-    private readonly SimpleStorageService _simpleStorageService;
+    private readonly PollyHelper _pollyHelper;
+    private readonly S3Helper _s3Helper;
 
-    public GetSentenceAudioQueryHandler(IJapaneseRepository japaneseRepository, PollyService pollyService, SimpleStorageService simpleStorageService)
+    public GetSentenceAudioQueryHandler(IJapaneseRepository japaneseRepository, PollyHelper pollyHelper, S3Helper s3Helper)
     {
         _sentenceRepository = japaneseRepository.SentenceRepository;
-        _pollyService = pollyService;
-        _simpleStorageService = simpleStorageService;
+        _pollyHelper = pollyHelper;
+        _s3Helper = s3Helper;
     }
 
     public async Task<FileResult> Handle(GetSentenceAudioQuery request, CancellationToken cancellationToken)
@@ -57,7 +57,7 @@ public class GetSentenceAudioQueryHandler : IRequestHandler<GetSentenceAudioQuer
             };
         }
 
-        using Stream? stream = await _simpleStorageService.GetFile("files.japanese", voiceSoundKeyName);
+        using Stream? stream = await _s3Helper.GetFile("files.japanese", voiceSoundKeyName);
         if (stream is null)
             return new FileResult
             {
@@ -79,8 +79,8 @@ public class GetSentenceAudioQueryHandler : IRequestHandler<GetSentenceAudioQuer
 
     private async Task<byte[]> GenerateAndUploadVoice(string text, string voiceSoundKeyName, VoiceOptions voiceOptions)
     {
-        using MemoryStream memoryStreamFromSynthesis = await _pollyService.BasicSynthesizeSpeech(text, voiceOptions);
-        await _simpleStorageService.UploadFile("files.japanese", voiceSoundKeyName, memoryStreamFromSynthesis);
+        using MemoryStream memoryStreamFromSynthesis = await _pollyHelper.BasicSynthesizeSpeech(text, voiceOptions);
+        await _s3Helper.UploadFile("files.japanese", voiceSoundKeyName, memoryStreamFromSynthesis);
 
         return memoryStreamFromSynthesis.ToArray();
     }
