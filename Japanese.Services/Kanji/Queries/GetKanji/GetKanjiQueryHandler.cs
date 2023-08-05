@@ -9,42 +9,33 @@ namespace Japanese.Services.Kanji.Queries.GetKanji;
 
 public class GetKanjiQueryHandler : IRequestHandler<GetKanjiQuery, ExecResult<KanjiDetailOutput?>>
 {
-    private readonly IKanjiRepository _kanjiRepository;
     private readonly IKanjidic2Repository _kanjidic2Repository;
+    private readonly IKanjiComponentRepository _kanjiComponentRepository;
     private readonly IMapper _mapper;
 
     public GetKanjiQueryHandler(IJapaneseRepository repository, IMapper mapper)
     {
-        _kanjiRepository = repository.KanjiRepository;
         _kanjidic2Repository = repository.Kanjidic2Repository;
+        _kanjiComponentRepository = repository.KanjiComponentRepository;
         _mapper = mapper;
     }
 
     public async Task<ExecResult<KanjiDetailOutput?>> Handle(GetKanjiQuery request, CancellationToken cancellationToken)
     {
-        KanjiModel? kanjiModel = await _kanjiRepository.GetAsync(request.Kanji);
-        if (kanjiModel is null)
+        Kanjidic2Model? kanjidic2Model = await _kanjidic2Repository.GetAsync(request.Kanji);
+        if (kanjidic2Model is null)
             return new ExecResult<KanjiDetailOutput?> { Status = ExecStatus.NotFound };
 
-        Kanjidic2Model? kanjidic2Model = await _kanjidic2Repository.GetAsync(request.Kanji);
+        KanjiDetailOutput kanjiDetail = _mapper.Map<Kanjidic2Model, KanjiDetailOutput>(kanjidic2Model);
 
-        List<Kanjidic2Model.GroupModel> groupModels = kanjidic2Model!.ReadingMeaning!.Groups!;
-
-        List<string> sinoVietnamese = new List<string>();
-        foreach(Kanjidic2Model.GroupModel groupModel in groupModels)
-        {
-            foreach(Kanjidic2Model.ReadingModel readingModel in groupModel.Readings!.Where(r => r.Type == "vietnam"))
-            {
-                sinoVietnamese.Add(readingModel.Value);
-            }
-        }
-
-        kanjiModel.SinoVietnamese = sinoVietnamese;
+        KanjiComponentModel? kanjiComponentModel = await _kanjiComponentRepository.GetAsync(request.Kanji);
+        if (kanjiComponentModel is not null)
+            kanjiDetail = _mapper.Map(kanjiComponentModel, kanjiDetail);
 
         return new ExecResult<KanjiDetailOutput?>
         {
             Status = ExecStatus.Success,
-            Data = _mapper.Map<KanjiModel, KanjiDetailOutput>(kanjiModel)
+            Data = kanjiDetail
         };
     }
 }

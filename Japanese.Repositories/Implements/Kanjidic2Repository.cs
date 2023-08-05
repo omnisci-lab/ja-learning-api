@@ -18,4 +18,9 @@ public class Kanjidic2Repository : AppRepository<Kanjidic2Model>, IKanjidic2Repo
     {
         return await PocoDynamo.GetItemAsync<Kanjidic2Model>(key);
     }
+
+    public async Task<List<Kanjidic2Model>> GetItemsByIdsAsync(List<string> keys)
+    {
+        return await PocoDynamo.GetItemsAsync<Kanjidic2Model>(keys);
+    }
 }

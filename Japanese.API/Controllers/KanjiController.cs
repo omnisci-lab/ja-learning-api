@@ -7,6 +7,7 @@ using Japanese.Services.Kanji.Commands.UpdateKanji;
 using Japanese.Services.Kanji.Commands.CreateKanji;
 using Japanese.Services.Kanji.Queries.GetPagedKanji;
 using Japanese.Core.CommonModels;
+using Japanese.Services.Kanji.Queries;
 
 namespace Japanese.API.Controllers;
 
