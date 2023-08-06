@@ -1,8 +1,5 @@
 ﻿using Japanese.API.Base;
 using Japanese.Core.CommonModels;
-using Japanese.Services.Sentence.Commands.CreateSentence;
-using Japanese.Services.Sentence.Commands.DeleteSentence;
-using Japanese.Services.Sentence.Commands.UpdateSentence;
 using Japanese.Services.Sentence.Queries;
 using Japanese.Services.Sentence.Queries.GetPagedSentences;
 using Japanese.Services.Sentence.Queries.GetSentence;
@@ -44,29 +41,5 @@ public class SentenceController : ApiControllerBase
     public async Task<IActionResult> GetAudio([FromQuery] GetSentenceAudioQuery query)
     {
         return await GetFileResult(query);
-    }
-
-    [Route("create")]
-    [HttpPost]
-    [ProducesResponseType(typeof(ExecResult), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Create(CreateSentenceCommand command)
-    {
-        return await GetObjectResult(command);
-    }
-
-    [Route("update")]
-    [HttpPut]
-    [ProducesResponseType(typeof(ExecResult), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Update(UpdateSentenceCommand command)
-    {
-        return await GetObjectResult(command);
-    }
-
-    [Route("delete")]
-    [HttpDelete]
-    [ProducesResponseType(typeof(ExecResult), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Delete([FromQuery] DeleteSentenceCommand command)
-    {
-        return await GetObjectResult(command);
     }
 }

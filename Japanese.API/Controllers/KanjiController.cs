@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Japanese.Services.Kanji.Queries.GetKanji;
 using Japanese.API.Base;
-using Japanese.Services.Kanji.Commands.UpdateKanji;
-using Japanese.Services.Kanji.Commands.CreateKanji;
 using Japanese.Services.Kanji.Queries.GetPagedKanji;
 using Japanese.Core.CommonModels;
 using Japanese.Services.Kanji.Queries;
@@ -34,21 +32,5 @@ public class KanjiController : ApiControllerBase
     public async Task<IActionResult> GetDetails([FromQuery] GetKanjiQuery query)
     {
         return await GetObjectResult(query);
-    }
-
-    [HttpPost]
-    [Route("create-kanji")]
-    [ProducesResponseType(typeof(ExecResult), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Create(CreateKanjiCommand command)
-    {
-        return await GetObjectResult(command);
-    }
-
-    [HttpPut]
-    [Route("update-kanji")]
-    [ProducesResponseType(typeof(ExecResult), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Update(UpdateKanjiCommand command)
-    {
-        return await GetObjectResult(command);
     }
 }

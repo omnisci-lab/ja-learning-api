@@ -33,7 +33,7 @@ public class SentenceController : Controller
         if (query.PageSize == 0)
             query.PageSize = 20;
 
-        query.Bypass = true;
+        query.BypassCache = true;
         ExecResult<PagedResult<SentenceOutput>> execResult = await _mediator.Send(query);
         if (execResult.Status != ExecStatus.Success)
             return BadRequest();
@@ -45,7 +45,7 @@ public class SentenceController : Controller
     [PageTitle(Title = "Sentence Details")]
     public async Task<IActionResult> GetDetails(string sentenceId)
     {
-        GetSentenceQuery query = new GetSentenceQuery() { SentenceId = sentenceId, Bypass = true };
+        GetSentenceQuery query = new GetSentenceQuery() { SentenceId = sentenceId, BypassCache = true };
         ExecResult<SentenceOutput?> execResult = await _mediator.Send(query);
         if (execResult.Status == ExecStatus.NotFound)
             return NotFound();
@@ -79,7 +79,7 @@ public class SentenceController : Controller
     [PageTitle(Title = "Edit a Sentence")]
     public async Task<IActionResult> Edit(string sentenceId)
     {
-        GetSentenceQuery query = new GetSentenceQuery() { SentenceId = sentenceId, Bypass = true };
+        GetSentenceQuery query = new GetSentenceQuery() { SentenceId = sentenceId, BypassCache = true };
         ExecResult<SentenceOutput?> execResult = await _mediator.Send(query);
         if (execResult.Status == ExecStatus.NotFound)
             return NotFound();

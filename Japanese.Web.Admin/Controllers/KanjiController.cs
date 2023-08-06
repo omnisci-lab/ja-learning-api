@@ -2,6 +2,8 @@
 using Japanese.Core.Enum;
 using Japanese.Services.Kanji.Commands.CreateKanji;
 using Japanese.Services.Kanji.Commands.UpdateKanji;
+using Japanese.Services.Kanji.Consts;
+using Japanese.Services.Kanji.Queries;
 using Japanese.Services.Kanji.Queries.GetKanji;
 using Japanese.Services.Kanji.Queries.GetPagedKanji;
 using Japanese.Services.Sentence.Commands.DeleteSentence;
@@ -29,7 +31,14 @@ public class KanjiController : Controller
         if (query.PageSize == 0)
             query.PageSize = 20;
 
-        query.Bypass = true;
+        if (string.IsNullOrEmpty(query.SearchBy))
+        {
+            query.SearchBy = SearchKanjiConsts.ByJLpt;
+            query.Keyword = "4";
+        }      
+
+        query.BypassCache = true;
+        
         ExecResult<PagedResult<KanjiDetailOutput>> execResult = await _mediator.Send(query);
         if (execResult.Status != ExecStatus.Success)
             return BadRequest();
@@ -41,7 +50,7 @@ public class KanjiController : Controller
     [PageTitle(Title = "Kanji Details")]
     public async Task<IActionResult> GetDetails(string kanji)
     {
-        GetKanjiQuery query = new GetKanjiQuery() { Kanji = kanji, Bypass = true };
+        GetKanjiQuery query = new GetKanjiQuery() { Kanji = kanji, BypassCache = true };
         ExecResult<KanjiDetailOutput?> execResult = await _mediator.Send(query);
         if (execResult.Status == ExecStatus.NotFound)
             return NotFound();
@@ -49,31 +58,12 @@ public class KanjiController : Controller
         return View(execResult.Data);
     }
 
-    [Route("create")]
-    [PageTitle(Title = "Create new a Kanji")]
-    public IActionResult Create()
-    {
-        return View(new CreateKanjiCommand { Jlpt = 1 });
-    }
-
-    [Route("create")]
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    [PageTitle(Title = "Create new a Kanji")]
-    public async Task<IActionResult> Create(CreateKanjiCommand command)
-    {
-        ExecResult execResult = await _mediator.Send(command);
-        ViewData["ExecResult"] = execResult;
-
-        return View();
-    }
-
     [Route("edit/{kanji}")]
     [HttpGet]
     [PageTitle(Title = "Edit a Kanji")]
     public async Task<IActionResult> Edit(string kanji)
     {
-        GetKanjiQuery query = new GetKanjiQuery() { Kanji = kanji, Bypass = true };
+        GetKanjiQuery query = new GetKanjiQuery() { Kanji = kanji, BypassCache = true };
         ExecResult<KanjiDetailOutput?> execResult = await _mediator.Send(query);
         if (execResult.Status == ExecStatus.NotFound)
             return NotFound();
@@ -94,7 +84,6 @@ public class KanjiController : Controller
             EnMeanings = kanjiDetail.EnMeanings,
             ViMeanings = kanjiDetail.ViMeanings,
             SinoVietnamese = kanjiDetail.SinoVietnamese,
-            Unicode = kanjiDetail.Unicode,
             Jlpt = kanjiDetail.Jlpt
         });
     }
