@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace Japanese.LanguageCore.Repositories;
 
-public interface IAppRepository<TModel> : IAsyncRepository<TModel> where TModel : EntityBase
+public interface IAppRepository<TModel> : IAsyncRepository<TModel> where TModel : class
 {
 
 }

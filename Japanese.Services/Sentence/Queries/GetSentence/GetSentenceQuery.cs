@@ -10,6 +10,6 @@ public class GetSentenceQuery : IRequest<ExecResult<SentenceOutput?>>, ICacheabl
 
     public string? CacheKey => $"sentence_id_{SentenceId}";
 
-    public bool Bypass { get; set; }
+    public bool BypassCache { get; set; }
     public bool RefreshCache { get; set; }
 }

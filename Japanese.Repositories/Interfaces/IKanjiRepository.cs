@@ -1,17 +1,8 @@
-﻿using Japanese.Core.CommonModels;
-using Japanese.LanguageCore.Repositories;
+﻿using Japanese.LanguageCore.Repositories;
 using Japanese.Models;
 
 namespace Japanese.Repositories.Interfaces;
 
 public interface IKanjiRepository : IAppRepository<KanjiModel>
 {
-    Task<PagedResult<KanjiModel>> SearchByStrokeCountAsync(Pagination pagination);
-    Task<PagedResult<KanjiModel>> SearchByJlptAsync(Pagination pagination);
-    Task<PagedResult<KanjiModel>> SearchByOnReadingAsync(Pagination pagination);
-    Task<PagedResult<KanjiModel>> SearchByKunReadingAsync(Pagination pagination);
-    Task<PagedResult<KanjiModel>> SearchByNameReadingAsync(Pagination pagination);
-    Task<PagedResult<KanjiModel>> SearchByEnMeaningAsync(Pagination pagination);
-    Task<PagedResult<KanjiModel>> SearchByViMeaningAsync(Pagination pagination);
-    Task<PagedResult<KanjiModel>> SearchBySinoVietnameseAsync(Pagination pagination);
 }

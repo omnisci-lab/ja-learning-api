@@ -6,7 +6,7 @@ using ServiceStack.Aws.DynamoDb;
 
 namespace Japanese.LanguageCore.Repositories;
 
-public class AppRepository<TModel> : IAppRepository<TModel> where TModel : EntityBase
+public class AppRepository<TModel> : IAppRepository<TModel> where TModel : class
 {
     private IDynamoDBContext _context;
     private IPocoDynamo _pocoDynamo;

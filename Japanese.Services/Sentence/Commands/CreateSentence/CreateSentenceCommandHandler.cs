@@ -23,7 +23,6 @@ public class CreateSentenceCommandHandler : IRequestHandler<CreateSentenceComman
         SentenceModel sentenceModel = _mapper.Map<CreateSentenceCommand, SentenceModel>(request);
 
         sentenceModel.SentenceId = Guid.NewGuid().ToString();
-        sentenceModel.CreatedDate = DateTime.Now;
 
         await _sentenceRepository.SaveAsync(sentenceModel);
 

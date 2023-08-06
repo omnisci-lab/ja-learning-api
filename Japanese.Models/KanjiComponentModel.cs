@@ -1,12 +1,11 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
-using Japanese.Core.CommonModels;
 using ServiceStack.DataAnnotations;
 
 namespace Japanese.Models;
 
 [DynamoDBTable("KanjiComponents")]
 [Alias("KanjiComponents")]
-public class KanjiComponentModel : EntityBase
+public class KanjiComponentModel
 {
     [DynamoDBHashKey(AttributeName = "kanji")]
     [Alias("kanji")]

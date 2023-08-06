@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Amazon.DynamoDBv2.DataModel;
 
-namespace Japanese.Models
+namespace Japanese.Models;
+
+[DynamoDBTable("Kanken")]
+public class KankenModel
 {
-    internal class KankenModel
-    {
-    }
+    [DynamoDBHashKey(AttributeName = "kanken_level")]
+    public int KankenLevel { get; set; }
+
+    [DynamoDBRangeKey(AttributeName = "kanji")]
+    public string? Kanji { get; set; }
 }

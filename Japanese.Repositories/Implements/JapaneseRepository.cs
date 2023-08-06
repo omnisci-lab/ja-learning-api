@@ -26,4 +26,6 @@ public class JapaneseRepository : MasterRepository, IJapaneseRepository
     public IKanjiComponentRepository KanjiComponentRepository => new KanjiComponentRepository(Client, Context, PocoDynamo);
 
     public IJlptKanjiRepository JlptKanjiRepository => new JlptKanjiRepository(Client, Context, PocoDynamo);
+
+    public IKankenRepository KankenRepository => new KankenRepository(Client, Context, PocoDynamo);
 }

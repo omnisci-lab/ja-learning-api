@@ -12,6 +12,6 @@ public class GetSentenceAudioQuery : IRequest<FileResult>, ICacheableQuery
 
     public string? CacheKey => $"sentence_id_{SentenceId}_{VoiceOptions}";
 
-    public bool Bypass { get; set; }
+    public bool BypassCache { get; set; }
     public bool RefreshCache { get; set; }
 }

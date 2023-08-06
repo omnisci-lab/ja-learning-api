@@ -9,25 +9,25 @@ using ServiceStack.Aws.DynamoDb;
 
 namespace Japanese.Repositories.Implements;
 
-public class JlptKanjiRepository : AppRepository<JlptKanjiModel>, IJlptKanjiRepository
+public class KankenRepository : AppRepository<KankenModel>, IKankenRepository
 {
-    internal JlptKanjiRepository(IAmazonDynamoDB dynamoDB, IDynamoDBContext context, IPocoDynamo pocoDynamo) 
+    internal KankenRepository(IAmazonDynamoDB dynamoDB, IDynamoDBContext context, IPocoDynamo pocoDynamo) 
         : base(dynamoDB, context, pocoDynamo)
     {
     }
 
-    public async Task<PagedResult<JlptKanjiModel>> GetJlptKanjiAsync(Pagination pagination)
+    public async Task<PagedResult<KankenModel>> GetKanjiByKankenLevel(Pagination pagination)
     {
-        int jlptLevel = 0;
-        if (!int.TryParse(pagination.Keyword, out jlptLevel))
+        int kankenLevel = 0;
+        if (!int.TryParse(pagination.Keyword, out kankenLevel))
             throw new InvalidCastException();
 
         Expression keyExpression = new Expression
         {
-            ExpressionStatement = "jlpt_level = :pkval",
+            ExpressionStatement = "kanken_level = :pkval",
             ExpressionAttributeValues = new Dictionary<string, DynamoDBEntry>
             {
-                { ":pkval", jlptLevel }
+                { ":pkval", kankenLevel }
             }
         };
 

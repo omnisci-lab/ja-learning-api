@@ -1,12 +1,11 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
-using Japanese.Core.CommonModels;
 using ServiceStack.DataAnnotations;
 
 namespace Japanese.Models;
 
 [DynamoDBTable("JMdict")]
 [Alias("JMdict")]
-public class JMdictModel : EntityBase
+public class JMdictModel
 {
     [DynamoDBHashKey(AttributeName = "id")]
     [HashKey]

@@ -1,12 +1,11 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
-using Japanese.Core.CommonModels;
 using ServiceStack.DataAnnotations;
 
 namespace Japanese.Models;
 
 [DynamoDBTable("Sentences")]
 [Alias("Sentences")]
-public class SentenceModel : EntityBase
+public class SentenceModel
 {
     [DynamoDBHashKey]
     [HashKey]

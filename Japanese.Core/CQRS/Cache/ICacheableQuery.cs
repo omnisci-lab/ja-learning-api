@@ -3,6 +3,6 @@
 public interface ICacheableQuery
 {
     string? CacheKey { get; }
-    bool Bypass { get; set; }
+    bool BypassCache { get; set; }
     bool RefreshCache { get; set; }
 }

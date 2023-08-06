@@ -1,10 +1,9 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
-using Japanese.Core.CommonModels;
 
 namespace Japanese.Models;
 
 [DynamoDBTable("Kanji")]
-public class KanjiModel : EntityBase
+public class KanjiModel
 {
     [DynamoDBHashKey(AttributeName = "kanji")]
     //[DynamoDBProperty("kanji")]

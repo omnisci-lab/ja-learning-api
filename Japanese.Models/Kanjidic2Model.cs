@@ -1,13 +1,12 @@
 ﻿
 using Amazon.DynamoDBv2.DataModel;
-using Japanese.Core.CommonModels;
 using ServiceStack.DataAnnotations;
 
 namespace Japanese.Models;
 
 [DynamoDBTable("Kanjidic2")]
 [Alias("Kanjidic2")]
-public class Kanjidic2Model : EntityBase
+public class Kanjidic2Model
 {
     [DynamoDBHashKey("literal")]
     [HashKey]

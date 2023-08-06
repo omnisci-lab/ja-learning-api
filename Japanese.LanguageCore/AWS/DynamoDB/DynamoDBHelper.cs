@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Japanese.LanguageCore.AWS.DynamoDB;
 
-public class DynamoDBHelper<TModel> where TModel : EntityBase
+public class DynamoDBHelper<TModel> where TModel : class
 {
     private readonly IDynamoDBContext _context;
 
@@ -14,24 +14,72 @@ public class DynamoDBHelper<TModel> where TModel : EntityBase
         _context = context;
     }
 
-    public async Task<PagedResult<TModel>> GetPagedAsync(Pagination pagination)
+    public async Task<PagedResult<TModel>> GetPagedAsync(Pagination pagination, Expression? keyExpression = null, QueryFilter? filter = null)
     {
         Table table = _context.GetTargetTable<TModel>();
-
-        ScanOperationConfig scanConfig = new ScanOperationConfig() { Limit = pagination.PageSize };
+        QueryOperationConfig queryConfig = new QueryOperationConfig() { Limit = pagination.PageSize };
 
         if (!string.IsNullOrEmpty(pagination.PaginationToken))
-            scanConfig.PaginationToken = pagination.PaginationToken;
+            queryConfig.PaginationToken = pagination.PaginationToken;
 
-        Search search = table.Scan(scanConfig);
+        queryConfig.KeyExpression = keyExpression ?? new Expression();
+        queryConfig.Filter = filter ?? new QueryFilter();
+        queryConfig.ConsistentRead = true;
+
+        Search search = table.Query(queryConfig);
         List<Document> data = await search.GetNextSetAsync();
 
         return new PagedResult<TModel>
         {
             PaginationToken = search.PaginationToken,
             PageSize = pagination.PageSize,
+            SearchBy = pagination.SearchBy,
+            Keyword = pagination.Keyword,
             Items = _context.FromDocuments<TModel>(data).ToList()
         };
+    }
+
+    public async Task<List<TModel>> GetAllAsync(Expression? keyExpression = null, QueryFilter? filter = null)
+    {
+        Table table = _context.GetTargetTable<TModel>();
+        QueryOperationConfig queryConfig = new QueryOperationConfig();
+
+        queryConfig.KeyExpression = keyExpression ?? new Expression();
+        queryConfig.Filter = filter ?? new QueryFilter();
+        queryConfig.ConsistentRead = true;
+
+        Search search = table.Query(queryConfig);
+        List<Document> data = await search.GetNextSetAsync();
+
+        return _context.FromDocuments<TModel>(data).ToList();
+    }
+
+    public async Task<List<TModel>> GetAllAsync(ScanFilter filter)
+    {
+        Table table = _context.GetTargetTable<TModel>();
+        ScanOperationConfig scanConfig = new ScanOperationConfig();
+
+        scanConfig.Filter = filter ?? new ScanFilter();
+
+        Search search = table.Scan(scanConfig);
+        List<Document> data = await search.GetNextSetAsync();
+
+        return _context.FromDocuments<TModel>(data).ToList();
+    }
+
+    public async Task<List<TModel>> GetItemsWithLimitAsync(int limit, Expression? keyExpression = null, QueryFilter? filter = null)
+    {
+        Table table = _context.GetTargetTable<TModel>();
+        QueryOperationConfig queryConfig = new QueryOperationConfig() { Limit = limit };
+
+        queryConfig.KeyExpression = keyExpression ?? new Expression();
+        queryConfig.Filter = filter ?? new QueryFilter();
+        queryConfig.ConsistentRead = true;
+
+        Search search = table.Query(queryConfig);
+        List<Document> data = await search.GetNextSetAsync();
+
+        return _context.FromDocuments<TModel>(data).ToList();
     }
 
     public async Task<PagedResult<TModel>> GetPagedAsync(Pagination pagination, ScanFilter filter)
@@ -52,15 +100,19 @@ public class DynamoDBHelper<TModel> where TModel : EntityBase
             data = data.Take(pagination.PageSize).ToList();
 
             Document lastDocument = data[data.Count - 1];
-            PropertyInfo? hashKeyProperty = typeof(TModel).GetProperties().SingleOrDefault(x => x.GetCustomAttribute<DynamoDBHashKeyAttribute>() is not null);
-            if (hashKeyProperty is null)
-                throw new NullReferenceException();
+            PropertyInfo[] properties = typeof(TModel).GetProperties();
+            PropertyInfo? hashKeyProperty = properties.SingleOrDefault(x => x.GetCustomAttribute<DynamoDBHashKeyAttribute>() is not null);
+            PropertyInfo? rangeKeyProperty = properties.SingleOrDefault(x => x.GetCustomAttribute<DynamoDBRangeKeyAttribute>() is not null);
 
-            string attributeName = hashKeyProperty.GetCustomAttribute<DynamoDBHashKeyAttribute>()!.AttributeName;
-            if (string.IsNullOrEmpty(attributeName))
-                throw new NullReferenceException();
+            string? attributeName = hashKeyProperty?.GetCustomAttribute<DynamoDBHashKeyAttribute>()!.AttributeName;
+            string? rangeKeyName = rangeKeyProperty?.GetCustomAttribute<DynamoDBRangeKeyAttribute>()!.AttributeName;
 
-            paginationToken = $"{{ \"{attributeName}\": {{ \"S\": \"{data[data.Count - 1][attributeName]}\" }} }}";
+            if (!string.IsNullOrEmpty(attributeName) && !string.IsNullOrEmpty(rangeKeyName))
+                paginationToken = $"{{ \"{attributeName}\": {{ \"S\": \"{data[data.Count - 1][attributeName]}\" }}, \"{rangeKeyName}\": {{ \"S\": \"{data[data.Count - 1][rangeKeyName]}\" }} }}";
+            else if (!string.IsNullOrEmpty(attributeName))
+                paginationToken = $"{{ \"{attributeName}\": {{ \"S\": \"{data[data.Count - 1][attributeName]}\" }} }}";
+            else
+                throw new NullReferenceException();
         }
         else
         {

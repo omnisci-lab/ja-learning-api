@@ -13,10 +13,10 @@ public class KanjiMappingProfile : Profile
     {
         CreateMap<CreateKanjiCommand, KanjiModel>().ReverseMap();
         CreateMap<UpdateKanjiCommand, KanjiModel>().ReverseMap();
-        CreateMap<KanjiModel, KanjiDetailOutput>().ReverseMap();
-        CreateMap<Kanjidic2Model, KanjiDetailOutput>().ConvertUsing<KanjiDetailConverter>();
-        CreateMap<KanjiComponentModel, KanjiDetailOutput>().ConvertUsing<KanjiComponentModel_KanjiDetailOutput_Converter>();
-        CreateMap<PagedResult<KanjiModel>, PagedResult<KanjiDetailOutput>>().ReverseMap();
-        CreateMap<PagedResult<JlptKanjiModel>, PagedResult<KanjiDetailOutput>>().ReverseMap();
+        CreateMap<Kanjidic2Model, KanjiDetailOutput>().ConvertUsing<Kanjidic2_KanjiDetail_Converter>();
+        CreateMap<KanjiComponentModel, KanjiDetailOutput>()
+            .ConvertUsing<KanjiComponent_KanjiDetail_Converter>();
+        CreateMap<PagedResult<JlptKanjiModel>, PagedResult<KanjiDetailOutput>>()
+            .ConvertUsing<P_JlptKanji_P_KanjiDetail_Converter>();
     }
 }

@@ -1,10 +1,9 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
-using Japanese.Core.CommonModels;
 
 namespace Japanese.Models;
 
 [DynamoDBTable("JlptKanji")]
-public class JlptKanjiModel : EntityBase
+public class JlptKanjiModel
 {
     [DynamoDBHashKey(AttributeName = "jlpt_level")]
     public int JlptLevel { get; set; }

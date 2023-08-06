@@ -9,4 +9,5 @@ public interface IJapaneseRepository
     IKanjidic2Repository Kanjidic2Repository { get; }
     IKanjiComponentRepository KanjiComponentRepository { get; }
     IJlptKanjiRepository JlptKanjiRepository { get; }
+    IKankenRepository KankenRepository { get; }
 }

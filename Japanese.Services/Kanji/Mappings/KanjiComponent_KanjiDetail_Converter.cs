@@ -4,7 +4,7 @@ using Japanese.Services.Kanji.Queries;
 
 namespace Japanese.Services.Kanji.Mappings;
 
-public class KanjiComponentModel_KanjiDetailOutput_Converter : ITypeConverter<KanjiComponentModel, KanjiDetailOutput>
+public class KanjiComponent_KanjiDetail_Converter : ITypeConverter<KanjiComponentModel, KanjiDetailOutput>
 {
     public KanjiDetailOutput Convert(KanjiComponentModel source, KanjiDetailOutput destination, ResolutionContext context)
     {

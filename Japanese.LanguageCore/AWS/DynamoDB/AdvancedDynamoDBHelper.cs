@@ -1,10 +1,9 @@
 ﻿using ServiceStack.Aws.DynamoDb;
-using Japanese.Core.CommonModels;
 using System.Linq.Expressions;
 
 namespace Japanese.LanguageCore.AWS.DynamoDB;
 
-public class AdvancedDynamoDBHelper<TModel> where TModel : EntityBase
+public class AdvancedDynamoDBHelper<TModel> where TModel : class
 {
     private readonly IPocoDynamo _pocoDynamo;
 
