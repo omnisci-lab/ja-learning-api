@@ -2,7 +2,7 @@
 
 public interface IJapaneseRepository
 {
-    IKanjiRepository KanjiRepository { get; }
+    IAdditionalKanjiRepository AdditionalKanjiRepository { get; }
     IKanjiRadicalRepository KanjiRadicalRepository { get; }
     ISentenceRepository SentenceRepository { get; }
     IJMdictRepository VocabRepository { get; }

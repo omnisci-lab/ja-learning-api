@@ -3,13 +3,11 @@ using Japanese.Core.Enum;
 using Japanese.Services.Sentence.Commands.CreateSentence;
 using Japanese.Services.Sentence.Commands.DeleteSentence;
 using Japanese.Services.Sentence.Commands.UpdateSentence;
-using Japanese.Services.Sentence.Consts;
 using Japanese.Services.Sentence.Queries;
 using Japanese.Services.Sentence.Queries.GetPagedSentences;
 using Japanese.Services.Sentence.Queries.GetSentence;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
 using WebCore.Attributes;
 using WebCore.Extensions;
 

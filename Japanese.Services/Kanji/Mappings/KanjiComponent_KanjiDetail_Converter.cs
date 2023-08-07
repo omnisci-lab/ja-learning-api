@@ -8,7 +8,7 @@ public class KanjiComponent_KanjiDetail_Converter : ITypeConverter<KanjiComponen
 {
     public KanjiDetailOutput Convert(KanjiComponentModel source, KanjiDetailOutput destination, ResolutionContext context)
     {
-        if (destination == null)
+        if (destination is null)
             throw new NullReferenceException();
 
         destination.Components = source.Components;

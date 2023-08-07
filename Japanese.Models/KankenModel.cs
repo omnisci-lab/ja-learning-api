@@ -7,7 +7,7 @@ namespace Japanese.Models;
 public class KankenModel
 {
     [DynamoDBHashKey(AttributeName = "kanken_level")]
-    public int KankenLevel { get; set; }
+    public string? KankenLevel { get; set; }
 
     [DynamoDBRangeKey(AttributeName = "kanji")]
     public string? Kanji { get; set; }

@@ -13,7 +13,7 @@ public class JapaneseRepository : MasterRepository, IJapaneseRepository
 
     }
 
-    public IKanjiRepository KanjiRepository => new KanjiRepository(Client, Context, PocoDynamo);
+    public IAdditionalKanjiRepository AdditionalKanjiRepository => new AdditionalKanjiRepository(Client, Context, PocoDynamo);
 
     public IKanjiRadicalRepository KanjiRadicalRepository => new KanjiRadicalRepository(Client, Context, PocoDynamo);
 

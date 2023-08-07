@@ -18,16 +18,12 @@ public class KankenRepository : AppRepository<KankenModel>, IKankenRepository
 
     public async Task<PagedResult<KankenModel>> GetKanjiByKankenLevel(Pagination pagination)
     {
-        int kankenLevel = 0;
-        if (!int.TryParse(pagination.Keyword, out kankenLevel))
-            throw new InvalidCastException();
-
         Expression keyExpression = new Expression
         {
             ExpressionStatement = "kanken_level = :pkval",
             ExpressionAttributeValues = new Dictionary<string, DynamoDBEntry>
             {
-                { ":pkval", kankenLevel }
+                { ":pkval", pagination.Keyword }
             }
         };
 

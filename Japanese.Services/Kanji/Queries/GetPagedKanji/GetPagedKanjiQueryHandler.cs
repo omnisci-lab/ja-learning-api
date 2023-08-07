@@ -14,6 +14,7 @@ public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, Exe
     private readonly IKanjidic2Repository _kanjidic2Repository;
     private readonly IJlptKanjiRepository _jlptKanjiRepository;
     private readonly IKankenRepository _kankenRepository;
+    private readonly IAdditionalKanjiRepository _additionalKanjiRepository;
     private readonly IMapper _mapper;
     private Base64 _base64;
 
@@ -22,6 +23,7 @@ public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, Exe
         _kanjidic2Repository = japaneseRepository.Kanjidic2Repository;
         _jlptKanjiRepository = japaneseRepository.JlptKanjiRepository;
         _kankenRepository = japaneseRepository.KankenRepository;
+        _additionalKanjiRepository = japaneseRepository.AdditionalKanjiRepository;
         _mapper = mapper;
         _base64 = new Base64();
     }
@@ -54,7 +56,22 @@ public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, Exe
         }
 
         List<Kanjidic2Model>? kanjidic2Models = await _kanjidic2Repository.GetItemsByIdsAsync(literalIdList);
-        paged.Items = _mapper.Map<List<Kanjidic2Model>, List<KanjiDetailOutput>>(kanjidic2Models);
+        List<AdditionalKanjiModel>? additionalKanjiModels = await _additionalKanjiRepository
+            .GetItemsByIdsAsync(literalIdList);
+
+        List<AdditionalKanjiModel> newAdditionalKanjiModels = new List<AdditionalKanjiModel>();
+        foreach(Kanjidic2Model kanjidic2Model in kanjidic2Models)
+        {
+            AdditionalKanjiModel? additionalKanji = additionalKanjiModels
+                .SingleOrDefault(x => x.Literal == kanjidic2Model.Literal);
+
+            if (additionalKanji is null)
+                newAdditionalKanjiModels.Add(_mapper.Map<Kanjidic2Model, AdditionalKanjiModel>(kanjidic2Model));
+            else
+                newAdditionalKanjiModels.Add(_mapper.Map(kanjidic2Model, additionalKanji));
+        }
+
+        paged.Items = _mapper.Map<List<AdditionalKanjiModel>, List<KanjiDetailOutput>>(newAdditionalKanjiModels);
 
         if (!string.IsNullOrEmpty(paged.PaginationToken))
             paged.PaginationToken = _base64.Encode(paged.PaginationToken);
