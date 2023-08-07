@@ -7,9 +7,9 @@ using Japanese.Services.Kanji.Queries.GetKanji;
 
 namespace Japanese.Services.Kanji.Mappings;
 
-public class KanjiMappingProfile : Profile
+public class UserMappingProfile : Profile
 {
-    public KanjiMappingProfile()
+    public UserMappingProfile()
     {
         CreateMap<CreateKanjiCommand, KanjiModel>().ReverseMap();
         CreateMap<UpdateKanjiCommand, KanjiModel>().ReverseMap();

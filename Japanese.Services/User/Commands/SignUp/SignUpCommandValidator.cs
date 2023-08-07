@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,12 @@ using System.Threading.Tasks;
 
 namespace Japanese.Services.Features.User.Commands.SignUp
 {
-    internal class SignUpCommandValidator
+    public class SignUpCommandValidator : AbstractValidator<SignUpCommand>
     {
+        public SignUpCommandValidator()
+        {
+            RuleFor(x => x.Email).NotNull().NotEmpty().EmailAddress();
+            RuleFor(x => x.Password).NotNull().NotEmpty();
+        }
     }
 }

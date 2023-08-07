@@ -17,6 +17,7 @@
     <Compile Include="Implements\KanjiRadicalRepository.cs" />
     <Compile Include="Implements\KanjiRepository.cs" />
     <Compile Include="Implements\SentenceRepository.cs" />
+    <Compile Include="Implements\UserRepository.cs" />
   </ItemGroup>
 
   <ItemGroup>

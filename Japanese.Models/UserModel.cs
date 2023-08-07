@@ -20,4 +20,7 @@ public class UserModel : EntityBase
 
     [DynamoDBProperty("salt")]
     public string? Salt { get; set; }
+
+    [DynamoDBProperty("user_roles")]
+    public List<string>? UserRoles { get; set; }
 }

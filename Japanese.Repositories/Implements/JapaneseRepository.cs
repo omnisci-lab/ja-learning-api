@@ -18,4 +18,6 @@ public class JapaneseRepository : IJapaneseRepository
     public IKanjiRadicalRepository KanjiRadicalRepository => new KanjiRadicalRepository(_client);
 
     public ISentenceRepository SentenceRepository => new SentenceRepository(_client);
+
+    public IUserRepository UserRepository =>  new UserRepository(_client);
 }
