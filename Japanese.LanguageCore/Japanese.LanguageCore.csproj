@@ -11,6 +11,7 @@
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.200.10" />
     <PackageReference Include="AWSSDK.Polly" Version="3.7.202.1" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.201.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.20" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="ServiceStack.Aws" Version="6.10.0" />

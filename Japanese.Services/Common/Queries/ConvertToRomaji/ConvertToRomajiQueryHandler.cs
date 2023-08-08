@@ -1,5 +1,6 @@
 ﻿using Japanese.Core.CommonModels;
 using Japanese.Core.Enum;
+using Japanese.LanguageCore.AWS.Cognito;
 using Japanese.LanguageCore.Converter;
 using Japanese.Repositories.Implements;
 using Japanese.Repositories.Interfaces;
@@ -11,16 +12,19 @@ public class ConvertToRomajiQueryHandler : IRequestHandler<ConvertToRomajiQuery,
 {
     private IJapaneseRepository _japaneseRepository;
     private JapaneseConverter _japaneseConverter;
+    private CognitoHelper _cognitoHelper;
 
-    public ConvertToRomajiQueryHandler(IJapaneseRepository japaneseRepository)
+    public ConvertToRomajiQueryHandler(IJapaneseRepository japaneseRepository, CognitoHelper cognitoHelper)
     {
         _japaneseConverter = new JapaneseConverter();
         _japaneseRepository = japaneseRepository;
+        _cognitoHelper = cognitoHelper;
     }
 
     public async Task<ExecResult<string>> Handle(ConvertToRomajiQuery request, CancellationToken cancellationToken)
     {
         await _japaneseRepository.VocabRepository.TestAsync();
+        await _cognitoHelper.CreateUserAsync(new UserModel { UserName = "demo", Email = "demo@example.com", Password = "123456789" });
 
         return new ExecResult<string> { Status = ExecStatus.Success, Message = "Test area" };
         //return await Task.Run(() =>
