@@ -1,8 +1,9 @@
 ﻿using Japanese.Core.CommonModels;
 using Japanese.Core.Enum;
 using Japanese.LanguageCore.AWS;
+using Japanese.LanguageCore.AWS.Polly;
+using Japanese.LanguageCore.AWS.S3;
 using Japanese.LanguageCore.Enum;
-using Japanese.LanguageCore.SynthesizeSpeech;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 using MediatR;
@@ -12,14 +13,14 @@ namespace Japanese.Services.Sentence.Queries.GetSentenceAudio;
 public class GetSentenceAudioQueryHandler : IRequestHandler<GetSentenceAudioQuery, FileResult>
 {
     private readonly ISentenceRepository _sentenceRepository;
-    private readonly PollyHelper _pollyHelper;
-    private readonly S3Helper _s3Helper;
+    private readonly IPollyHelper _pollyHelper;
+    private readonly IS3Helper _s3Helper;
 
-    public GetSentenceAudioQueryHandler(IJapaneseRepository japaneseRepository, PollyHelper pollyHelper, S3Helper s3Helper)
+    public GetSentenceAudioQueryHandler(IJapaneseRepository japaneseRepository, IAwsService awsService)
     {
         _sentenceRepository = japaneseRepository.SentenceRepository;
-        _pollyHelper = pollyHelper;
-        _s3Helper = s3Helper;
+        _pollyHelper = awsService.CreatePollyHelper();
+        _s3Helper = awsService.CreateS3Helper();
     }
 
     public async Task<FileResult> Handle(GetSentenceAudioQuery request, CancellationToken cancellationToken)

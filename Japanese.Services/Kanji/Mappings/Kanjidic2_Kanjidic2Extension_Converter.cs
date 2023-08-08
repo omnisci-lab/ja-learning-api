@@ -31,7 +31,7 @@ public class Kanjidic2_Kanjidic2Extension_Converter : ITypeConverter<Kanjidic2Mo
                 StrokeCounts = source.Misc.StrokeCounts,
                 Variants = source.Misc.Variants,
                 Frequency = source.Misc.Frequency,
-                RadicalNames = source.Misc.RadicalNames,
+                //RadicalNames = source.Misc.RadicalNames,
                 JlptLevel = source.Misc.JlptLevel,
             };
         }

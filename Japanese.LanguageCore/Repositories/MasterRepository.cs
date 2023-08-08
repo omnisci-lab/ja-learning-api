@@ -1,26 +1,36 @@
-﻿using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
-using Amazon.Runtime;
-using ServiceStack.Aws.DynamoDb;
+﻿using Japanese.LanguageCore.AWS;
+using Japanese.LanguageCore.AWS.DynamoDB;
 
 namespace Japanese.LanguageCore.Repositories;
 
-public class MasterRepository
+public class MasterRepository : IMasterRepository
 {
-    private readonly IAmazonDynamoDB _client;
-    private IDynamoDBContext _context;
-    private IPocoDynamo _pocoDynamo;
+    private readonly IAwsService _awsService;
+    private bool disposedValue;
 
-    public MasterRepository(BasicAWSCredentials basicAWSCredentials, AmazonDynamoDBConfig dynamoDBConfig)
+    public IDynamoDBHelper DynamoDBHelper => _awsService.CreateDynamoDBHelper();
+
+    public MasterRepository(IAwsService awsService)
     {
-        _client = new AmazonDynamoDBClient(basicAWSCredentials, dynamoDBConfig);
-
-        _context = new DynamoDBContext(_client);
-        _pocoDynamo = new PocoDynamo(_client);
+        _awsService = awsService;
     }
 
-    public IAmazonDynamoDB Client => _client;
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                _awsService.Dispose();  
+            }
 
-    public IDynamoDBContext Context => _context;
-    public IPocoDynamo PocoDynamo => _pocoDynamo;
+            disposedValue = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
 }

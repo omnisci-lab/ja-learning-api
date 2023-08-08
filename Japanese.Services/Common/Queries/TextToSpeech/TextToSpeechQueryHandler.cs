@@ -1,17 +1,18 @@
 ﻿using Japanese.Core.CommonModels;
 using Japanese.Core.Enum;
-using Japanese.LanguageCore.SynthesizeSpeech;
+using Japanese.LanguageCore.AWS;
+using Japanese.LanguageCore.AWS.Polly;
 using MediatR;
 
 namespace Japanese.Services.Common.Queries.TextToSpeech;
 
 public class TextToSpeechQueryHandler : IRequestHandler<TextToSpeechQuery, FileResult>
 {
-    private readonly PollyHelper _pollyService;
+    private readonly IPollyHelper _pollyService;
 
-    public TextToSpeechQueryHandler(PollyHelper pollyService)
+    public TextToSpeechQueryHandler(IAwsService awsService)
     {
-        _pollyService = pollyService;
+        _pollyService = awsService.CreatePollyHelper();
     }
 
     public async Task<FileResult> Handle(TextToSpeechQuery request, CancellationToken cancellationToken)

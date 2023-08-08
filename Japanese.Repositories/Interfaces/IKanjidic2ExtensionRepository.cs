@@ -5,5 +5,5 @@ namespace Japanese.Repositories.Interfaces;
 
 public interface IKanjidic2ExtensionRepository : IAppRepository<Kanjidic2ExtensionModel>
 {
-    Task<List<Kanjidic2ExtensionModel>> GetItemsByIdsAsync(List<string> keys);
+    Task<List<Kanjidic2ExtensionModel>> GetItemsByLiteralsAsync(List<string> keys);
 }

@@ -55,9 +55,9 @@ public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, Exe
             throw new Exception();
         }
 
-        List<Kanjidic2Model>? kanjidic2Models = await _kanjidic2Repository.GetItemsByIdsAsync(literalIdList);
+        List<Kanjidic2Model>? kanjidic2Models = await _kanjidic2Repository.GetItemsByLiteralsAsync(literalIdList);
         List<Kanjidic2ExtensionModel>? kanjidic2ExtensionModels = await _kanjidic2ExtensionRepository
-            .GetItemsByIdsAsync(literalIdList);
+            .GetItemsByLiteralsAsync(literalIdList);
 
         List<Kanjidic2ExtensionModel> newKanjidic2ExtensionModels = new List<Kanjidic2ExtensionModel>();
         foreach(Kanjidic2Model kanjidic2Model in kanjidic2Models)

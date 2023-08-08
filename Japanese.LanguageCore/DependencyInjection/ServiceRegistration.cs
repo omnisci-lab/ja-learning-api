@@ -1,5 +1,4 @@
 ﻿using Amazon.AspNetCore.Identity.Cognito;
-using Amazon.CognitoIdentityProvider;
 using Amazon.DynamoDBv2;
 using Amazon.Extensions.CognitoAuthentication;
 using Amazon.Polly;
@@ -7,12 +6,11 @@ using Amazon.Runtime;
 using Amazon.S3;
 using Japanese.LanguageCore.AWS;
 using Japanese.LanguageCore.AWS.Cognito;
-using Japanese.LanguageCore.SynthesizeSpeech;
+using Japanese.LanguageCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using ServiceStack;
 
 namespace Japanese.LanguageCore.DependencyInjection;
 
@@ -24,14 +22,21 @@ public static class ServiceRegistration
         string? accessKeyId = awsSection.GetSection("AwsAccessKeyId").Value;
         string? secretAccessKey = awsSection.GetSection("AwsSecretAccessKey").Value;
 
-        services.AddScoped(s => new BasicAWSCredentials(accessKeyId, secretAccessKey));
-        services.AddScoped(s => new AmazonPollyConfig { RegionEndpoint = Amazon.RegionEndpoint.APNortheast3 });
-        services.AddScoped(s => new AmazonDynamoDBConfig { RegionEndpoint = Amazon.RegionEndpoint.APNortheast3 });
-        services.AddScoped(s => new AmazonS3Config { RegionEndpoint = Amazon.RegionEndpoint.APNortheast3 });
+        services.AddSingleton(s => new BasicAWSCredentials(accessKeyId, secretAccessKey));
+        services.AddSingleton(s => new AmazonServiceConfig
+        {
+            DynamoDBConfig = new AmazonDynamoDBConfig { RegionEndpoint = Amazon.RegionEndpoint.APNortheast3 },
+            PollyConfig = new AmazonPollyConfig { RegionEndpoint = Amazon.RegionEndpoint.APNortheast3 },
+            S3Config = new AmazonS3Config { RegionEndpoint = Amazon.RegionEndpoint.APNortheast3 }
+        });
 
-        services.AddScoped<PollyHelper>();
-        services.AddScoped<S3Helper>();
+        services.AddScoped<IAwsService, AwsService>();
 
+        return services;
+    }
+
+    public static IServiceCollection AddAmazonCognito(this IServiceCollection services, IConfiguration configuration)
+    {
         services.AddCognitoIdentity();
         services.AddAuthentication(options =>
         {
@@ -52,6 +57,8 @@ public static class ServiceRegistration
         services.AddTransient<CognitoUserManager<CognitoUser>>();
 
         services.AddScoped<CognitoHelper>();
+
+        services.AddScoped<IIdentityManager, IdentityManager>();
 
         return services;
     }
