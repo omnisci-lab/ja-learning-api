@@ -3,8 +3,8 @@ using ServiceStack.DataAnnotations;
 
 namespace Japanese.Models;
 
-[DynamoDBTable("AdditionalKanji")]
-public class AdditionalKanjiModel : Kanjidic2Model
+[DynamoDBTable("JMdictExtensions")]
+public class Kanjidic2ExtensionModel : Kanjidic2Model
 {
     public new AdditionalMiscModel? Misc { get; set; }
 

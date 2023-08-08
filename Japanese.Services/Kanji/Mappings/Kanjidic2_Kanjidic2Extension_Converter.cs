@@ -3,9 +3,9 @@ using Japanese.Models;
 
 namespace Japanese.Services.Kanji.Mappings;
 
-public class Kanjidic2_AdditionalKanji_Converter : ITypeConverter<Kanjidic2Model, AdditionalKanjiModel>
+public class Kanjidic2_Kanjidic2Extension_Converter : ITypeConverter<Kanjidic2Model, Kanjidic2ExtensionModel>
 {
-    public AdditionalKanjiModel Convert(Kanjidic2Model source, AdditionalKanjiModel destination, ResolutionContext context)
+    public Kanjidic2ExtensionModel Convert(Kanjidic2Model source, Kanjidic2ExtensionModel destination, ResolutionContext context)
     {
         if (destination is null)
             return ConvertIfDestinationIsNull(source);
@@ -13,9 +13,9 @@ public class Kanjidic2_AdditionalKanji_Converter : ITypeConverter<Kanjidic2Model
         return ConvertIfDestinationIsNotNull(source, destination);
     }
 
-    private AdditionalKanjiModel ConvertIfDestinationIsNull(Kanjidic2Model source)
+    private Kanjidic2ExtensionModel ConvertIfDestinationIsNull(Kanjidic2Model source)
     {
-        AdditionalKanjiModel destination = new AdditionalKanjiModel();
+        Kanjidic2ExtensionModel destination = new Kanjidic2ExtensionModel();
         destination.Literal = source.Literal;
         destination.Codepoints = source.Codepoints;
         destination.Radicals = source.Radicals;
@@ -25,7 +25,7 @@ public class Kanjidic2_AdditionalKanji_Converter : ITypeConverter<Kanjidic2Model
 
         if(source.Misc is not null)
         {
-            destination.Misc = new AdditionalKanjiModel.AdditionalMiscModel
+            destination.Misc = new Kanjidic2ExtensionModel.AdditionalMiscModel
             {
                 Grade = source.Misc.Grade,
                 StrokeCounts = source.Misc.StrokeCounts,
@@ -39,7 +39,7 @@ public class Kanjidic2_AdditionalKanji_Converter : ITypeConverter<Kanjidic2Model
         return destination;
     }
 
-    private AdditionalKanjiModel ConvertIfDestinationIsNotNull(Kanjidic2Model source, AdditionalKanjiModel destination)
+    private Kanjidic2ExtensionModel ConvertIfDestinationIsNotNull(Kanjidic2Model source, Kanjidic2ExtensionModel destination)
     {
 
 

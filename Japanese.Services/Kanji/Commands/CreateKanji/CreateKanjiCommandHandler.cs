@@ -9,20 +9,20 @@ namespace Japanese.Services.Kanji.Commands.CreateKanji;
 
 public class CreateKanjiCommandHandler : IRequestHandler<CreateKanjiCommand, ExecResult>
 {
-    private readonly IAdditionalKanjiRepository _kanjiRepository;
+    private readonly IKanjidic2ExtensionRepository _kanjidic2ExtensionRepository;
     private readonly IMapper _mapper;
 
     public CreateKanjiCommandHandler(IJapaneseRepository japaneseRepository, IMapper mapper)
     {
-        _kanjiRepository = japaneseRepository.AdditionalKanjiRepository;
+        _kanjidic2ExtensionRepository = japaneseRepository.Kanjidic2ExtensionRepository;
         _mapper = mapper;
     }
 
     public async Task<ExecResult> Handle(CreateKanjiCommand request, CancellationToken cancellationToken)
     {
-        AdditionalKanjiModel kanjiModel = _mapper.Map<CreateKanjiCommand, AdditionalKanjiModel>(request);
+        Kanjidic2ExtensionModel kanjiModel = _mapper.Map<CreateKanjiCommand, Kanjidic2ExtensionModel>(request);
 
-        await _kanjiRepository.SaveAsync(kanjiModel);
+        await _kanjidic2ExtensionRepository.SaveAsync(kanjiModel);
 
         return new ExecResult { Status = ExecStatus.Success };
     }

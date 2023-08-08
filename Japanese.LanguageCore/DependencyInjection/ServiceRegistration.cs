@@ -1,4 +1,6 @@
-﻿using Amazon.DynamoDBv2;
+﻿using Amazon.CognitoIdentityProvider;
+using Amazon.DynamoDBv2;
+using Amazon.Extensions.CognitoAuthentication;
 using Amazon.Polly;
 using Amazon.Runtime;
 using Amazon.S3;
@@ -6,6 +8,7 @@ using Japanese.LanguageCore.AWS;
 using Japanese.LanguageCore.SynthesizeSpeech;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ServiceStack;
 
 namespace Japanese.LanguageCore.DependencyInjection;
 
@@ -24,6 +27,12 @@ public static class ServiceRegistration
 
         services.AddScoped<PollyHelper>();
         services.AddScoped<S3Helper>();
+
+        //services.AddSingleton<IAmazonCognitoIdentityProvider>(s => new AmazonCognitoIdentityProviderConfig { } );
+        //services.AddSingleton<CognitoUserPool>(s => new CognitoUserPool("", ""));
+
+        //// Adds Amazon Cognito as Identity Provider
+        //services.AddCognitoIdentity();
 
         return services;
     }

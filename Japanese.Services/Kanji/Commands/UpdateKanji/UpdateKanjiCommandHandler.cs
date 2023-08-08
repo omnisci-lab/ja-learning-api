@@ -9,24 +9,24 @@ namespace Japanese.Services.Kanji.Commands.UpdateKanji;
 
 public class UpdateKanjiCommandHandler : IRequestHandler<UpdateKanjiCommand, ExecResult>
 {
-    private readonly IAdditionalKanjiRepository _kanjiRepository;
+    private readonly IKanjidic2ExtensionRepository _kanjidic2ExtensionRepository;
     private readonly IMapper _mapper;
 
     public UpdateKanjiCommandHandler(IJapaneseRepository japaneseRepository, IMapper mapper)
     {
-        _kanjiRepository = japaneseRepository.AdditionalKanjiRepository;
+        _kanjidic2ExtensionRepository = japaneseRepository.Kanjidic2ExtensionRepository;
         _mapper = mapper;
     }
 
     public async Task<ExecResult> Handle(UpdateKanjiCommand request, CancellationToken cancellationToken)
     {
-        AdditionalKanjiModel? kanjiModel = await _kanjiRepository.GetAsync(request.Kanji);
+        Kanjidic2ExtensionModel? kanjiModel = await _kanjidic2ExtensionRepository.GetAsync(request.Kanji);
         if (kanjiModel is null)
             return new ExecResult { Status = ExecStatus.NotFound };
 
         _mapper.Map(request, kanjiModel);
 
-        await _kanjiRepository.SaveAsync(kanjiModel);
+        await _kanjidic2ExtensionRepository.SaveAsync(kanjiModel);
 
         return new ExecResult { Status = ExecStatus.Success };
     }

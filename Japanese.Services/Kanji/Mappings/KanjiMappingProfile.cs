@@ -11,11 +11,11 @@ public class KanjiMappingProfile : Profile
 {
     public KanjiMappingProfile()
     {
-        CreateMap<Kanjidic2Model, AdditionalKanjiModel>()
-            .ConvertUsing<Kanjidic2_AdditionalKanji_Converter>();
+        CreateMap<Kanjidic2Model, Kanjidic2ExtensionModel>()
+            .ConvertUsing<Kanjidic2_Kanjidic2Extension_Converter>();
 
-        CreateMap<AdditionalKanjiModel, KanjiDetailOutput>()
-           .ConvertUsing<AdditionalKanji_KanjiDetail_Converter>();
+        CreateMap<Kanjidic2ExtensionModel, KanjiDetailOutput>()
+           .ConvertUsing<Kanjidic2Extension_KanjiDetail_Converter>();
 
         CreateMap<KanjiComponentModel, KanjiDetailOutput>()
             .ConvertUsing<KanjiComponent_KanjiDetail_Converter>();
@@ -25,7 +25,7 @@ public class KanjiMappingProfile : Profile
         CreateMap<PagedResult<KankenModel>, PagedResult<KanjiDetailOutput>>()
             .ConvertUsing<P_Kanken_KanjiDetail_Converter>();
 
-        CreateMap<CreateKanjiCommand, AdditionalKanjiModel>().ReverseMap();
-        CreateMap<UpdateKanjiCommand, AdditionalKanjiModel>().ReverseMap();
+        CreateMap<CreateKanjiCommand, Kanjidic2ExtensionModel>().ReverseMap();
+        CreateMap<UpdateKanjiCommand, Kanjidic2ExtensionModel>().ReverseMap();
     }
 }
