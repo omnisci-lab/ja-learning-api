@@ -1,4 +1,4 @@
-﻿using Japanese.LanguageCore.AWS.DynamoDB;
+﻿using Japanese.LanguageCore.AWS.Helpers;
 using Japanese.LanguageCore.Repositories;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
@@ -7,7 +7,7 @@ namespace Japanese.Repositories.Implements;
 
 public class Kanjidic2Repository : AppRepository<Kanjidic2Model>, IKanjidic2Repository
 {
-    public Kanjidic2Repository(IDynamoDBHelper dynamoDBHelper) 
+    public Kanjidic2Repository(DynamoDBHelper dynamoDBHelper) 
         : base(dynamoDBHelper)
     {
     }

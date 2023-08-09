@@ -1,5 +1,5 @@
 ﻿using Japanese.LanguageCore.AWS;
-using Japanese.LanguageCore.AWS.DynamoDB;
+using Japanese.LanguageCore.AWS.Helpers;
 
 namespace Japanese.LanguageCore.Repositories;
 
@@ -8,7 +8,7 @@ public class MasterRepository : IMasterRepository
     private readonly IAwsService _awsService;
     private bool disposedValue;
 
-    public IDynamoDBHelper DynamoDBHelper => _awsService.CreateDynamoDBHelper();
+    public DynamoDBHelper DynamoDBHelper => _awsService.CreateDynamoDBHelper();
 
     public MasterRepository(IAwsService awsService)
     {

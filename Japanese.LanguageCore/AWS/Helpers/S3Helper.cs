@@ -2,9 +2,9 @@
 using Amazon.S3;
 using Amazon.S3.Model;
 
-namespace Japanese.LanguageCore.AWS.S3;
+namespace Japanese.LanguageCore.AWS.Helpers;
 
-public class S3Helper : IS3Helper
+public class S3Helper : IDisposable
 {
     private readonly AmazonS3Client _s3client;
     private bool disposedValue;

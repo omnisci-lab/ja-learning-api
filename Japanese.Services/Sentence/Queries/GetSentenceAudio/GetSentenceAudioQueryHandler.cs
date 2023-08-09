@@ -1,8 +1,7 @@
 ﻿using Japanese.Core.CommonModels;
 using Japanese.Core.Enum;
 using Japanese.LanguageCore.AWS;
-using Japanese.LanguageCore.AWS.Polly;
-using Japanese.LanguageCore.AWS.S3;
+using Japanese.LanguageCore.AWS.Helpers;
 using Japanese.LanguageCore.Enum;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
@@ -13,8 +12,8 @@ namespace Japanese.Services.Sentence.Queries.GetSentenceAudio;
 public class GetSentenceAudioQueryHandler : IRequestHandler<GetSentenceAudioQuery, FileResult>
 {
     private readonly ISentenceRepository _sentenceRepository;
-    private readonly IPollyHelper _pollyHelper;
-    private readonly IS3Helper _s3Helper;
+    private readonly PollyHelper _pollyHelper;
+    private readonly S3Helper _s3Helper;
 
     public GetSentenceAudioQueryHandler(IJapaneseRepository japaneseRepository, IAwsService awsService)
     {

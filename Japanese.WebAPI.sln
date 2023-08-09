@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{5667
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Japanese.Plugin.HVDIC_THIVIEN_NET", "Plugins\Japanese.Plugin.HVDIC_THIVIEN_NET\Japanese.Plugin.HVDIC_THIVIEN_NET.csproj", "{0CD0E590-0B57-4C17-B1DA-B295CCE23783}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityCore", "IdentityCore\IdentityCore.csproj", "{FBA675AB-96FB-4D35-A370-0C58021B0EC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{0CD0E590-0B57-4C17-B1DA-B295CCE23783}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CD0E590-0B57-4C17-B1DA-B295CCE23783}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CD0E590-0B57-4C17-B1DA-B295CCE23783}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBA675AB-96FB-4D35-A370-0C58021B0EC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBA675AB-96FB-4D35-A370-0C58021B0EC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBA675AB-96FB-4D35-A370-0C58021B0EC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBA675AB-96FB-4D35-A370-0C58021B0EC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +77,7 @@ Global
 		{E18771C5-07FA-4E6A-880E-87BB6867FE3B} = {C16A59D0-4F7C-434C-8993-1FF49E8900C9}
 		{8DBE1892-FB84-4400-9822-4EEB813E91EE} = {E2987820-1AB8-4F8D-9F09-A4FB184F3184}
 		{0CD0E590-0B57-4C17-B1DA-B295CCE23783} = {5667F422-9D66-49E4-BD04-A95DE90DFA2F}
+		{FBA675AB-96FB-4D35-A370-0C58021B0EC3} = {E2987820-1AB8-4F8D-9F09-A4FB184F3184}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1217586F-C328-414A-9DB3-8B6CE97D8A34}

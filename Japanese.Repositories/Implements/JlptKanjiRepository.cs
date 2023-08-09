@@ -1,6 +1,6 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
 using Japanese.Core.CommonModels;
-using Japanese.LanguageCore.AWS.DynamoDB;
+using Japanese.LanguageCore.AWS.Helpers;
 using Japanese.LanguageCore.Repositories;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
@@ -9,7 +9,7 @@ namespace Japanese.Repositories.Implements;
 
 public class JlptKanjiRepository : AppRepository<JlptKanjiModel>, IJlptKanjiRepository
 {
-    public JlptKanjiRepository(IDynamoDBHelper dynamoDBHelper) 
+    public JlptKanjiRepository(DynamoDBHelper dynamoDBHelper) 
         : base(dynamoDBHelper)
     {
     }

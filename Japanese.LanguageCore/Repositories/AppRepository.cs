@@ -1,20 +1,20 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Japanese.Core.CommonModels;
-using Japanese.LanguageCore.AWS.DynamoDB;
+using Japanese.LanguageCore.AWS.Helpers;
 
 namespace Japanese.LanguageCore.Repositories;
 
 public class AppRepository<TModel> : IAppRepository<TModel> where TModel : class, new()
 {
-    private readonly IDynamoDBHelper _dynamoDbHelper;
+    private readonly DynamoDBHelper _dynamoDbHelper;
 
-    public AppRepository(IDynamoDBHelper dynamoDBHelper)
+    public AppRepository(DynamoDBHelper dynamoDBHelper)
     {
         _dynamoDbHelper = dynamoDBHelper;
     }
 
-    public IDynamoDBHelper Helper => _dynamoDbHelper;
+    public DynamoDBHelper Helper => _dynamoDbHelper;
     public IAmazonDynamoDB DynamoClient => _dynamoDbHelper.DynamoDB;
     public IDynamoDBContext Context => _dynamoDbHelper.Context;
 

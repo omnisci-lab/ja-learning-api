@@ -1,8 +1,8 @@
-﻿using Japanese.LanguageCore.AWS.DynamoDB;
+﻿using Japanese.LanguageCore.AWS.Helpers;
 
 namespace Japanese.LanguageCore.Repositories;
 
 public interface IMasterRepository : IDisposable
 {
-    IDynamoDBHelper DynamoDBHelper { get; }
+    DynamoDBHelper DynamoDBHelper { get; }
 }

@@ -3,9 +3,9 @@ using Amazon.Polly.Model;
 using Amazon.Runtime;
 using Japanese.LanguageCore.Enum;
 
-namespace Japanese.LanguageCore.AWS.Polly;
+namespace Japanese.LanguageCore.AWS.Helpers;
 
-public class PollyHelper : IPollyHelper
+public class PollyHelper : IDisposable
 {
     private readonly IAmazonPolly _pollyClient;
     private bool disposedValue;

@@ -1,4 +1,4 @@
-﻿using Japanese.LanguageCore.AWS.Cognito;
+﻿using IdentityCore.Models;
 
 namespace Japanese.LanguageCore.Identity;
 

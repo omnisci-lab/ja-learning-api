@@ -5,9 +5,9 @@ using Amazon.Runtime;
 using Japanese.Core.CommonModels;
 using System.Reflection;
 
-namespace Japanese.LanguageCore.AWS.DynamoDB;
+namespace Japanese.LanguageCore.AWS.Helpers;
 
-public class DynamoDBHelper : IDynamoDBHelper
+public class DynamoDBHelper : IDisposable
 {
     private readonly IAmazonDynamoDB _dynamoDB;
     private readonly IDynamoDBContext _context;

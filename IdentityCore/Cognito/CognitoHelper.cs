@@ -1,9 +1,11 @@
 ﻿using Amazon.AspNetCore.Identity.Cognito;
 using Amazon.Extensions.CognitoAuthentication;
+using IdentityCore.Models;
 using Japanese.Core.CommonModels;
+using Japanese.Core.Enum;
 using Microsoft.AspNetCore.Identity;
 
-namespace Japanese.LanguageCore.AWS.Cognito;
+namespace IdentityCore;
 
 public class CognitoHelper
 {
@@ -25,10 +27,10 @@ public class CognitoHelper
 
         IdentityResult identityResult = await _userManager.CreateAsync(cognitoUser, user.Password);
         if (identityResult.Succeeded)
-            return new ExecResult { Status = Core.Enum.ExecStatus.Success };
+            return new ExecResult { Status = ExecStatus.Success };
 
         return new ExecResult { 
-            Status = Core.Enum.ExecStatus.Failed
+            Status = ExecStatus.Failed
         };
     }
 
@@ -45,6 +47,6 @@ public class CognitoHelper
         }
 
 
-        return new ExecResult { Status = Core.Enum.ExecStatus.Failed };
+        return new ExecResult { Status = ExecStatus.Failed };
     }
 }

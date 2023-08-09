@@ -1,6 +1,7 @@
-﻿using Japanese.Core.CommonModels;
+﻿using IdentityCore;
+using IdentityCore.Models;
+using Japanese.Core.CommonModels;
 using Japanese.Core.Enum;
-using Japanese.LanguageCore.AWS.Cognito;
 using Japanese.LanguageCore.Converter;
 using Japanese.Repositories.Interfaces;
 using MediatR;

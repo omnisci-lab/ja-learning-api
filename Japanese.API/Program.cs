@@ -1,4 +1,4 @@
-using Japanese.LanguageCore.DependencyInjection;
+using IdentityCore.DependencyInjection;
 using Japanese.Repositories;
 using Japanese.Services;
 using Microsoft.OpenApi.Models;

@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IdentityCore\IdentityCore.csproj" />
     <ProjectReference Include="..\Japanese.LanguageCore\Japanese.LanguageCore.csproj" />
     <ProjectReference Include="..\Japanese.Repositories\Japanese.Repositories.csproj" />
   </ItemGroup>

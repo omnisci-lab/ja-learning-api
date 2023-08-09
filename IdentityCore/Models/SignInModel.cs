@@ -1,4 +1,4 @@
-﻿namespace Japanese.LanguageCore.AWS.Cognito;
+﻿namespace IdentityCore.Models;
 
 public class SignInModel
 {
