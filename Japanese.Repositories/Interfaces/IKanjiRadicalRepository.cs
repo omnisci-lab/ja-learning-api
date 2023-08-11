@@ -1,8 +1,8 @@
-﻿using Japanese.LanguageCore.AWS.DynamoDB;
+﻿using Japanese.LanguageCore.Repositories;
 using Japanese.Models;
 
 namespace Japanese.Repositories.Interfaces;
 
-public interface IKanjiRadicalRepository : IDynamoDBService<KanjiRadicalModel>
+public interface IKanjiRadicalRepository : IAppRepository<KanjiRadicalModel>
 {
 }

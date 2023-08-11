@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Amazon.DynamoDBv2.DataModel;
 
 namespace Japanese.Models;
 
-internal class KanaModel
+[DynamoDBTable("Kana")]
+public class KanaModel
 {
+    [DynamoDBHashKey(AttributeName = "kana_type")]
+    public string? KanaType { get; set; }
+
+    [DynamoDBRangeKey(AttributeName = "character")]
+    public string? Character { get; set; }
 }

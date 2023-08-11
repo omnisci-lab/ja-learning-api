@@ -5,11 +5,11 @@ using Japanese.LanguageCore.Enum;
 
 namespace Japanese.LanguageCore.SynthesizeSpeech;
 
-public class PollyService
+public class PollyHelper
 {
     private AmazonPollyClient _pollyClient;
 
-    public PollyService(BasicAWSCredentials basicAWSCredentials, AmazonPollyConfig pollyConfig)
+    public PollyHelper(BasicAWSCredentials basicAWSCredentials, AmazonPollyConfig pollyConfig)
     {
         _pollyClient = new AmazonPollyClient(basicAWSCredentials, pollyConfig);
     }

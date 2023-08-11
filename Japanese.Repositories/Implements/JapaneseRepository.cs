@@ -1,23 +1,37 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.Runtime;
+using Japanese.LanguageCore.Repositories;
 using Japanese.Repositories.Interfaces;
 
 namespace Japanese.Repositories.Implements;
 
-public class JapaneseRepository : IJapaneseRepository
+public class JapaneseRepository : MasterRepository, IJapaneseRepository
 {
-    private readonly AmazonDynamoDBClient _client;
-
-    public JapaneseRepository(BasicAWSCredentials basicAWSCredentials, AmazonDynamoDBConfig dynamoDBConfig)
+    public JapaneseRepository(BasicAWSCredentials basicAWSCredentials, AmazonDynamoDBConfig dynamoDBConfig) 
+        : base(basicAWSCredentials, dynamoDBConfig)
     {
-        _client = new AmazonDynamoDBClient(basicAWSCredentials, dynamoDBConfig);
+
     }
 
-    public IKanjiRepository KanjiRepository => new KanjiRepository(_client);
+    public IAdditionalKanjiRepository AdditionalKanjiRepository => new AdditionalKanjiRepository(Client, Context, PocoDynamo);
 
-    public IKanjiRadicalRepository KanjiRadicalRepository => new KanjiRadicalRepository(_client);
+    public IKanjiRadicalRepository KanjiRadicalRepository => new KanjiRadicalRepository(Client, Context, PocoDynamo);
+
+    public ISentenceRepository SentenceRepository => new SentenceRepository(Client, Context, PocoDynamo);
+
+    public IJMdictRepository VocabRepository => new JMdictRepository(Client, Context, PocoDynamo);
+
+    public IKanjidic2Repository Kanjidic2Repository => new Kanjidic2Repository(Client, Context, PocoDynamo);
+
+    public IKanjiComponentRepository KanjiComponentRepository => new KanjiComponentRepository(Client, Context, PocoDynamo);
+
+    public IJlptKanjiRepository JlptKanjiRepository => new JlptKanjiRepository(Client, Context, PocoDynamo);
+
+    public IKankenRepository KankenRepository => new KankenRepository(Client, Context, PocoDynamo);
 
     public ISentenceRepository SentenceRepository => new SentenceRepository(_client);
 
     public IUserRepository UserRepository =>  new UserRepository(_client);
+}
+    public IKanaRepository KanaRepository => new KanaRepository(Client, Context, PocoDynamo);
 }

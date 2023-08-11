@@ -1,7 +1,6 @@
 ﻿using Japanese.Core.CommonModels;
 using Japanese.Services.Cache;
 using MediatR;
-using Newtonsoft.Json;
 
 namespace Japanese.Services.Kanji.Queries.GetKanji;
 
@@ -11,6 +10,6 @@ public class GetKanjiQuery : IRequest<ExecResult<KanjiDetailOutput?>>, ICacheabl
 
     public string? CacheKey => $"kanji_{Kanji}";
 
-    public bool Bypass { get; set; }
+    public bool BypassCache { get; set; }
     public bool RefreshCache { get; set; }
 }

@@ -3,13 +3,11 @@ using Japanese.Core.Enum;
 using Japanese.Services.Sentence.Commands.CreateSentence;
 using Japanese.Services.Sentence.Commands.DeleteSentence;
 using Japanese.Services.Sentence.Commands.UpdateSentence;
-using Japanese.Services.Sentence.Consts;
 using Japanese.Services.Sentence.Queries;
 using Japanese.Services.Sentence.Queries.GetPagedSentences;
 using Japanese.Services.Sentence.Queries.GetSentence;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
 using WebCore.Attributes;
 using WebCore.Extensions;
 
@@ -33,7 +31,7 @@ public class SentenceController : Controller
         if (query.PageSize == 0)
             query.PageSize = 20;
 
-        query.Bypass = true;
+        query.BypassCache = true;
         ExecResult<PagedResult<SentenceOutput>> execResult = await _mediator.Send(query);
         if (execResult.Status != ExecStatus.Success)
             return BadRequest();
@@ -45,7 +43,7 @@ public class SentenceController : Controller
     [PageTitle(Title = "Sentence Details")]
     public async Task<IActionResult> GetDetails(string sentenceId)
     {
-        GetSentenceQuery query = new GetSentenceQuery() { SentenceId = sentenceId, Bypass = true };
+        GetSentenceQuery query = new GetSentenceQuery() { SentenceId = sentenceId, BypassCache = true };
         ExecResult<SentenceOutput?> execResult = await _mediator.Send(query);
         if (execResult.Status == ExecStatus.NotFound)
             return NotFound();
@@ -79,7 +77,7 @@ public class SentenceController : Controller
     [PageTitle(Title = "Edit a Sentence")]
     public async Task<IActionResult> Edit(string sentenceId)
     {
-        GetSentenceQuery query = new GetSentenceQuery() { SentenceId = sentenceId, Bypass = true };
+        GetSentenceQuery query = new GetSentenceQuery() { SentenceId = sentenceId, BypassCache = true };
         ExecResult<SentenceOutput?> execResult = await _mediator.Send(query);
         if (execResult.Status == ExecStatus.NotFound)
             return NotFound();

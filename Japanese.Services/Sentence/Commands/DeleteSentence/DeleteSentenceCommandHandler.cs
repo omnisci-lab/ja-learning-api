@@ -27,7 +27,6 @@ public class DeleteSentenceCommandHandler : IRequestHandler<DeleteSentenceComman
         if (sentenceModel is null)
             return new ExecResult { Status = ExecStatus.NotFound };
 
-        sentenceModel.IsDeleted = true;
         await _sentenceRepository.SaveAsync(sentenceModel);
 
         return new ExecResult { Status = ExecStatus.Success };

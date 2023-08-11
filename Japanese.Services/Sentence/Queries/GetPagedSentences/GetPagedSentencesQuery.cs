@@ -8,6 +8,6 @@ public class GetPagedSentencesQuery : Pagination, IRequest<ExecResult<PagedResul
 {
     public string? CacheKey => $"sentences_ps_{PageSize}_ptk_{PaginationToken}_sb_{SearchBy}_k_{Keyword}";
 
-    public bool Bypass { get; set; }
+    public bool BypassCache { get; set; }
     public bool RefreshCache { get; set; }
 }

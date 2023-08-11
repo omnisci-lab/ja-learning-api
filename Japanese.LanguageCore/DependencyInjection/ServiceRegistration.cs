@@ -22,8 +22,8 @@ public static class ServiceRegistration
         services.AddScoped(s => new AmazonDynamoDBConfig { RegionEndpoint = Amazon.RegionEndpoint.APNortheast3 });
         services.AddScoped(s => new AmazonS3Config { RegionEndpoint = Amazon.RegionEndpoint.APNortheast3 });
 
-        services.AddScoped<PollyService>();
-        services.AddScoped<SimpleStorageService>();
+        services.AddScoped<PollyHelper>();
+        services.AddScoped<S3Helper>();
 
         return services;
     }

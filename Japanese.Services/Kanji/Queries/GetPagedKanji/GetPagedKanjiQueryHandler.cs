@@ -5,20 +5,25 @@ using Japanese.Core.Enum;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 using Japanese.Services.Kanji.Consts;
-using Japanese.Services.Kanji.Queries.GetKanji;
 using MediatR;
 
 namespace Japanese.Services.Kanji.Queries.GetPagedKanji;
 
 public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, ExecResult<PagedResult<KanjiDetailOutput>>>
 {
-    private readonly IKanjiRepository _kanjiRepository;
+    private readonly IKanjidic2Repository _kanjidic2Repository;
+    private readonly IJlptKanjiRepository _jlptKanjiRepository;
+    private readonly IKankenRepository _kankenRepository;
+    private readonly IAdditionalKanjiRepository _additionalKanjiRepository;
     private readonly IMapper _mapper;
     private Base64 _base64;
 
     public GetPagedKanjiQueryHandler(IJapaneseRepository japaneseRepository, IMapper mapper)
     {
-        _kanjiRepository = japaneseRepository.KanjiRepository;
+        _kanjidic2Repository = japaneseRepository.Kanjidic2Repository;
+        _jlptKanjiRepository = japaneseRepository.JlptKanjiRepository;
+        _kankenRepository = japaneseRepository.KankenRepository;
+        _additionalKanjiRepository = japaneseRepository.AdditionalKanjiRepository;
         _mapper = mapper;
         _base64 = new Base64();
     }
@@ -28,30 +33,46 @@ public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, Exe
         if (!string.IsNullOrEmpty(request.PaginationToken))
             request.PaginationToken = _base64.Decode(request.PaginationToken);
 
-        PagedResult<KanjiModel>? paged_raw = null;
+        PagedResult<KanjiDetailOutput>? paged = new PagedResult<KanjiDetailOutput>();
+        List<string>? literalIdList = null;
 
-        if (string.IsNullOrEmpty(request.Keyword))
-            paged_raw = await _kanjiRepository.GetPagedAsync(request);
-        else if (request.SearchBy == SearchKanjiConsts.ByOnReadings)
-            paged_raw = await _kanjiRepository.SearchByOnReadingAsync(request);
-        else if (request.SearchBy == SearchKanjiConsts.ByKunReadings)
-            paged_raw = await _kanjiRepository.SearchByKunReadingAsync(request);
-        else if (request.SearchBy == SearchKanjiConsts.ByNameReadings)
-            paged_raw = await _kanjiRepository.SearchByNameReadingAsync(request);
-        else if (request.SearchBy == SearchKanjiConsts.ByJLpt)
-            paged_raw = await _kanjiRepository.SearchByJlptAsync(request);
-        else if (request.SearchBy == SearchKanjiConsts.ByStrokeCount)
-            paged_raw = await _kanjiRepository.SearchByStrokeCountAsync(request);
-        else if (request.SearchBy == SearchKanjiConsts.ByEnMeanings)
-            paged_raw = await _kanjiRepository.SearchByEnMeaningAsync(request);
-        else if (request.SearchBy == SearchKanjiConsts.ByViMeanings)
-            paged_raw = await _kanjiRepository.SearchByViMeaningAsync(request);
-        else if (request.SearchBy == SearchKanjiConsts.BySinoVietnamese)
-            paged_raw = await _kanjiRepository.SearchBySinoVietnameseAsync(request);
+        if (request.SearchBy == SearchKanjiConsts.ByJLpt)
+        {
+            PagedResult<JlptKanjiModel> pagedJlptKanji = await _jlptKanjiRepository.GetJlptKanjiAsync(request);
+            literalIdList = pagedJlptKanji.Items.Select(s => s.Kanji).ToList()!;
+
+            paged = _mapper.Map<PagedResult<JlptKanjiModel>, PagedResult<KanjiDetailOutput>>(pagedJlptKanji);
+        }
+        else if (request.SearchBy == SearchKanjiConsts.ByKanken)
+        {
+            PagedResult<KankenModel> pagedKanken = await _kankenRepository.GetKanjiByKankenLevel(request);
+            literalIdList = pagedKanken.Items.Select(s => s.Kanji).ToList()!;
+
+            paged = _mapper.Map<PagedResult<KankenModel>, PagedResult<KanjiDetailOutput>>(pagedKanken);
+        }
         else
-            paged_raw = await _kanjiRepository.GetPagedAsync(request);
+        {
+            throw new Exception();
+        }
 
-        PagedResult<KanjiDetailOutput> paged = _mapper.Map<PagedResult<KanjiModel>, PagedResult<KanjiDetailOutput>>(paged_raw);
+        List<Kanjidic2Model>? kanjidic2Models = await _kanjidic2Repository.GetItemsByIdsAsync(literalIdList);
+        List<AdditionalKanjiModel>? additionalKanjiModels = await _additionalKanjiRepository
+            .GetItemsByIdsAsync(literalIdList);
+
+        List<AdditionalKanjiModel> newAdditionalKanjiModels = new List<AdditionalKanjiModel>();
+        foreach(Kanjidic2Model kanjidic2Model in kanjidic2Models)
+        {
+            AdditionalKanjiModel? additionalKanji = additionalKanjiModels
+                .SingleOrDefault(x => x.Literal == kanjidic2Model.Literal);
+
+            if (additionalKanji is null)
+                newAdditionalKanjiModels.Add(_mapper.Map<Kanjidic2Model, AdditionalKanjiModel>(kanjidic2Model));
+            else
+                newAdditionalKanjiModels.Add(_mapper.Map(kanjidic2Model, additionalKanji));
+        }
+
+        paged.Items = _mapper.Map<List<AdditionalKanjiModel>, List<KanjiDetailOutput>>(newAdditionalKanjiModels);
+
         if (!string.IsNullOrEmpty(paged.PaginationToken))
             paged.PaginationToken = _base64.Encode(paged.PaginationToken);
 

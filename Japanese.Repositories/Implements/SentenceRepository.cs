@@ -1,18 +1,19 @@
 ﻿using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 using Japanese.Core.CommonModels;
-using Japanese.LanguageCore.AWS.DynamoDB;
+using Japanese.LanguageCore.Repositories;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
+using ServiceStack.Aws.DynamoDb;
 
 namespace Japanese.Repositories.Implements;
 
-public class SentenceRepository : DynamoDBService<SentenceModel>, ISentenceRepository
+public class SentenceRepository : AppRepository<SentenceModel>, ISentenceRepository
 {
-    internal SentenceRepository(AmazonDynamoDBClient client) 
-        : base(client)
+    internal SentenceRepository(IAmazonDynamoDB dynamoDB, IDynamoDBContext context, IPocoDynamo pocoDynamo) 
+        : base(dynamoDB, context, pocoDynamo)
     {
-
     }
 
     public async Task<PagedResult<SentenceModel>> SearchByTextAsync(Pagination pagination)
@@ -20,7 +21,7 @@ public class SentenceRepository : DynamoDBService<SentenceModel>, ISentenceRepos
         ScanFilter scanFilter = new ScanFilter();
         scanFilter.AddCondition("text", ScanOperator.Contains, pagination.Keyword);
 
-        return await GetPagedAsync(pagination, scanFilter);
+        return await DynamoDbHelper.GetPagedAsync(pagination, scanFilter);
     }
 
     public async Task<PagedResult<SentenceModel>> SearchByViMeaningAsync(Pagination pagination)
@@ -28,6 +29,6 @@ public class SentenceRepository : DynamoDBService<SentenceModel>, ISentenceRepos
         ScanFilter scanFilter = new ScanFilter();
         scanFilter.AddCondition("vi_meaning", ScanOperator.Contains, pagination.Keyword);
 
-        return await GetPagedAsync(pagination, scanFilter);
+        return await DynamoDbHelper.GetPagedAsync(pagination, scanFilter);
     }
 }

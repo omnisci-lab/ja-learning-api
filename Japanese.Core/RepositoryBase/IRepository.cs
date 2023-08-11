@@ -2,7 +2,7 @@
 
 namespace Japanese.Core.RepositoryBase;
 
-public interface IRepository<TModel> where TModel : EntityBase
+public interface IRepository<TModel> where TModel : class
 {
     PagedResult<TModel> GetPaged(Pagination pagination);
     List<TModel> GetList(int limit);
