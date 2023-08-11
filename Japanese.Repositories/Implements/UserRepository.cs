@@ -1,8 +1,11 @@
 ﻿using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 using Japanese.LanguageCore.AWS.DynamoDB;
+using Japanese.LanguageCore.Repositories;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
+using ServiceStack.Aws.DynamoDb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +14,9 @@ using System.Threading.Tasks;
 
 namespace Japanese.Repositories.Implements
 {
-    public class UserRepository : DynamoDBService<UserModel>, IUserRepository
+    public class UserRepository : AppRepository<UserModel>, IUserRepository
     {
-        public UserRepository(IAmazonDynamoDB dynamoDBClient) : base(dynamoDBClient)
+        public UserRepository(IAmazonDynamoDB dynamoDB, IDynamoDBContext context, IPocoDynamo pocoDynamo) : base(dynamoDB, context, pocoDynamo)
         {
         }
 
@@ -31,13 +34,13 @@ namespace Japanese.Repositories.Implements
             queryOperationConfig.KeyExpression = keyExpression;
             queryOperationConfig.Limit = 1;
 
-            Table table = Context.GetTargetTable<UserModel>();
+            Table table = DynamoDBContext.GetTargetTable<UserModel>();
 
             Search search = table.Query(queryOperationConfig);
 
             List<Document> data = await search.GetNextSetAsync();
 
-            var userModel = Context.FromDocuments<UserModel>(data).SingleOrDefault();
+            var userModel = DynamoDBContext.FromDocuments<UserModel>(data).SingleOrDefault();
 
             return userModel!;
         }

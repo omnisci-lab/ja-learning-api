@@ -29,9 +29,8 @@ public class JapaneseRepository : MasterRepository, IJapaneseRepository
 
     public IKankenRepository KankenRepository => new KankenRepository(Client, Context, PocoDynamo);
 
-    public ISentenceRepository SentenceRepository => new SentenceRepository(_client);
 
-    public IUserRepository UserRepository =>  new UserRepository(_client);
-}
+    public IUserRepository UserRepository =>  new UserRepository(Client,Context, PocoDynamo);
+
     public IKanaRepository KanaRepository => new KanaRepository(Client, Context, PocoDynamo);
 }
