@@ -12,5 +12,10 @@ public class IdentityManager : IIdentityManager
         _cognitoHelper = cognitoHelper;
     }
 
+    public async Task CreateUserAsync(UserModel userModel)
+    {
+        await _cognitoHelper.CreateUserAsync(userModel);
+    }
+
     public Task<UserModel> GetUserAsync(string username) => null;
 }
