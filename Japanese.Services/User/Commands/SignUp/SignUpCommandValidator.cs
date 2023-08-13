@@ -1,18 +1,12 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Japanese.Services.Features.User.Commands.SignUp
+namespace Japanese.Services.Features.User.Commands.SignUp;
+
+public class SignUpCommandValidator : AbstractValidator<SignUpCommand>
 {
-    public class SignUpCommandValidator : AbstractValidator<SignUpCommand>
+    public SignUpCommandValidator()
     {
-        public SignUpCommandValidator()
-        {
-            RuleFor(x => x.Email).NotNull().NotEmpty().EmailAddress();
-            RuleFor(x => x.Password).NotNull().NotEmpty();
-        }
+        RuleFor(x => x.Email).NotNull().NotEmpty().EmailAddress();
+        RuleFor(x => x.Password).NotNull().NotEmpty();
     }
 }

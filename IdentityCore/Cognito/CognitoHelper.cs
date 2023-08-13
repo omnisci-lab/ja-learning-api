@@ -24,7 +24,17 @@ public class CognitoHelper
     {
         CognitoUser cognitoUser = _pool.GetUser(user.UserName);
         cognitoUser.Attributes.Add(CognitoAttribute.Email.AttributeName, user.Email);
-
+        cognitoUser.Attributes.Add(CognitoAttribute.FamilyName.AttributeName, user.FamilyName);
+        cognitoUser.Attributes.Add(CognitoAttribute.MiddleName.AttributeName, user.MiddleName);
+        cognitoUser.Attributes.Add(CognitoAttribute.GivenName.AttributeName, user.GivenName);
+        cognitoUser.Attributes.Add(CognitoAttribute.BirthDate.AttributeName, user.BirthDate.ToString("yyyy-MM-dd"));
+        cognitoUser.Attributes.Add(CognitoAttribute.Gender.AttributeName, user.Gender);
+        cognitoUser.Attributes.Add(CognitoAttribute.PhoneNumber.AttributeName, user.PhoneNumber);
+        cognitoUser.Attributes.Add(CognitoAttribute.Locale.AttributeName, user.Locale);
+        cognitoUser.Attributes.Add(CognitoAttribute.Address.AttributeName, user.Address);
+        cognitoUser.Attributes.Add(CognitoAttribute.ZoneInfo.AttributeName, "Global");
+        cognitoUser.Attributes.Add(CognitoAttribute.UpdatedAt.AttributeName, ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds().ToString());
+        
         IdentityResult identityResult = await _userManager.CreateAsync(cognitoUser, user.Password);
         if (identityResult.Succeeded)
             return new ExecResult { Status = ExecStatus.Success };
