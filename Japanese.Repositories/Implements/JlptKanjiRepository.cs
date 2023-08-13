@@ -1,18 +1,16 @@
-﻿using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
-using Amazon.DynamoDBv2.DocumentModel;
+﻿using Amazon.DynamoDBv2.DocumentModel;
 using Japanese.Core.CommonModels;
+using Japanese.LanguageCore.AWS.Helpers;
 using Japanese.LanguageCore.Repositories;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
-using ServiceStack.Aws.DynamoDb;
 
 namespace Japanese.Repositories.Implements;
 
 public class JlptKanjiRepository : AppRepository<JlptKanjiModel>, IJlptKanjiRepository
 {
-    internal JlptKanjiRepository(IAmazonDynamoDB dynamoDB, IDynamoDBContext context, IPocoDynamo pocoDynamo) 
-        : base(dynamoDB, context, pocoDynamo)
+    public JlptKanjiRepository(DynamoDBHelper dynamoDBHelper) 
+        : base(dynamoDBHelper)
     {
     }
 
@@ -31,6 +29,6 @@ public class JlptKanjiRepository : AppRepository<JlptKanjiModel>, IJlptKanjiRepo
             }
         };
 
-        return await DynamoDbHelper.GetPagedAsync(pagination, keyExpression);
+        return await Helper.GetPagedAsync<JlptKanjiModel>(pagination, keyExpression);
     }
 }

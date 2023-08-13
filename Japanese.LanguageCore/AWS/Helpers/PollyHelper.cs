@@ -3,15 +3,16 @@ using Amazon.Polly.Model;
 using Amazon.Runtime;
 using Japanese.LanguageCore.Enum;
 
-namespace Japanese.LanguageCore.SynthesizeSpeech;
+namespace Japanese.LanguageCore.AWS.Helpers;
 
-public class PollyHelper
+public class PollyHelper : IDisposable
 {
-    private AmazonPollyClient _pollyClient;
+    private readonly IAmazonPolly _pollyClient;
+    private bool disposedValue;
 
-    public PollyHelper(BasicAWSCredentials basicAWSCredentials, AmazonPollyConfig pollyConfig)
+    internal PollyHelper(BasicAWSCredentials credentials, AmazonPollyConfig cofig)
     {
-        _pollyClient = new AmazonPollyClient(basicAWSCredentials, pollyConfig);
+        _pollyClient = new AmazonPollyClient(credentials, cofig);
     }
 
     private async Task<MemoryStream> SynthesizeSpeech(string input, Engine engine, VoiceId voiceId, OutputFormat outputFormat)
@@ -42,5 +43,24 @@ public class PollyHelper
             voiceId = VoiceId.Mizuki;
 
         return await SynthesizeSpeech(input, Engine.Standard, voiceId, OutputFormat.Mp3);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                _pollyClient.Dispose();
+            }
+
+            disposedValue = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }

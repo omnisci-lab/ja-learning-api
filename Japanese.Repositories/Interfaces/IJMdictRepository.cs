@@ -5,5 +5,4 @@ namespace Japanese.Repositories.Interfaces;
 
 public interface IJMdictRepository : IAppRepository<JMdictModel>
 {
-    Task TestAsync();
 }

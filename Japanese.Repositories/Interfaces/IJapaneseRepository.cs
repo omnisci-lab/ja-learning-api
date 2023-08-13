@@ -1,8 +1,10 @@
-﻿namespace Japanese.Repositories.Interfaces;
+﻿using Japanese.LanguageCore.Repositories;
 
-public interface IJapaneseRepository
+namespace Japanese.Repositories.Interfaces;
+
+public interface IJapaneseRepository : IMasterRepository
 {
-    IAdditionalKanjiRepository AdditionalKanjiRepository { get; }
+    IKanjidic2ExtensionRepository Kanjidic2ExtensionRepository { get; }
     IKanjiRadicalRepository KanjiRadicalRepository { get; }
     ISentenceRepository SentenceRepository { get; }
     IJMdictRepository VocabRepository { get; }

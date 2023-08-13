@@ -1,3 +1,4 @@
+using IdentityCore.DependencyInjection;
 using Japanese.Repositories;
 using Japanese.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,6 +22,7 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddAmazonCognito(configuration);
 // Adding Authentication
 builder.Services.AddAuthentication(options =>
 {
@@ -62,7 +64,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-// Authentication & Authorization
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors();

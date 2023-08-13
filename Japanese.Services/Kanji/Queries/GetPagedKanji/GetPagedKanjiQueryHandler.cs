@@ -14,16 +14,16 @@ public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, Exe
     private readonly IKanjidic2Repository _kanjidic2Repository;
     private readonly IJlptKanjiRepository _jlptKanjiRepository;
     private readonly IKankenRepository _kankenRepository;
-    private readonly IAdditionalKanjiRepository _additionalKanjiRepository;
+    private readonly IKanjidic2ExtensionRepository _kanjidic2ExtensionRepository;
     private readonly IMapper _mapper;
     private Base64 _base64;
 
-    public GetPagedKanjiQueryHandler(IJapaneseRepository japaneseRepository, IMapper mapper)
+    public GetPagedKanjiQueryHandler(IJapaneseRepository repository, IMapper mapper)
     {
-        _kanjidic2Repository = japaneseRepository.Kanjidic2Repository;
-        _jlptKanjiRepository = japaneseRepository.JlptKanjiRepository;
-        _kankenRepository = japaneseRepository.KankenRepository;
-        _additionalKanjiRepository = japaneseRepository.AdditionalKanjiRepository;
+        _kanjidic2Repository = repository.Kanjidic2Repository;
+        _kanjidic2ExtensionRepository = repository.Kanjidic2ExtensionRepository;
+        _jlptKanjiRepository = repository.JlptKanjiRepository;
+        _kankenRepository = repository.KankenRepository;
         _mapper = mapper;
         _base64 = new Base64();
     }
@@ -55,23 +55,23 @@ public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, Exe
             throw new Exception();
         }
 
-        List<Kanjidic2Model>? kanjidic2Models = await _kanjidic2Repository.GetItemsByIdsAsync(literalIdList);
-        List<AdditionalKanjiModel>? additionalKanjiModels = await _additionalKanjiRepository
-            .GetItemsByIdsAsync(literalIdList);
+        List<Kanjidic2Model>? kanjidic2Models = await _kanjidic2Repository.GetItemsByLiteralsAsync(literalIdList);
+        List<Kanjidic2ExtensionModel>? kanjidic2ExtensionModels = await _kanjidic2ExtensionRepository
+            .GetItemsByLiteralsAsync(literalIdList);
 
-        List<AdditionalKanjiModel> newAdditionalKanjiModels = new List<AdditionalKanjiModel>();
+        List<Kanjidic2ExtensionModel> newKanjidic2ExtensionModels = new List<Kanjidic2ExtensionModel>();
         foreach(Kanjidic2Model kanjidic2Model in kanjidic2Models)
         {
-            AdditionalKanjiModel? additionalKanji = additionalKanjiModels
+            Kanjidic2ExtensionModel? additionalKanji = kanjidic2ExtensionModels
                 .SingleOrDefault(x => x.Literal == kanjidic2Model.Literal);
 
             if (additionalKanji is null)
-                newAdditionalKanjiModels.Add(_mapper.Map<Kanjidic2Model, AdditionalKanjiModel>(kanjidic2Model));
+                newKanjidic2ExtensionModels.Add(_mapper.Map<Kanjidic2Model, Kanjidic2ExtensionModel>(kanjidic2Model));
             else
-                newAdditionalKanjiModels.Add(_mapper.Map(kanjidic2Model, additionalKanji));
+                newKanjidic2ExtensionModels.Add(_mapper.Map(kanjidic2Model, additionalKanji));
         }
 
-        paged.Items = _mapper.Map<List<AdditionalKanjiModel>, List<KanjiDetailOutput>>(newAdditionalKanjiModels);
+        paged.Items = _mapper.Map<List<Kanjidic2ExtensionModel>, List<KanjiDetailOutput>>(newKanjidic2ExtensionModels);
 
         if (!string.IsNullOrEmpty(paged.PaginationToken))
             paged.PaginationToken = _base64.Encode(paged.PaginationToken);

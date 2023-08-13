@@ -1,18 +1,16 @@
-﻿using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
-using Amazon.DynamoDBv2.DocumentModel;
+﻿using Amazon.DynamoDBv2.DocumentModel;
 using Japanese.Core.CommonModels;
+using Japanese.LanguageCore.AWS.Helpers;
 using Japanese.LanguageCore.Repositories;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
-using ServiceStack.Aws.DynamoDb;
 
 namespace Japanese.Repositories.Implements;
 
 public class KankenRepository : AppRepository<KankenModel>, IKankenRepository
 {
-    internal KankenRepository(IAmazonDynamoDB dynamoDB, IDynamoDBContext context, IPocoDynamo pocoDynamo) 
-        : base(dynamoDB, context, pocoDynamo)
+    public KankenRepository(DynamoDBHelper dynamoDBHelper) 
+        : base(dynamoDBHelper)
     {
     }
 
@@ -27,6 +25,6 @@ public class KankenRepository : AppRepository<KankenModel>, IKankenRepository
             }
         };
 
-        return await DynamoDbHelper.GetPagedAsync(pagination, keyExpression);
+        return await Helper.GetPagedAsync<KankenModel>(pagination, keyExpression);
     }
 }

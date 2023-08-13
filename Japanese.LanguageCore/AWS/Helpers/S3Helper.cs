@@ -2,13 +2,14 @@
 using Amazon.S3;
 using Amazon.S3.Model;
 
-namespace Japanese.LanguageCore.AWS;
+namespace Japanese.LanguageCore.AWS.Helpers;
 
-public class S3Helper
+public class S3Helper : IDisposable
 {
     private readonly AmazonS3Client _s3client;
+    private bool disposedValue;
 
-    public S3Helper(BasicAWSCredentials basicAWSCredentials, AmazonS3Config s3Config)
+    internal S3Helper(BasicAWSCredentials basicAWSCredentials, AmazonS3Config s3Config)
     {
         _s3client = new AmazonS3Client(basicAWSCredentials, s3Config);
     }
@@ -38,7 +39,7 @@ public class S3Helper
             GetObjectResponse response = await _s3client.GetObjectAsync(request);
             return response.ResponseStream;
         }
-        catch(AmazonS3Exception ex)
+        catch (AmazonS3Exception ex)
         {
             if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
                 return null;
@@ -56,5 +57,24 @@ public class S3Helper
         };
 
         _ = await _s3client.DeleteObjectAsync(request);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                _s3client.Dispose();
+            }
+
+            disposedValue = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }

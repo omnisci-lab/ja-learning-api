@@ -1,20 +1,29 @@
-﻿using Amazon.DynamoDBv2.DataModel;
+﻿using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
+using Amazon.Runtime;
 using Japanese.Core.CommonModels;
 using System.Reflection;
 
-namespace Japanese.LanguageCore.AWS.DynamoDB;
+namespace Japanese.LanguageCore.AWS.Helpers;
 
-public class DynamoDBHelper<TModel> where TModel : class
+public class DynamoDBHelper : IDisposable
 {
+    private readonly IAmazonDynamoDB _dynamoDB;
     private readonly IDynamoDBContext _context;
+    private bool disposedValue;
 
-    public DynamoDBHelper(IDynamoDBContext context)
+    public IAmazonDynamoDB DynamoDB => _dynamoDB;
+    public IDynamoDBContext Context => _context;
+
+    internal DynamoDBHelper(BasicAWSCredentials credentials, AmazonDynamoDBConfig config)
     {
-        _context = context;
+        _dynamoDB = new AmazonDynamoDBClient(credentials, config);
+        _context = new DynamoDBContext(_dynamoDB);
     }
 
-    public async Task<PagedResult<TModel>> GetPagedAsync(Pagination pagination, Expression? keyExpression = null, QueryFilter? filter = null)
+    public async Task<PagedResult<TModel>> GetPagedAsync<TModel>(Pagination pagination, Expression? keyExpression = null, QueryFilter? filter = null)
+        where TModel : class, new()
     {
         Table table = _context.GetTargetTable<TModel>();
         QueryOperationConfig queryConfig = new QueryOperationConfig() { Limit = pagination.PageSize };
@@ -39,7 +48,8 @@ public class DynamoDBHelper<TModel> where TModel : class
         };
     }
 
-    public async Task<List<TModel>> GetAllAsync(Expression? keyExpression = null, QueryFilter? filter = null)
+    public async Task<List<TModel>> GetAllAsync<TModel>(Expression? keyExpression = null, QueryFilter? filter = null)
+        where TModel : class, new()
     {
         Table table = _context.GetTargetTable<TModel>();
         QueryOperationConfig queryConfig = new QueryOperationConfig();
@@ -54,7 +64,7 @@ public class DynamoDBHelper<TModel> where TModel : class
         return _context.FromDocuments<TModel>(data).ToList();
     }
 
-    public async Task<List<TModel>> GetAllAsync(ScanFilter filter)
+    public async Task<List<TModel>> GetAllAsync<TModel>(ScanFilter filter) where TModel : class, new()
     {
         Table table = _context.GetTargetTable<TModel>();
         ScanOperationConfig scanConfig = new ScanOperationConfig();
@@ -67,7 +77,8 @@ public class DynamoDBHelper<TModel> where TModel : class
         return _context.FromDocuments<TModel>(data).ToList();
     }
 
-    public async Task<List<TModel>> GetItemsWithLimitAsync(int limit, Expression? keyExpression = null, QueryFilter? filter = null)
+    public async Task<List<TModel>> GetItemsWithLimitAsync<TModel>(int limit, Expression? keyExpression = null, QueryFilter? filter = null)
+        where TModel : class, new()
     {
         Table table = _context.GetTargetTable<TModel>();
         QueryOperationConfig queryConfig = new QueryOperationConfig() { Limit = limit };
@@ -82,7 +93,23 @@ public class DynamoDBHelper<TModel> where TModel : class
         return _context.FromDocuments<TModel>(data).ToList();
     }
 
-    public async Task<PagedResult<TModel>> GetPagedAsync(Pagination pagination, ScanFilter filter)
+    public async Task<List<TModel>> GetItemsAsync<TModel>(List<object> hashKeys) where TModel : class, new()
+    {
+        Table table = _context.GetTargetTable<TModel>();
+        BatchGet<TModel> batchGet = _context.CreateBatchGet<TModel>();
+
+        foreach (object hashKey in hashKeys)
+        {
+            batchGet.AddKey(hashKey);
+        }
+
+        await batchGet.ExecuteAsync();
+
+        return batchGet.Results;
+    }
+
+    public async Task<PagedResult<TModel>> GetPagedAsync<TModel>(Pagination pagination, ScanFilter filter)
+        where TModel : class, new()
     {
         Table table = _context.GetTargetTable<TModel>();
         ScanOperationConfig scanConfig = new ScanOperationConfig();
@@ -129,7 +156,7 @@ public class DynamoDBHelper<TModel> where TModel : class
         };
     }
 
-    public async Task<List<TModel>> GetListAsync(int limit)
+    public async Task<List<TModel>> GetListAsync<TModel>(int limit) where TModel : class, new()
     {
         ScanOperationConfig scanConfig = new ScanOperationConfig
         {
@@ -140,5 +167,25 @@ public class DynamoDBHelper<TModel> where TModel : class
         List<TModel> items = await search.GetNextSetAsync();
 
         return items;
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                _context.Dispose();
+                _dynamoDB.Dispose();
+            }
+
+            disposedValue = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }
