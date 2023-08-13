@@ -23,7 +23,6 @@
     <Compile Include="Implements\KankenRepository.cs" />
     <Compile Include="Implements\SentenceRepository.cs" />
     <Compile Include="Implements\JMdictRepository.cs" />
-    <Compile Include="Implements\UserRepository.cs" />
   </ItemGroup>
 
   <ItemGroup>
