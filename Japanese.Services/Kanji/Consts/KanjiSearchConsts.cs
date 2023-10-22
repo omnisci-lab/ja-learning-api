@@ -1,6 +1,6 @@
 ﻿namespace Japanese.Services.Kanji.Consts;
 
-public class SearchKanjiConsts
+public class KanjiSearchConsts
 {
     public const string ByJLpt = "Jlpt";
     public const string ByKanken = "Kanken";

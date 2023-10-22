@@ -6,6 +6,7 @@ using Japanese.API.Base;
 using Japanese.Services.Kanji.Queries.GetPagedKanji;
 using Japanese.Core.CommonModels;
 using Japanese.Services.Kanji.Queries;
+using Japanese.Services.Kanji.Queries.GetSearchProperties;
 
 namespace Japanese.API.Controllers;
 
@@ -18,18 +19,26 @@ public class KanjiController : ApiControllerBase
 
     }
 
-    [HttpGet]
+    [HttpPost]
     [Route("paged")]
     [ProducesResponseType(typeof(ExecResult<PagedResult<KanjiDetailOutput>>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetPaged([FromQuery] GetPagedKanjiQuery query)
+    public async Task<IActionResult> GetPaged([FromBody] GetPagedKanjiQuery query)
     {
         return await GetObjectResult(query);
     }
 
-    [HttpGet]
+    [HttpPost]
     [Route("details")]
     [ProducesResponseType(typeof(ExecResult<KanjiDetailOutput>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetDetails([FromQuery] GetKanjiQuery query)
+    public async Task<IActionResult> GetDetails([FromBody] GetKanjiQuery query)
+    {
+        return await GetObjectResult(query);
+    }
+
+    [HttpPost]
+    [Route("kanji-search-properties")]
+    [ProducesResponseType(typeof(ExecResult<List<string>>), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> GetSearchProperties([FromBody] GetKanjiSearchPropertiesQuery query)
     {
         return await GetObjectResult(query);
     }

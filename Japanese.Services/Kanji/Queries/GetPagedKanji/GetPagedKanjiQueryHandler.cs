@@ -36,14 +36,14 @@ public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, Exe
         PagedResult<KanjiDetailOutput>? paged = new PagedResult<KanjiDetailOutput>();
         List<string>? literalIdList = null;
 
-        if (request.SearchBy == SearchKanjiConsts.ByJLpt)
+        if (request.SearchBy == KanjiSearchConsts.ByJLpt)
         {
             PagedResult<JlptKanjiModel> pagedJlptKanji = await _jlptKanjiRepository.GetJlptKanjiAsync(request);
             literalIdList = pagedJlptKanji.Items.Select(s => s.Kanji).ToList()!;
 
             paged = _mapper.Map<PagedResult<JlptKanjiModel>, PagedResult<KanjiDetailOutput>>(pagedJlptKanji);
         }
-        else if (request.SearchBy == SearchKanjiConsts.ByKanken)
+        else if (request.SearchBy == KanjiSearchConsts.ByKanken)
         {
             PagedResult<KankenModel> pagedKanken = await _kankenRepository.GetKanjiByKankenLevel(request);
             literalIdList = pagedKanken.Items.Select(s => s.Kanji).ToList()!;
