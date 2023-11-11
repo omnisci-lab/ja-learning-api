@@ -42,7 +42,8 @@ public class DynamoDBHelper : IDisposable
         {
             PaginationToken = search.PaginationToken,
             PageSize = pagination.PageSize,
-            SearchBy = pagination.SearchBy,
+            FilterBy = pagination.FilterBy,
+            FilterValue = pagination.FilterValue,
             Keyword = pagination.Keyword,
             Items = _context.FromDocuments<TModel>(data).ToList()
         };
@@ -150,7 +151,8 @@ public class DynamoDBHelper : IDisposable
         {
             PaginationToken = paginationToken,
             PageSize = pagination.PageSize,
-            SearchBy = pagination.SearchBy,
+            FilterBy = pagination.FilterBy,
+            FilterValue = pagination.FilterValue,
             Keyword = pagination.Keyword,
             Items = _context.FromDocuments<TModel>(data).ToList()
         };

@@ -25,9 +25,9 @@ public class GetPagedSentencesQueryHandler : IRequestHandler<GetPagedSentencesQu
 
         if (string.IsNullOrEmpty(request.Keyword))
             paged_raw = await _sentenceRepository.GetPagedAsync(request);
-        else if (request.SearchBy == SentenceConsts.ByText)
+        else if (request.FilterBy == SentenceConsts.ByText)
             paged_raw = await _sentenceRepository.SearchByTextAsync(request);
-        else if (request.SearchBy == SentenceConsts.ByViMeaning)
+        else if (request.FilterBy == SentenceConsts.ByViMeaning)
             paged_raw = await _sentenceRepository.SearchByViMeaningAsync(request);
         else
             paged_raw = await _sentenceRepository.GetPagedAsync(request);

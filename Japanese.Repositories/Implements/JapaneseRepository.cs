@@ -24,9 +24,5 @@ public class JapaneseRepository : MasterRepository, IJapaneseRepository
 
     public IKanjiComponentRepository KanjiComponentRepository => new KanjiComponentRepository(DynamoDBHelper);
 
-    public IJlptKanjiRepository JlptKanjiRepository => new JlptKanjiRepository(DynamoDBHelper);
-
-    public IKankenRepository KankenRepository => new KankenRepository(DynamoDBHelper);
-
     public IKanaRepository KanaRepository => new KanaRepository(DynamoDBHelper);
 }

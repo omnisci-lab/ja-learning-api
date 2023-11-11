@@ -4,6 +4,7 @@ using Japanese.CQRS.Behaviours;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Nest;
 using System.Reflection;
 
 namespace Japanese.Core.DependencyInjection;
@@ -19,6 +20,33 @@ public static class ServiceRegistration
 
         services.AddSingleton<PluginCollection>();
         services.AddScoped<PluginManager>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddElasticServices(this IServiceCollection services, IConfiguration configuration, Assembly assembly)
+    {
+        IConfigurationSection elasticSection = configuration.GetSection("Elasticsearch");
+        string? uri = elasticSection.GetSection("Uri").Value;
+        string? defaultIndex = elasticSection.GetSection("DefaultIndex").Value;
+        string? userName = elasticSection.GetSection("UserName").Value;
+        string? password = elasticSection.GetSection("Url").Value;
+
+        ConnectionSettings settings = new ConnectionSettings(new Uri(uri!))
+        .PrettyJson()
+        .DefaultIndex(defaultIndex);
+
+        IElasticClient elasticClient = new ElasticClient(settings);
+
+        Type[] types = assembly.GetExportedTypes()
+            .Where(x => x.GetInterfaces().Any(i => i == typeof(IElasticsearchIndex)))
+            .ToArray();
+
+        foreach(Type type in types){
+            (Activator.CreateInstance(type) as IElasticsearchIndex)!.CreateIndexes(elasticClient);
+        }
+
+        services.AddSingleton(elasticClient);
 
         return services;
     }

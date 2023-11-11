@@ -2,7 +2,7 @@
 
 public class KanjiDetailOutput
 {
-    public string? Kanji { get; set; }
+    public string? Literal { get; set; }
     public int StrokeCount { get; set; }
     public int? Grade { get; set; }
     public int? Jlpt { get; set; }

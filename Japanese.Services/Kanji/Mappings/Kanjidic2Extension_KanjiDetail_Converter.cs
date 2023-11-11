@@ -11,7 +11,7 @@ public class Kanjidic2Extension_KanjiDetail_Converter : ITypeConverter<Kanjidic2
         if (destination is null)
             destination = new KanjiDetailOutput();
 
-        destination.Kanji = source.Literal;
+        destination.Literal = source.Literal;
 
         if (source.Misc is not null)
         {

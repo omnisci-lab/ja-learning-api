@@ -10,6 +10,8 @@ public static class BusinessServiceRegistration
     public static IServiceCollection AddBusinessServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddRedisServices(configuration);
+
+        services.AddElasticServices(configuration, Assembly.GetExecutingAssembly());
         services.AddCqrs(Assembly.GetExecutingAssembly());
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         IConfigurationSection jwtSection = configuration.GetSection("JWT");

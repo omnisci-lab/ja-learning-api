@@ -7,6 +7,7 @@ using Japanese.Services.Kanji.Queries.GetPagedKanji;
 using Japanese.Core.CommonModels;
 using Japanese.Services.Kanji.Queries;
 using Japanese.Services.Kanji.Queries.GetSearchProperties;
+using Japanese.Services.Kanji.Queries.GetKanjiFilters;
 
 namespace Japanese.API.Controllers;
 
@@ -31,6 +32,14 @@ public class KanjiController : ApiControllerBase
     [Route("details")]
     [ProducesResponseType(typeof(ExecResult<KanjiDetailOutput>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetDetails([FromBody] GetKanjiQuery query)
+    {
+        return await GetObjectResult(query);
+    }
+
+    [HttpPost]
+    [Route("kanji-filters")]
+    [ProducesResponseType(typeof(ExecResult<List<string>>), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> GetFilters([FromBody] GetKanjiFiltersQuery query)
     {
         return await GetObjectResult(query);
     }
