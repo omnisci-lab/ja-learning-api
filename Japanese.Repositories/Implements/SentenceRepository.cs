@@ -1,7 +1,7 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
 using Japanese.Core.CommonModels;
-using Japanese.LanguageCore.AWS.Helpers;
-using Japanese.LanguageCore.Repositories;
+using Japanese.Core.AWS.Helpers;
+using Japanese.Core.RepositoryBase;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 
@@ -19,7 +19,7 @@ public class SentenceRepository : AppRepository<SentenceModel>, ISentenceReposit
         ScanFilter scanFilter = new ScanFilter();
         scanFilter.AddCondition("text", ScanOperator.Contains, pagination.Keyword);
 
-        return await Helper.GetPagedAsync<SentenceModel>(pagination, scanFilter);
+        return await Helper.GetPagedAsync<SentenceModel>(pagination/*, scanFilter*/);
     }
 
     public async Task<PagedResult<SentenceModel>> SearchByViMeaningAsync(Pagination pagination)
@@ -27,6 +27,6 @@ public class SentenceRepository : AppRepository<SentenceModel>, ISentenceReposit
         ScanFilter scanFilter = new ScanFilter();
         scanFilter.AddCondition("vi_meaning", ScanOperator.Contains, pagination.Keyword);
 
-        return await Helper.GetPagedAsync<SentenceModel>(pagination, scanFilter);
+        return await Helper.GetPagedAsync<SentenceModel>(pagination/*, scanFilter*/);
     }
 }

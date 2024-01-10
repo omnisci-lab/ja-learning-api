@@ -1,5 +1,5 @@
-﻿using Japanese.LanguageCore.AWS.Helpers;
-using Japanese.LanguageCore.Repositories;
+﻿using Japanese.Core.AWS.Helpers;
+using Japanese.Core.RepositoryBase;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 
@@ -10,10 +10,6 @@ public class Kanjidic2Repository : AppRepository<Kanjidic2Model>, IKanjidic2Repo
     public Kanjidic2Repository(DynamoDBHelper dynamoDBHelper) 
         : base(dynamoDBHelper)
     {
-    }
 
-    public async Task<List<Kanjidic2Model>> GetItemsByLiteralsAsync(List<string> literals)
-    {
-        return await Helper.GetItemsAsync<Kanjidic2Model>(literals.Select(s => (object)s).ToList());
     }
 }

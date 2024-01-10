@@ -1,5 +1,5 @@
 ﻿using Japanese.Core.CommonModels;
-using Japanese.LanguageCore.Repositories;
+using Japanese.Core.RepositoryBase;
 using Japanese.Models;
 
 namespace Japanese.Repositories.Interfaces;

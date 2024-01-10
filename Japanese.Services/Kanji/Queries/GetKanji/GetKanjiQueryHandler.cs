@@ -4,6 +4,7 @@ using Japanese.Core.Enum;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 using MediatR;
+using StackExchange.Redis;
 
 namespace Japanese.Services.Kanji.Queries.GetKanji;
 

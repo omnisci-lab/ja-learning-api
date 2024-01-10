@@ -1,4 +1,3 @@
-using IdentityCore.DependencyInjection;
 using Japanese.Repositories;
 using Japanese.Services;
 using Microsoft.OpenApi.Models;
@@ -19,7 +18,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddAmazonCognito(configuration);
 builder.Services.AddRepositories(configuration);
 builder.Services.AddBusinessServices(configuration);
 

@@ -1,5 +1,5 @@
 ﻿using Japanese.Core.CommonModels;
-using Japanese.LanguageCore.Enum;
+using Japanese.Core.Enum;
 using Japanese.Services.Cache;
 using MediatR;
 

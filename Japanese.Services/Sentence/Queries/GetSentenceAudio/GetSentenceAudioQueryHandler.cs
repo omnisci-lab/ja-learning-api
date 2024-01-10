@@ -1,8 +1,7 @@
-﻿using Japanese.Core.CommonModels;
+﻿using Japanese.Core.AWS;
+using Japanese.Core.AWS.Helpers;
+using Japanese.Core.CommonModels;
 using Japanese.Core.Enum;
-using Japanese.LanguageCore.AWS;
-using Japanese.LanguageCore.AWS.Helpers;
-using Japanese.LanguageCore.Enum;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 using MediatR;

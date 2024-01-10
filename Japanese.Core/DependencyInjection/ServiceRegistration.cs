@@ -1,11 +1,13 @@
 ﻿using FluentValidation;
 using Japanese.Core.Plugin;
 using Japanese.CQRS.Behaviours;
+using Japanese.Core.AWS;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Nest;
+using StackExchange.Redis;
 using System.Reflection;
+using Japanese.Core.BackgroundTasks;
 
 namespace Japanese.Core.DependencyInjection;
 
@@ -13,40 +15,13 @@ public static class ServiceRegistration
 {
     public static IServiceCollection AddRedisServices(this IServiceCollection services, IConfiguration configuration)
     {
+        string redisConnection = configuration.GetConnectionString("RedisConnection")!;
+
+        services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnection));
         services.AddStackExchangeRedisCache(options =>
         {
             options.Configuration = configuration.GetConnectionString("RedisConnection");
         });
-
-        services.AddSingleton<PluginCollection>();
-        services.AddScoped<PluginManager>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddElasticServices(this IServiceCollection services, IConfiguration configuration, Assembly assembly)
-    {
-        IConfigurationSection elasticSection = configuration.GetSection("Elasticsearch");
-        string? uri = elasticSection.GetSection("Uri").Value;
-        string? defaultIndex = elasticSection.GetSection("DefaultIndex").Value;
-        string? userName = elasticSection.GetSection("UserName").Value;
-        string? password = elasticSection.GetSection("Url").Value;
-
-        ConnectionSettings settings = new ConnectionSettings(new Uri(uri!))
-        .PrettyJson()
-        .DefaultIndex(defaultIndex);
-
-        IElasticClient elasticClient = new ElasticClient(settings);
-
-        Type[] types = assembly.GetExportedTypes()
-            .Where(x => x.GetInterfaces().Any(i => i == typeof(IElasticsearchIndex)))
-            .ToArray();
-
-        foreach(Type type in types){
-            (Activator.CreateInstance(type) as IElasticsearchIndex)!.CreateIndexes(elasticClient);
-        }
-
-        services.AddSingleton(elasticClient);
 
         return services;
     }
@@ -64,6 +39,24 @@ public static class ServiceRegistration
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PluginExecutionBehaviour<,>));
+
+        services.AddSingleton<PluginCollection>();
+        services.AddScoped<PluginManager>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddAwsServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddSingleton(s => configuration.GetSection("AWS").Get<AmazonConfiguration>()!);
+        services.AddScoped<IAwsService, AwsService>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddBackgroundServices(this IServiceCollection services)
+    {
+        services.AddHostedService<CacheRefreshService>();
 
         return services;
     }

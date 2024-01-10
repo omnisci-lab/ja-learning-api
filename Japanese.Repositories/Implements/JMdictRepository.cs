@@ -1,5 +1,5 @@
-﻿using Japanese.LanguageCore.AWS.Helpers;
-using Japanese.LanguageCore.Repositories;
+﻿using Japanese.Core.AWS.Helpers;
+using Japanese.Core.RepositoryBase;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 

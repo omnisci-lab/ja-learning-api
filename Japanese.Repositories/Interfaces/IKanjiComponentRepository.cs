@@ -1,4 +1,4 @@
-﻿using Japanese.LanguageCore.Repositories;
+﻿using Japanese.Core.RepositoryBase;
 using Japanese.Models;
 
 namespace Japanese.Repositories.Interfaces;
