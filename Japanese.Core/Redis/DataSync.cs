@@ -3,7 +3,7 @@ using StackExchange.Redis;
 
 namespace Japanese.Redis;
 
-public abstract class DataSync<TModel> where TModel : class, new()
+public class DataSync<TModel> where TModel : class, new()
 {
     private readonly IAppRepository<TModel> _appRepository;
     private RedisHandler<TModel> _redisHandler;
@@ -18,9 +18,10 @@ public abstract class DataSync<TModel> where TModel : class, new()
     {
         List<TModel> models = await _appRepository.Helper.ScanAllAsync<TModel>(useRemaining: true);
 
+        int count = 1;
         foreach(TModel model in models)
         {
-            await _redisHandler.Add($"{keyPrefix}:{model.ToString()}", model);
+            await _redisHandler.Add($"{keyPrefix}:{count++}", model);
         }
     }
 }

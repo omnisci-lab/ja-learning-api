@@ -1,4 +1,5 @@
-﻿using NRedisStack;
+﻿using Nest;
+using NRedisStack;
 using NRedisStack.RedisStackCommands;
 using StackExchange.Redis;
 using System.Text.Json;
@@ -18,8 +19,18 @@ public class RedisHandler<TModel> where TModel : class, new()
 
     public async Task Add(string key, TModel value)
     {
-        JsonCommands jsonCommands = _database.JSON();
-        await jsonCommands.SetAsync(key, "$", JsonSerializer.Serialize(value));
+        try
+        {
+            _database.StringSet(key, JsonSerializer.Serialize<TModel>(value));
+
+            //JsonCommands jsonCommands = _database.JSON();
+            //jsonCommands.Set(key, "$", new { a = 'a', b= "b" });
+        }
+        catch(Exception e)
+        {
+
+        }
+        
     }
 
 

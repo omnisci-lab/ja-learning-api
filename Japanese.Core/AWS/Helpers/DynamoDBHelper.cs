@@ -62,9 +62,9 @@ public class DynamoDBHelper : IDisposable
         List<Document> data = null!;
 
         if (useRemaining)
-            data = await search.GetNextSetAsync();
-        else
             data = await search.GetRemainingAsync();
+        else
+            data = await search.GetNextSetAsync();
 
         return _context.FromDocuments<TModel>(data).ToList();
     }
@@ -80,9 +80,9 @@ public class DynamoDBHelper : IDisposable
         List<Document> data = null!;
 
         if (useRemaining)
-            data = await search.GetNextSetAsync();
-        else
             data = await search.GetRemainingAsync();
+        else
+            data = await search.GetNextSetAsync();
 
         return _context.FromDocuments<TModel>(data).ToList();
     }

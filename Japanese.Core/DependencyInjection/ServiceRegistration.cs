@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using System.Reflection;
 using Japanese.Core.BackgroundTasks;
+using Japanese.Core.RepositoryBase;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Japanese.Core.DependencyInjection;
 
@@ -54,9 +56,11 @@ public static class ServiceRegistration
         return services;
     }
 
-    public static IServiceCollection AddBackgroundServices(this IServiceCollection services)
+    public static IServiceCollection AddDbCacheServices<TMasterRepository, TModel>(this IServiceCollection services, Func<TMasterRepository, IAppRepository<TModel>> selectRepository) 
+        where TMasterRepository : IMasterRepository 
+        where TModel : class, new()
     {
-        services.AddHostedService<CacheRefreshService>();
+        services.AddHostedService(i => new CacheRefreshService<TMasterRepository, TModel>(i, selectRepository));
 
         return services;
     }
