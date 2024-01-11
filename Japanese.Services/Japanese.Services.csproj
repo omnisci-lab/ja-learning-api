@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Japanese.CachedRepository\Japanese.CachedRepository.csproj" />
     <ProjectReference Include="..\Japanese.Repositories\Japanese.Repositories.csproj" />
   </ItemGroup>
 

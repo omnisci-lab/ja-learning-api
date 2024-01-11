@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Japanese.CachedRepository.Interfaces;
 using Japanese.Core.CommonModels;
 using Japanese.Core.Encoding;
 using Japanese.Core.Enum;
@@ -12,19 +13,23 @@ public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, Exe
 {
     private readonly IKanjidic2Repository _kanjidic2Repository;
     private readonly IKanjidic2ExtensionRepository _kanjidic2ExtensionRepository;
+    private readonly IKanjidic2CachedRepository _kanjidic2CachedRepository;
     private readonly IMapper _mapper;
     private Base64 _base64;
 
-    public GetPagedKanjiQueryHandler(IJapaneseRepository repository, IMapper mapper)
+    public GetPagedKanjiQueryHandler(IJapaneseRepository repository, IJapaneseCachedRepository cachedRepository, IMapper mapper)
     {
         _kanjidic2Repository = repository.Kanjidic2Repository;
         _kanjidic2ExtensionRepository = repository.Kanjidic2ExtensionRepository;
+        _kanjidic2CachedRepository = cachedRepository.Kanjidic2CachedRepositoty;
         _mapper = mapper;
         _base64 = new Base64();
     }
 
     public async Task<ExecResult<PagedResult<KanjiDetailOutput>>> Handle(GetPagedKanjiQuery request, CancellationToken cancellationToken)
     {
+        PagedResult<Kanjidic2Model> pagedResult = await _kanjidic2CachedRepository.GetPaginatedAsync(request);
+
         //ISearchResponse<Kanjidic2ExtensionModel> searchResponse =  await _elasticClient.SearchAsync<Kanjidic2ExtensionModel>(s =>s
         //    .From((request.Page - 1) * request.PageSize)
         //    .Size(request.PageSize)

@@ -1,12 +1,14 @@
-﻿
-using Amazon.DynamoDBv2.DataModel;
+﻿using Amazon.DynamoDBv2.DataModel;
+using Redis.OM.Modeling;
 
 namespace Japanese.Models;
 
 [DynamoDBTable("Kanjidic2")]
+[Document(IndexName = "kanji2dic", StorageType = StorageType.Json)]
 public class Kanjidic2Model
 {
     [DynamoDBHashKey("literal")]
+    [Indexed]
     public string? Literal { get; set; }
 
     [DynamoDBProperty("codepoints")]

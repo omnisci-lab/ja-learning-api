@@ -1,7 +1,7 @@
 ﻿using Japanese.Core.AWS;
 using Japanese.Core.AWS.Helpers;
 
-namespace Japanese.Core.RepositoryBase;
+namespace Japanese.Core.RepositoryBase.DynamoDB;
 
 public class MasterRepository : IMasterRepository
 {
@@ -21,7 +21,7 @@ public class MasterRepository : IMasterRepository
         {
             if (disposing)
             {
-                _awsService.Dispose();  
+                _awsService.Dispose();
             }
 
             disposedValue = true;

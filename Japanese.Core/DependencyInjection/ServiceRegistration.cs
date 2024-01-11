@@ -8,8 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using System.Reflection;
 using Japanese.Core.BackgroundTasks;
-using Japanese.Core.RepositoryBase;
-using System.Reflection.Metadata.Ecma335;
+using Redis.OM;
+using Japanese.Core.RepositoryBase.DynamoDB;
 
 namespace Japanese.Core.DependencyInjection;
 
@@ -18,11 +18,12 @@ public static class ServiceRegistration
     public static IServiceCollection AddRedisServices(this IServiceCollection services, IConfiguration configuration)
     {
         string redisConnection = configuration.GetConnectionString("RedisConnection")!;
+        IConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(redisConnection);
 
-        services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnection));
+        services.AddSingleton(new RedisConnectionProvider(connectionMultiplexer));
         services.AddStackExchangeRedisCache(options =>
         {
-            options.Configuration = configuration.GetConnectionString("RedisConnection");
+            options.Configuration = redisConnection;
         });
 
         return services;

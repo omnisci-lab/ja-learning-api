@@ -1,8 +1,8 @@
-﻿using Japanese.Core.RepositoryBase;
+﻿using Japanese.Core.RepositoryBase.DynamoDB;
 using Japanese.Redis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using StackExchange.Redis;
+using Redis.OM;
 
 namespace Japanese.Core.BackgroundTasks;
 
@@ -11,26 +11,27 @@ public class CacheRefreshService<TMasterRepository, TModel> : BackgroundService,
     where TModel : class, new()
 {
     private readonly IServiceProvider _serviceProvider;
+    private readonly IServiceScope _serviceScope;
+    private readonly TMasterRepository _masterRepository;
     private Func<TMasterRepository, IAppRepository<TModel>> _selectRepository;
+    private RedisConnectionProvider _redisConnectionProvider;
     private bool disposedValue;
 
     public CacheRefreshService(IServiceProvider serviceProvider, Func<TMasterRepository, IAppRepository<TModel>> selectRepository)
     {
         _serviceProvider = serviceProvider;
+        _serviceScope = _serviceProvider.CreateScope();
+        _masterRepository = _serviceScope.ServiceProvider.GetService<TMasterRepository>()!;
         _selectRepository = selectRepository;
+        _redisConnectionProvider = _serviceScope.ServiceProvider.GetRequiredService<RedisConnectionProvider>();
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        using IServiceScope scope = _serviceProvider.CreateScope();
-        TMasterRepository masterRepository = scope.ServiceProvider.GetService<TMasterRepository>()!;
-        IConnectionMultiplexer connectionMultiplexer = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
+        IAppRepository<TModel> repository = _selectRepository(_masterRepository);
+        DataSync<TModel> dataSync = new DataSync<TModel>(repository, _redisConnectionProvider);
 
-        IAppRepository<TModel> repository = _selectRepository(masterRepository);
-
-        DataSync<TModel> dataSync = new DataSync<TModel>(repository, connectionMultiplexer);
-        await dataSync.CopyDataAsync("aaa");
-
+        await dataSync.BulkInsertAsync();
         await Task.CompletedTask;
     }
 
@@ -40,7 +41,8 @@ public class CacheRefreshService<TMasterRepository, TModel> : BackgroundService,
         {
             if (disposing)
             {
-
+                _masterRepository.Dispose();
+                _serviceScope.Dispose();
             }
 
             disposedValue = true;

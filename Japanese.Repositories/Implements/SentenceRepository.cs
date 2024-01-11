@@ -1,9 +1,9 @@
 ﻿using Amazon.DynamoDBv2.DocumentModel;
 using Japanese.Core.CommonModels;
 using Japanese.Core.AWS.Helpers;
-using Japanese.Core.RepositoryBase;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
+using Japanese.Core.RepositoryBase.DynamoDB;
 
 namespace Japanese.Repositories.Implements;
 

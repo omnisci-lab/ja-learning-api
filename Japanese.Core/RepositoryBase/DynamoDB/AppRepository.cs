@@ -3,7 +3,7 @@ using Amazon.DynamoDBv2.DataModel;
 using Japanese.Core.CommonModels;
 using Japanese.Core.AWS.Helpers;
 
-namespace Japanese.Core.RepositoryBase;
+namespace Japanese.Core.RepositoryBase.DynamoDB;
 
 public class AppRepository<TModel> : IAppRepository<TModel> where TModel : class, new()
 {
