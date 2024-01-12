@@ -1,15 +1,17 @@
-﻿using Amazon.DynamoDBv2.DataModel;
+﻿using Japanese.Core.MongoDB;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Japanese.Models;
 
-[DynamoDBTable("Kanjidic2Extensions")]
-public class Kanjidic2ExtensionModel : Kanjidic2Model
+public class Kanjidic2ExtensionModel : MongoDBModel
 {
-    public new AdditionalMiscModel? Misc { get; set; }
+    [BsonElement("literal")]
+    public string? Literal { get; set; }
 
-    public class AdditionalMiscModel : MiscModel
-    {
-        [DynamoDBProperty("kankenLevel")]
-        public string? KankenLevel { get; set; }
-    }
+    [BsonElement("jlptLevel")]
+    public int? JlptLevel { get; set; }
+
+    [BsonElement("kankenLevel")]
+    public int? KankenLevel { get; set; }
 }

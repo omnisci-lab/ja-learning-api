@@ -9,7 +9,7 @@ using StackExchange.Redis;
 using System.Reflection;
 using Japanese.Core.BackgroundTasks;
 using Redis.OM;
-using Japanese.Core.RepositoryBase.DynamoDB;
+using Japanese.Core.RepositoryBase.MongoDB;
 
 namespace Japanese.Core.DependencyInjection;
 
@@ -57,12 +57,12 @@ public static class ServiceRegistration
         return services;
     }
 
-    public static IServiceCollection AddDbCacheServices<TMasterRepository, TModel>(this IServiceCollection services, Func<TMasterRepository, IAppRepository<TModel>> selectRepository) 
-        where TMasterRepository : IMasterRepository 
-        where TModel : class, new()
-    {
-        services.AddHostedService(i => new CacheRefreshService<TMasterRepository, TModel>(i, selectRepository));
+    //public static IServiceCollection AddDbCacheServices<TMasterRepository, TModel>(this IServiceCollection services, Func<TMasterRepository, IAppRepository<TModel>> selectRepository) 
+    //    where TMasterRepository : IMasterRepository 
+    //    where TModel : class, new()
+    //{
+    //    //services.AddHostedService(i => new CacheRefreshService<TMasterRepository, TModel>(i, selectRepository));
 
-        return services;
-    }
+    //    return services;
+    //}
 }

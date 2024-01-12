@@ -1,9 +1,10 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
+using Japanese.Core.MongoDB;
 
 namespace Japanese.Models;
 
 [DynamoDBTable("JMdict")]
-public class JMdictModel
+public class JMdictModel : MongoDBModel
 {
     [DynamoDBHashKey(AttributeName = "id")]
     public string? Id { get; set; }

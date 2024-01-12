@@ -1,29 +1,32 @@
-﻿using Japanese.Core.AWS;
-using Japanese.Core.AWS.Helpers;
-using Japanese.Core.RepositoryBase.DynamoDB;
+﻿using Japanese.Core.MongoDB;
+using Japanese.Core.RepositoryBase.MongoDB;
 using Japanese.Repositories.Interfaces;
 
 namespace Japanese.Repositories.Implements;
 
 public class JapaneseRepository : MasterRepository, IJapaneseRepository
 {
-    public JapaneseRepository(IAwsService awsService) 
-        : base(awsService)
+    public JapaneseRepository(MongoDBConfiguration configuration) 
+        : base(configuration)
     {
 
     }
 
-    public IKanjidic2ExtensionRepository Kanjidic2ExtensionRepository => new Kanjidic2ExtensionRepository(DynamoDBHelper);
+    public IKanjidic2Repository Kanjidic2Repository => new Kanjidic2Repository(Database, "Kanjidic2");
 
-    public IKanjiRadicalRepository KanjiRadicalRepository => new KanjiRadicalRepository(DynamoDBHelper);
+    public IKanjidic2ExtensionRepository Kanjidic2ExtensionRepository => new Kanjidic2ExtensionRepository(Database, "Kanjidic2Extensions");
 
-    public ISentenceRepository SentenceRepository => new SentenceRepository(DynamoDBHelper);
+    public IKanjiComponentRepository KanjiComponentRepository => new KanjiComponentRepository(Database, "KanjiComponents");
 
-    public IJMdictRepository VocabRepository => new JMdictRepository(DynamoDBHelper);
 
-    public IKanjidic2Repository Kanjidic2Repository => new Kanjidic2Repository(DynamoDBHelper);
 
-    public IKanjiComponentRepository KanjiComponentRepository => new KanjiComponentRepository(DynamoDBHelper);
+    //public IKanjiRadicalRepository KanjiRadicalRepository => new KanjiRadicalRepository(DynamoDBHelper);
 
-    public IKanaRepository KanaRepository => new KanaRepository(DynamoDBHelper);
+    //public ISentenceRepository SentenceRepository => new SentenceRepository(DynamoDBHelper);
+
+    //public IJMdictRepository VocabRepository => new JMdictRepository(DynamoDBHelper);
+
+
+
+    //public IKanaRepository KanaRepository => new KanaRepository(DynamoDBHelper);
 }

@@ -27,8 +27,8 @@ public class DynamoDBHelper : IDisposable
         Table table = _context.GetTargetTable<TModel>();
         QueryOperationConfig queryConfig = new QueryOperationConfig() { Limit = pagination.PageSize };
 
-        if (!string.IsNullOrEmpty(pagination.PaginationToken))
-            queryConfig.PaginationToken = pagination.PaginationToken;
+        //if (!string.IsNullOrEmpty(pagination.PaginationToken))
+        //    queryConfig.PaginationToken = pagination.PaginationToken;
 
         queryConfig.KeyExpression = keyExpression ?? new Expression();
         queryConfig.Filter = filter ?? new QueryFilter();
@@ -39,7 +39,7 @@ public class DynamoDBHelper : IDisposable
 
         return new PagedResult<TModel>
         {
-            PaginationToken = search.PaginationToken,
+            //PaginationToken = search.PaginationToken,
             PageSize = pagination.PageSize,
             FilterBy = pagination.FilterBy,
             FilterValue = pagination.FilterValue,

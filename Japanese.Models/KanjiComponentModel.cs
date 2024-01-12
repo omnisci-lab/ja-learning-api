@@ -1,13 +1,14 @@
-﻿using Amazon.DynamoDBv2.DataModel;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
+using Japanese.Core.MongoDB;
 
 namespace Japanese.Models;
 
-[DynamoDBTable("KanjiComponents")]
-public class KanjiComponentModel
+public class KanjiComponentModel : MongoDBModel
 {
-    [DynamoDBHashKey(AttributeName = "kanji")]
-    public string? Kanji { get; set; }
+    [BsonElement("literal")]
+    public string? Literal { get; set; }
 
-    [DynamoDBProperty("components")]
+    [BsonElement("components")]
     public List<string>? Components { get; set; }
 }

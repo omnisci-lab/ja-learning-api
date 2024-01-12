@@ -9,12 +9,12 @@ namespace Japanese.Services.Kanji.Commands.CreateKanji;
 
 public class CreateKanjiCommandHandler : IRequestHandler<CreateKanjiCommand, ExecResult>
 {
-    private readonly IKanjidic2ExtensionRepository _kanjidic2ExtensionRepository;
+    //private readonly IKanjidic2ExtensionRepository _kanjidic2ExtensionRepository;
     private readonly IMapper _mapper;
 
     public CreateKanjiCommandHandler(IJapaneseRepository japaneseRepository, IMapper mapper)
     {
-        _kanjidic2ExtensionRepository = japaneseRepository.Kanjidic2ExtensionRepository;
+        //_kanjidic2ExtensionRepository = japaneseRepository.Kanjidic2ExtensionRepository;
         _mapper = mapper;
     }
 
@@ -22,7 +22,7 @@ public class CreateKanjiCommandHandler : IRequestHandler<CreateKanjiCommand, Exe
     {
         Kanjidic2ExtensionModel kanjiModel = _mapper.Map<CreateKanjiCommand, Kanjidic2ExtensionModel>(request);
 
-        await _kanjidic2ExtensionRepository.SaveAsync(kanjiModel);
+        //await _kanjidic2ExtensionRepository.SaveAsync(kanjiModel);
 
         return new ExecResult { Status = ExecStatus.Success };
     }

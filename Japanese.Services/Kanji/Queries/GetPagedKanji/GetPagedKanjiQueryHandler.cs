@@ -5,6 +5,7 @@ using Japanese.Core.Encoding;
 using Japanese.Core.Enum;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
+using Japanese.Services.Kanji.Consts;
 using MediatR;
 
 namespace Japanese.Services.Kanji.Queries.GetPagedKanji;
@@ -13,7 +14,6 @@ public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, Exe
 {
     private readonly IKanjidic2Repository _kanjidic2Repository;
     private readonly IKanjidic2ExtensionRepository _kanjidic2ExtensionRepository;
-    private readonly IKanjidic2CachedRepository _kanjidic2CachedRepository;
     private readonly IMapper _mapper;
     private Base64 _base64;
 
@@ -21,42 +21,61 @@ public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, Exe
     {
         _kanjidic2Repository = repository.Kanjidic2Repository;
         _kanjidic2ExtensionRepository = repository.Kanjidic2ExtensionRepository;
-        _kanjidic2CachedRepository = cachedRepository.Kanjidic2CachedRepositoty;
         _mapper = mapper;
         _base64 = new Base64();
     }
 
     public async Task<ExecResult<PagedResult<KanjiDetailOutput>>> Handle(GetPagedKanjiQuery request, CancellationToken cancellationToken)
     {
-        PagedResult<Kanjidic2Model> pagedResult = await _kanjidic2CachedRepository.GetPaginatedAsync(request);
+        PagedResult<Kanjidic2Model> pagedResultRaw = null!;
+        if (request.FilterBy == KanjiFilterConsts.All)
+        {
+            pagedResultRaw = await _kanjidic2Repository.GetPaginatedAsync(request);
 
-        //ISearchResponse<Kanjidic2ExtensionModel> searchResponse =  await _elasticClient.SearchAsync<Kanjidic2ExtensionModel>(s =>s
-        //    .From((request.Page - 1) * request.PageSize)
-        //    .Size(request.PageSize)
-        //    .Query(q => q.Match(m => m
-        //        .Field(f => f.Literal).Query(request.Keyword))
-        //    ));
+            List<string?> literals = pagedResultRaw.Items.Select(s => s.Literal).ToList();
+            List<Kanjidic2ExtensionModel> kanjidic2ExtensionModels = await _kanjidic2ExtensionRepository
+                .GetItemsByLiteralsAsync(literals);
 
-        //if (!searchResponse.IsValid)
-        //    return new ExecResult<PagedResult<KanjiDetailOutput>> { Status = ExecStatus.Invalid };
+            foreach (Kanjidic2Model kanjidic2Model in pagedResultRaw.Items)
+            {
+                Kanjidic2ExtensionModel? kanjidic2ExtensionModel = kanjidic2ExtensionModels
+                    .Find(x => x.Literal == kanjidic2Model.Literal);
 
-        //PagedResult<KanjiDetailOutput>? paged = new PagedResult<KanjiDetailOutput>();
-        //paged.PageSize = request.PageSize;
-        //paged.Keyword = request.Keyword;
+                if (kanjidic2ExtensionModel is not null)
+                    _mapper.Map(kanjidic2ExtensionModel, kanjidic2Model);
+            }
+        }
+        else if (request.FilterBy == KanjiFilterConsts.ByJLpt)
+        {
+            PagedResult<Kanjidic2ExtensionModel> pagedResultExtRaw = await _kanjidic2ExtensionRepository
+                .GetKanjiByJlptAsync(request);
 
-        //foreach(IHit<Kanjidic2ExtensionModel> hit in searchResponse.Hits)
-        //{
-        //    Kanjidic2ExtensionModel kanjidic2ExtensionModel = hit.Source;
-        //    KanjiDetailOutput kanjiDetailOutput = _mapper.Map<Kanjidic2ExtensionModel, KanjiDetailOutput>(kanjidic2ExtensionModel);
-        //    paged.Items.Add(kanjiDetailOutput);
-        //}
+            List<string?> literals = pagedResultExtRaw.Items.Select(s => s.Literal).ToList();
+            List<Kanjidic2Model> kanjidic2Models = await _kanjidic2Repository.GetItemsByLiteralsAsync(literals);
 
-        //return new ExecResult<PagedResult<KanjiDetailOutput>>
-        //{
-        //    Status = ExecStatus.Success,
-        //    Data = paged
-        //};
+            foreach (Kanjidic2Model kanjidic2Model in kanjidic2Models)
+            {
+                Kanjidic2ExtensionModel? kanjidic2ExtensionModel = pagedResultExtRaw.Items
+                    .Find(x => x.Literal == kanjidic2Model.Literal);
 
-        return null;
+                if (kanjidic2ExtensionModel is not null)
+                    _mapper.Map(kanjidic2ExtensionModel, kanjidic2Model);
+            }
+
+            pagedResultRaw = pagedResultExtRaw.CreatePagedResult(kanjidic2Models);
+        }
+        else
+        {
+            return new ExecResult<PagedResult<KanjiDetailOutput>> { Status = ExecStatus.Invalid };
+        }
+
+        PagedResult<KanjiDetailOutput>? paged = pagedResultRaw.CreatePagedResult(_mapper
+            .Map<List<Kanjidic2Model>, List<KanjiDetailOutput>>(pagedResultRaw.Items));
+
+        return new ExecResult<PagedResult<KanjiDetailOutput>>
+        {
+            Status = ExecStatus.Success,
+            Data = paged
+        };
     }
 }

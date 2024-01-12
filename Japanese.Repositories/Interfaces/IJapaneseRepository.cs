@@ -1,14 +1,17 @@
-﻿using Japanese.Core.RepositoryBase.DynamoDB;
+﻿using Japanese.Core.RepositoryBase.MongoDB;
+using Japanese.Repositories.Implements;
 
 namespace Japanese.Repositories.Interfaces;
 
 public interface IJapaneseRepository : IMasterRepository
 {
-    IKanjidic2ExtensionRepository Kanjidic2ExtensionRepository { get; }
-    IKanjiRadicalRepository KanjiRadicalRepository { get; }
-    ISentenceRepository SentenceRepository { get; }
-    IJMdictRepository VocabRepository { get; }
     IKanjidic2Repository Kanjidic2Repository { get; }
+    IKanjidic2ExtensionRepository Kanjidic2ExtensionRepository { get; }
     IKanjiComponentRepository KanjiComponentRepository { get; }
-    IKanaRepository KanaRepository { get; }
+
+    //IKanjiRadicalRepository KanjiRadicalRepository { get; }
+    //ISentenceRepository SentenceRepository { get; }
+    //IJMdictRepository VocabRepository { get; }
+    
+    //IKanaRepository KanaRepository { get; }
 }

@@ -6,6 +6,7 @@ public class KanjiDetailOutput
     public int StrokeCount { get; set; }
     public int? Grade { get; set; }
     public int? Jlpt { get; set; }
+    public int? KankenLevel { get; set; }
     public List<string>? Components { get; set; }
     public List<string>? OnReadings { get; set; }
     public List<string>? KunReadings { get; set; }

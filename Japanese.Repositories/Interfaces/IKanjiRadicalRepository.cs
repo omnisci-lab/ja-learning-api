@@ -1,4 +1,4 @@
-﻿using Japanese.Core.RepositoryBase.DynamoDB;
+﻿using Japanese.Core.RepositoryBase.MongoDB;
 using Japanese.Models;
 
 namespace Japanese.Repositories.Interfaces;

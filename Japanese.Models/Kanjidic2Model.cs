@@ -1,139 +1,141 @@
-﻿using Amazon.DynamoDBv2.DataModel;
+﻿using Japanese.Core.MongoDB;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using Redis.OM.Modeling;
 
 namespace Japanese.Models;
 
-[DynamoDBTable("Kanjidic2")]
 [Document(IndexName = "kanji2dic", StorageType = StorageType.Json)]
-public class Kanjidic2Model
+public class Kanjidic2Model : MongoDBModel
 {
-    [DynamoDBHashKey("literal")]
+    [BsonElement("literal")]
     [Indexed]
     public string? Literal { get; set; }
 
-    [DynamoDBProperty("codepoints")]
+    [BsonElement("codepoints")]
     public List<CodepointModel>? Codepoints { get; set; }
 
-    [DynamoDBProperty("radicals")]
+    [BsonElement("radicals")]
     public List<RadicalModel>? Radicals { get; set; }
 
-    [DynamoDBProperty("misc")]
+    [BsonElement("misc")]
     public MiscModel? Misc { get; set; }
 
-    [DynamoDBProperty("dictionaryReferences")]
+    [BsonElement("dictionaryReferences")]
     public List<DictionaryReferenceModel>? DictionaryReferences { get; set; }
 
-    [DynamoDBProperty("queryCodes")]
+    [BsonElement("queryCodes")]
     public List<QueryCodeModel>? QueryCodes { get; set; }
 
-    [DynamoDBProperty("readingMeaning")]
+    [BsonElement("readingMeaning")]
     public ReadingMeaningModel? ReadingMeaning { get; set; }
 
     
     public class CodepointModel
     {
-        [DynamoDBProperty("type")]
+        [BsonElement("type")]
         public string? Type { get; set; }
 
-        [DynamoDBProperty("value")]
+        [BsonElement("value")]
         public string? Value { get; set; }
     }
 
     public class RadicalModel
     {
-        [DynamoDBProperty("type")]
+        [BsonElement("type")]
         public string? Type { get; set; }
 
-        [DynamoDBProperty("value")]
+        [BsonElement("value")]
         public int? Value { get; set; }
     }
 
     public class MiscModel
     {
-        [DynamoDBProperty("grade")]
+        [BsonElement("grade")]
         public int? Grade { get; set; }
 
-        [DynamoDBProperty("strokeCounts")]
+        [BsonElement("strokeCounts")]
         public List<int>? StrokeCounts { get; set; }
 
-        [DynamoDBProperty("variants")]
+        [BsonElement("variants")]
         public List<CodepointModel>? Variants { get; set; }
 
-        [DynamoDBProperty("frequency")]
+        [BsonElement("frequency")]
         public int? Frequency { get; set; }
 
-        //[DynamoDBProperty("radicalNames")]
-        //public List<object>? RadicalNames { get; set; }
+        [BsonElement("radicalNames")]
+        public List<object>? RadicalNames { get; set; }
 
-        [DynamoDBProperty("jlptLevel")]
+        [BsonElement("jlptLevel")]
         public int? JlptLevel { get; set; }
+
+        [BsonIgnore]
+        public int? KankenLevel { get; set; }
     }
 
     public class DictionaryReferenceModel
     {
-        [DynamoDBProperty("type")]
+        [BsonElement("type")]
         public string? Type { get; set; }
 
-        //[DynamoDBProperty("morohashi")]
-        //[Alias("morohashi")]
-        //public object? Morohashi { get; set; }
+        [BsonElement("morohashi")]
+        public object? Morohashi { get; set; }
 
-        [DynamoDBProperty("value")]
+        [BsonElement("value")]
         public string? Value { get; set; }
     }
 
     public class QueryCodeModel
     {
-        [DynamoDBProperty("type")]
+        [BsonElement("type")]
         public string? Type { get; set; }
 
-        //[DynamoDBProperty("skipMisclassification")]
-        //[Alias("skipMisclassification")]
-        //public object? SkipMisclassification { get; set; }
+        [BsonElement("skipMisclassification")]
+        public object? SkipMisclassification { get; set; }
 
-        [DynamoDBProperty("value")]
+        [BsonElement("value")]
         public string? Value { get; set; }
     }
 
     public class ReadingMeaningModel
     {
-        [DynamoDBProperty("groups")]
+        [BsonElement("groups")]
         public List<GroupModel>? Groups { get; set; }
 
-        [DynamoDBProperty("nanori")]
+        [BsonElement("nanori")]
         public List<string>? Nanori { get; set; }
     }
 
     public class GroupModel
     {
-        [DynamoDBProperty("readings")]
+        [BsonElement("readings")]
         public List<ReadingModel>? Readings { get; set; }
 
-        [DynamoDBProperty("meanings")]
+        [BsonElement("meanings")]
         public List<MeaningModel>? Meanings { get; set; }
     }
 
     public class ReadingModel
     {
-        [DynamoDBProperty("type")]
+        [BsonElement("type")]
         public string? Type { get; set; }
 
-        //[DynamoDBProperty("onType")]
-        //public object? OnType { get; set; }
+        [BsonElement("onType")]
+        public object? OnType { get; set; }
 
-        //[DynamoDBProperty("status")]
-        //public object? Status { get; set; }
+        [BsonElement("status")]
+        public object? Status { get; set; }
 
-        [DynamoDBProperty("value")]
+        [BsonElement("value")]
         public string? Value { get; set; }
     }
 
     public class MeaningModel
     {
-        [DynamoDBProperty("lang")]
+        [BsonElement("lang")]
         public string? Lang { get; set; }
 
-        [DynamoDBProperty("value")]
+        [BsonElement("value")]
         public string? Value { get; set; }
     }
 }

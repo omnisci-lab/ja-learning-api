@@ -4,7 +4,6 @@ using Japanese.Core.Enum;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 using MediatR;
-using StackExchange.Redis;
 
 namespace Japanese.Services.Kanji.Queries.GetKanji;
 
@@ -25,27 +24,21 @@ public class GetKanjiQueryHandler : IRequestHandler<GetKanjiQuery, ExecResult<Ka
 
     public async Task<ExecResult<KanjiDetailOutput?>> Handle(GetKanjiQuery request, CancellationToken cancellationToken)
     {
-        Kanjidic2Model? kanjidic2Model = await _kanjidic2Repository.GetAsync(request.Kanji);
-        Kanjidic2ExtensionModel? kanjidic2ExtensionModel = await _kanjidic2ExtensionRepository.GetAsync(request.Kanji);
-        if (kanjidic2ExtensionModel is not null)
-            _ = _mapper.Map(kanjidic2ExtensionModel, kanjidic2Model);
-
-        if (kanjidic2Model is null && kanjidic2ExtensionModel is null)
+        Kanjidic2Model? kanjidic2Model = await _kanjidic2Repository.GetByLiteralAsync(request.Kanji!);
+        if (kanjidic2Model is null)
             return new ExecResult<KanjiDetailOutput?> { Status = ExecStatus.NotFound };
 
-        if (kanjidic2Model is not null && kanjidic2ExtensionModel is not null)
-            _ = _mapper.Map(kanjidic2Model, kanjidic2ExtensionModel);
-        
-        if (kanjidic2Model is not null && kanjidic2ExtensionModel is null)
-            kanjidic2ExtensionModel = _mapper.Map<Kanjidic2Model, Kanjidic2ExtensionModel>(kanjidic2Model);
+        Kanjidic2ExtensionModel kanjidic2ExtensionModel = await _kanjidic2ExtensionRepository
+            .GetByLiteralAsync(request.Kanji!);
 
-        KanjiDetailOutput? kanjiDetail = null;
         if (kanjidic2ExtensionModel is not null)
-            kanjiDetail = _mapper.Map<Kanjidic2ExtensionModel, KanjiDetailOutput>(kanjidic2ExtensionModel);
+            _mapper.Map(kanjidic2ExtensionModel, kanjidic2Model);
 
-        KanjiComponentModel? kanjiComponentModel = await _kanjiComponentRepository.GetAsync(request.Kanji);
-        if (kanjiComponentModel is not null)
-            _ = _mapper.Map(kanjiComponentModel, kanjiDetail);
+        KanjiDetailOutput kanjiDetail = _mapper.Map<Kanjidic2Model, KanjiDetailOutput>(kanjidic2Model);
+
+        KanjiComponentModel kanjiComponentModel = await _kanjiComponentRepository.GetByLiteralAsync(request.Kanji!);
+        if(kanjiComponentModel is not null)
+            _mapper.Map(kanjiComponentModel, kanjiDetail);
 
         return new ExecResult<KanjiDetailOutput?>
         {

@@ -14,7 +14,7 @@ public class CreateSentenceCommandHandler : IRequestHandler<CreateSentenceComman
 
     public CreateSentenceCommandHandler(IJapaneseRepository japaneseRepository, IMapper mapper)
     {
-        _sentenceRepository = japaneseRepository.SentenceRepository;
+        //_sentenceRepository = japaneseRepository.SentenceRepository;
         _mapper = mapper;
     }
 
@@ -24,7 +24,7 @@ public class CreateSentenceCommandHandler : IRequestHandler<CreateSentenceComman
 
         sentenceModel.SentenceId = Guid.NewGuid().ToString();
 
-        await _sentenceRepository.SaveAsync(sentenceModel);
+        //await _sentenceRepository.SaveAsync(sentenceModel);
 
         return new ExecResult { Status = ExecStatus.Success };
     }

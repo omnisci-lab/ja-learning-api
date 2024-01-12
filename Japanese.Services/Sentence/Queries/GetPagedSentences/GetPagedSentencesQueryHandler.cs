@@ -10,12 +10,12 @@ namespace Japanese.Services.Sentence.Queries.GetPagedSentences;
 
 public class GetPagedSentencesQueryHandler : IRequestHandler<GetPagedSentencesQuery, ExecResult<PagedResult<SentenceOutput>>>
 {
-    private readonly ISentenceRepository _sentenceRepository;
+    //private readonly ISentenceRepository _sentenceRepository;
     private readonly IMapper _mapper;
 
     public GetPagedSentencesQueryHandler(IJapaneseRepository repository, IMapper mapper)
     {
-        _sentenceRepository = repository.SentenceRepository;
+        //_sentenceRepository = repository.SentenceRepository;
         _mapper = mapper;
     }
 
@@ -23,14 +23,14 @@ public class GetPagedSentencesQueryHandler : IRequestHandler<GetPagedSentencesQu
     {
         PagedResult<SentenceModel>? paged_raw = null;
 
-        if (string.IsNullOrEmpty(request.Keyword))
-            paged_raw = await _sentenceRepository.GetPagedAsync(request);
-        else if (request.FilterBy == SentenceConsts.ByText)
-            paged_raw = await _sentenceRepository.SearchByTextAsync(request);
-        else if (request.FilterBy == SentenceConsts.ByViMeaning)
-            paged_raw = await _sentenceRepository.SearchByViMeaningAsync(request);
-        else
-            paged_raw = await _sentenceRepository.GetPagedAsync(request);
+        //if (string.IsNullOrEmpty(request.Keyword))
+        //    paged_raw = await _sentenceRepository.GetPagedAsync(request);
+        //else if (request.FilterBy == SentenceConsts.ByText)
+        //    paged_raw = await _sentenceRepository.SearchByTextAsync(request);
+        //else if (request.FilterBy == SentenceConsts.ByViMeaning)
+        //    paged_raw = await _sentenceRepository.SearchByViMeaningAsync(request);
+        //else
+        //    paged_raw = await _sentenceRepository.GetPagedAsync(request);
 
         return new ExecResult<PagedResult<SentenceOutput>>
         {

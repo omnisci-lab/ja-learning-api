@@ -14,20 +14,21 @@ public class UpdateSentenceCommandHandler : IRequestHandler<UpdateSentenceComman
 
     public UpdateSentenceCommandHandler(IJapaneseRepository japaneseRepository, IMapper mapper)
     {
-        _sentenceRepository = japaneseRepository.SentenceRepository;
+        //_sentenceRepository = japaneseRepository.SentenceRepository;
         _mapper = mapper;
     }
 
     public async Task<ExecResult> Handle(UpdateSentenceCommand request, CancellationToken cancellationToken)
     {
-        SentenceModel? sentenceModel = await _sentenceRepository.GetAsync(request.SentenceId);
-        if (sentenceModel is null)
-            return new ExecResult { Status = ExecStatus.NotFound };
+        return null;
+        //SentenceModel? sentenceModel = await _sentenceRepository.GetAsync(new MongoDB.Bson.ObjectId().);
+        //if (sentenceModel is null)
+        //    return new ExecResult { Status = ExecStatus.NotFound };
 
-        _mapper.Map(request, sentenceModel);
+        //_mapper.Map(request, sentenceModel);
 
-        await _sentenceRepository.SaveAsync(sentenceModel);
+        //await _sentenceRepository.SaveAsync(sentenceModel);
 
-        return new ExecResult { Status = ExecStatus.Success };
+        //return new ExecResult { Status = ExecStatus.Success };
     }
 }

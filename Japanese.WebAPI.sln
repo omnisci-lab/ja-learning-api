@@ -19,7 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{3FC1EFC9-852
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{C16A59D0-4F7C-434C-8993-1FF49E8900C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Japanese.CachedRepository", "Japanese.CachedRepository\Japanese.CachedRepository.csproj", "{DF67420B-FCD2-4005-86DE-AA0C373806D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Japanese.CachedRepository", "Japanese.CachedRepository\Japanese.CachedRepository.csproj", "{DF67420B-FCD2-4005-86DE-AA0C373806D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{9EEBE1F7-C255-458A-9737-4D964E88E167}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

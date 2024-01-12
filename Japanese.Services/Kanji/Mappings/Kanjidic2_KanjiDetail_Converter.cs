@@ -4,9 +4,9 @@ using Japanese.Services.Kanji.Queries;
 
 namespace Japanese.Services.Kanji.Mappings;
 
-public class Kanjidic2Extension_KanjiDetail_Converter : ITypeConverter<Kanjidic2ExtensionModel, KanjiDetailOutput>
+public class Kanjidic2_KanjiDetail_Converter : ITypeConverter<Kanjidic2Model, KanjiDetailOutput>
 {
-    public KanjiDetailOutput Convert(Kanjidic2ExtensionModel source, KanjiDetailOutput destination, ResolutionContext context)
+    public KanjiDetailOutput Convert(Kanjidic2Model source, KanjiDetailOutput destination, ResolutionContext context)
     {
         if (destination is null)
             destination = new KanjiDetailOutput();
@@ -16,6 +16,7 @@ public class Kanjidic2Extension_KanjiDetail_Converter : ITypeConverter<Kanjidic2
         if (source.Misc is not null)
         {
             destination.Jlpt = source.Misc.JlptLevel;
+            destination.KankenLevel = source.Misc.KankenLevel;
             destination.Grade = source.Misc.Grade;
             destination.StrokeCount = source.Misc.StrokeCounts![0];
         }

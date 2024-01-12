@@ -1,9 +1,10 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
+using Japanese.Core.MongoDB;
 
 namespace Japanese.Models;
 
 [DynamoDBTable("Sentences")]
-public class SentenceModel
+public class SentenceModel : MongoDBModel
 {
     [DynamoDBHashKey]
     [DynamoDBProperty("sentence_id")]

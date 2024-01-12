@@ -12,23 +12,24 @@ public class DeleteSentenceCommandHandler : IRequestHandler<DeleteSentenceComman
 
     public DeleteSentenceCommandHandler(IJapaneseRepository japaneseRepository)
     {
-        _sentenceRepository = japaneseRepository.SentenceRepository;
+        //_sentenceRepository = japaneseRepository.SentenceRepository;
     }
 
     public async Task<ExecResult> Handle(DeleteSentenceCommand request, CancellationToken cancellationToken)
     {
-        if (request.ForceDelete)
-        {
-            await _sentenceRepository.DeleteAsync(request.SentenceId);
-            return new ExecResult { Status = ExecStatus.Success };
-        }
+        return null;
+        //if (request.ForceDelete)
+        //{
+        //    await _sentenceRepository.DeleteAsync(request.SentenceId);
+        //    return new ExecResult { Status = ExecStatus.Success };
+        //}
 
-        SentenceModel? sentenceModel = await _sentenceRepository.GetAsync(request.SentenceId);
-        if (sentenceModel is null)
-            return new ExecResult { Status = ExecStatus.NotFound };
+        //SentenceModel? sentenceModel = await _sentenceRepository.GetAsync(request.SentenceId);
+        //if (sentenceModel is null)
+        //    return new ExecResult { Status = ExecStatus.NotFound };
 
-        await _sentenceRepository.SaveAsync(sentenceModel);
+        //await _sentenceRepository.SaveAsync(sentenceModel);
 
-        return new ExecResult { Status = ExecStatus.Success };
+        //return new ExecResult { Status = ExecStatus.Success };
     }
 }

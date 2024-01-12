@@ -1,4 +1,5 @@
-﻿using Japanese.Core.RepositoryBase.DynamoDB;
+﻿using Japanese.Core.MongoDB;
+using Japanese.Core.RepositoryBase.MongoDB;
 using Japanese.Redis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -6,52 +7,36 @@ using Redis.OM;
 
 namespace Japanese.Core.BackgroundTasks;
 
-public class CacheRefreshService<TMasterRepository, TModel> : BackgroundService, IDisposable 
+public class CacheRefreshService<TMasterRepository, TModel> : BackgroundService
     where TMasterRepository : IMasterRepository
-    where TModel : class, new()
+    where TModel : MongoDBModel, new()
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly IServiceScope _serviceScope;
-    private readonly TMasterRepository _masterRepository;
     private Func<TMasterRepository, IAppRepository<TModel>> _selectRepository;
-    private RedisConnectionProvider _redisConnectionProvider;
-    private bool disposedValue;
 
     public CacheRefreshService(IServiceProvider serviceProvider, Func<TMasterRepository, IAppRepository<TModel>> selectRepository)
     {
         _serviceProvider = serviceProvider;
-        _serviceScope = _serviceProvider.CreateScope();
-        _masterRepository = _serviceScope.ServiceProvider.GetService<TMasterRepository>()!;
         _selectRepository = selectRepository;
-        _redisConnectionProvider = _serviceScope.ServiceProvider.GetRequiredService<RedisConnectionProvider>();
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        IAppRepository<TModel> repository = _selectRepository(_masterRepository);
-        DataSync<TModel> dataSync = new DataSync<TModel>(repository, _redisConnectionProvider);
-
-        await dataSync.BulkInsertAsync();
-        await Task.CompletedTask;
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!disposedValue)
+        while (!stoppingToken.IsCancellationRequested)
         {
-            if (disposing)
+            using (IServiceScope serviceScope = _serviceProvider.CreateScope())
             {
-                _masterRepository.Dispose();
-                _serviceScope.Dispose();
+                using TMasterRepository masterRepository = serviceScope.ServiceProvider.GetService<TMasterRepository>()!;
+                IAppRepository<TModel> repository = _selectRepository(masterRepository);
+                RedisConnectionProvider _redisConnectionProvider = serviceScope.ServiceProvider.GetRequiredService<RedisConnectionProvider>();
+
+                //DataSync<TModel> dataSync = new DataSync<TModel>(repository, _redisConnectionProvider);
+
+                //await dataSync.CreateIndexAsync();
+                //await dataSync.BulkInsertAsync();
             }
 
-            disposedValue = true;
+            await Task.Delay(TimeSpan.FromMinutes(30));
         }
-    }
-
-    public void Dispose()
-    {
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
     }
 }
