@@ -1,5 +1,4 @@
 ﻿using Japanese.Core.RepositoryBase.MongoDB;
-using Japanese.Repositories.Implements;
 
 namespace Japanese.Repositories.Interfaces;
 
@@ -10,8 +9,8 @@ public interface IJapaneseRepository : IMasterRepository
     IKanjiComponentRepository KanjiComponentRepository { get; }
 
     //IKanjiRadicalRepository KanjiRadicalRepository { get; }
-    //ISentenceRepository SentenceRepository { get; }
-    //IJMdictRepository VocabRepository { get; }
+    ISentenceRepository SentenceRepository { get; }
+    IJMdictRepository JMdictRepository { get; }
     
-    //IKanaRepository KanaRepository { get; }
+    IKanaRepository KanaRepository { get; }
 }

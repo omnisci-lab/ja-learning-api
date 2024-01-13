@@ -1,14 +1,16 @@
-﻿using Amazon.DynamoDBv2.DataModel;
-using Japanese.Core.MongoDB;
+﻿using Japanese.Core.MongoDB;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Japanese.Models;
 
-[DynamoDBTable("Kana")]
 public class KanaModel : MongoDBModel
 {
-    [DynamoDBHashKey(AttributeName = "kana_type")]
-    public string? KanaType { get; set; }
-
-    [DynamoDBRangeKey(AttributeName = "character")]
+    [BsonElement("character")]
     public string? Character { get; set; }
+
+    [BsonElement("romanization")]
+    public string? Romanization { get; set; }
+
+    [BsonElement("kanaType")]
+    public string? KanaType { get; set; }
 }

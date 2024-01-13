@@ -3,7 +3,7 @@ using Japanese.Core.Enum;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Japanese.API.Base;
+namespace Japanese.Core.API;
 
 [ApiController]
 [HandlerException]

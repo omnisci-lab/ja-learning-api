@@ -8,5 +8,5 @@ namespace Japanese.CachedRepository.Interfaces;
 
 public interface IJapaneseCachedRepository
 {
-    IKanjidic2CachedRepository Kanjidic2CachedRepositoty { get; }
+
 }

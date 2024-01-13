@@ -351,3 +351,4 @@ MigrationBackup/
 /Japanese.API/appsettings.Development.json
 /Japanese.Infrastructure/Migrations
 /Japanese.Web.Admin/appsettings.Development.json
+/Japanese.Admin.API/appsettings.Development.json

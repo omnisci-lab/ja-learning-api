@@ -15,7 +15,7 @@ public class GetSentenceQueryHandler : IRequestHandler<GetSentenceQuery, ExecRes
 
     public GetSentenceQueryHandler(IJapaneseRepository repository, IMapper mapper)
     {
-        //_sentenceRepository = repository.SentenceRepository;
+        _sentenceRepository = repository.SentenceRepository;
         _mapper = mapper;
     }
 

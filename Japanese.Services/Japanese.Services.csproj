@@ -19,4 +19,12 @@
     <ProjectReference Include="..\Japanese.Repositories\Japanese.Repositories.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dictionary\Consts\" />
+    <Folder Include="Dictionary\Mappings\" />
+    <Folder Include="Dictionary\Commands\" />
+    <Folder Include="Dictionary\Queries\" />
+    <Folder Include="Kana\Commands\" />
+  </ItemGroup>
+
 </Project>

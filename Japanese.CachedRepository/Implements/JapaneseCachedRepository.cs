@@ -11,6 +11,4 @@ public class JapaneseCachedRepository : IJapaneseCachedRepository
     {
         _provider = provider;
     }
-
-    public IKanjidic2CachedRepository Kanjidic2CachedRepositoty => new Kanjidic2CachedRepository(_provider);
 }

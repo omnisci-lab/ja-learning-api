@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Japanese.Services.Kanji.Queries.GetKanji;
-using Japanese.API.Base;
 using Japanese.Services.Kanji.Queries.GetPagedKanji;
 using Japanese.Core.CommonModels;
 using Japanese.Services.Kanji.Queries;
 using Japanese.Services.Kanji.Queries.GetSearchProperties;
 using Japanese.Services.Kanji.Queries.GetKanjiFilters;
+using Japanese.Core.API;
 
 namespace Japanese.API.Controllers;
 

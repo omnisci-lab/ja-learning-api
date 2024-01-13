@@ -22,11 +22,11 @@ public class JapaneseRepository : MasterRepository, IJapaneseRepository
 
     //public IKanjiRadicalRepository KanjiRadicalRepository => new KanjiRadicalRepository(DynamoDBHelper);
 
-    //public ISentenceRepository SentenceRepository => new SentenceRepository(DynamoDBHelper);
+    public ISentenceRepository SentenceRepository => new SentenceRepository(Database, "Sentences");
 
-    //public IJMdictRepository VocabRepository => new JMdictRepository(DynamoDBHelper);
+    public IJMdictRepository JMdictRepository => new JMdictRepository(Database, "JMdict");
 
 
 
-    //public IKanaRepository KanaRepository => new KanaRepository(DynamoDBHelper);
+    public IKanaRepository KanaRepository => new KanaRepository(Database, "Kana");
 }

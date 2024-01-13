@@ -1,16 +1,17 @@
-﻿using Japanese.Core.CommonModels;
+﻿using Japanese.Core.API;
+using Japanese.Core.CommonModels;
+using Japanese.Services.Kana.Queries.GetKana;
+using Japanese.Services.Kana.Queries.GetKanaList;
+using Japanese.Services.Kana.Queries.GetKanaTypes;
+using Japanese.Services.Kana.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using Japanese.Services.Kana.Queries.GetKana;
-using Japanese.Services.Kana.Queries;
-using Japanese.Services.Kana.Queries.GetKanaList;
-using Japanese.Services.Kana.Queries.GetKanaTypes;
-using Japanese.Core.API;
 
-namespace Japanese.API.Controllers;
+namespace Japanese.Admin.API.Controllers;
 
 [Route("api/kana")]
+[ApiController]
 public class KanaController : ApiControllerBase
 {
     public KanaController(IMediator mediator) 
@@ -18,7 +19,6 @@ public class KanaController : ApiControllerBase
     {
     }
 
-    [HttpPost]
     [Route("list")]
     [ProducesResponseType(typeof(ExecResult<KanaDetailOutput>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetList([FromBody] GetKanaListQuery query)
