@@ -8,7 +8,7 @@ public class GetKanaListQuery : IRequest<ExecResult<List<KanaDetailOutput>>>, IC
 {
     public string? KanaType { get; set; }
 
-    public string? CacheKey => $"hiragana_list";
+    public string? CacheKey => $"kanalist_t:{KanaType}";
 
     public bool BypassCache { get; set; }
     public bool RefreshCache { get; set; }

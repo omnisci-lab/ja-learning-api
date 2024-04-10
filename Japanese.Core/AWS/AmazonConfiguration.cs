@@ -1,5 +1,4 @@
 ﻿using Amazon;
-using Amazon.DynamoDBv2;
 using Amazon.Polly;
 using Amazon.Runtime;
 using Amazon.S3;
@@ -27,21 +26,6 @@ public class AmazonConfiguration
             _basicAWSCredentials = new BasicAWSCredentials(AwsAccessKeyId, AwsSecretAccessKey);
 
             return _basicAWSCredentials;
-        }
-    }
-
-    private AmazonDynamoDBConfig? _dynamoDBConfig;
-
-    public AmazonDynamoDBConfig DynamoDBConfig
-    {
-        get
-        {
-            if (_dynamoDBConfig is not null)
-                return _dynamoDBConfig;
-
-            _dynamoDBConfig = new AmazonDynamoDBConfig { RegionEndpoint = RegionEndpoint.GetBySystemName(DynamoDBRegionEndpoint) };
-
-            return _dynamoDBConfig;
         }
     }
 

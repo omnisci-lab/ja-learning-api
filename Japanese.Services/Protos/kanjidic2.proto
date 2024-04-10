@@ -1,0 +1,38 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Japanese.Services.Protos";
+package kanjidic2;
+
+service Kanjidic2 {
+	rpc GetKanji (GetKanjiRequest) returns (Kanjidic2Output);
+	rpc GetByOnyomi (GetByOnyomiRequest) returns (Kanjidic2OutputList);
+	rpc GetByKunyomi (GetByKunyomiRequest) returns (Kanjidic2OutputList);
+}
+
+message GetKanjiRequest {
+	string literal = 1;
+	bool getList = 2;
+}
+
+message GetByOnyomiRequest {
+	string onReading = 1;
+}
+
+message GetByKunyomiRequest {
+	string kunReading = 1;
+}
+
+message Kanjidic2OutputList {
+  repeated Kanjidic2Output Kanjidic2Outputs = 1;
+}
+
+message Kanjidic2Output {
+	string id = 1;
+	string literal = 2;
+	string codepoints = 3;
+	string radicals = 4;
+	string misc = 5;
+	string dictionaryReferences = 6;
+	string queryCodes = 7;
+	string readingMeaning = 8;
+}

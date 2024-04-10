@@ -64,4 +64,11 @@ public class Kanjidic2Repository : AppRepository<Kanjidic2Model>, IKanjidic2Repo
 
         return pagedResult;
     }
+
+    public async Task<List<Kanjidic2Model>> GetVarirantsAsync(List<Kanjidic2Model.CodepointModel> codepoints)
+    {
+        return await Collection.AsQueryable()
+            .Where(x => x.Codepoints != null && x.Codepoints.Any(x => codepoints.Any(c => c.Type == x.Type && c.Value == x.Value)))
+            .ToListAsync();
+    }
 }

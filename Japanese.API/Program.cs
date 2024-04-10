@@ -22,6 +22,7 @@ builder.Services.AddRepositories(configuration);
 builder.Services.AddCachedRepositories(configuration);
 builder.Services.AddBusinessServices(configuration);
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

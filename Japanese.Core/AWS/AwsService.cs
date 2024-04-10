@@ -7,21 +7,12 @@ public class AwsService : IAwsService
     private readonly AmazonConfiguration _amazonConfiguration;
     private bool disposedValue;
 
-    private DynamoDBHelper? _dynamoDBHelper;
     private PollyHelper? _pollyHelper;
     private S3Helper? _s3Helper;
 
     public AwsService(AmazonConfiguration amazonConfiguration)
     {
         _amazonConfiguration = amazonConfiguration;
-    }
-
-    public DynamoDBHelper CreateDynamoDBHelper()
-    {
-        if(_dynamoDBHelper is null)
-            _dynamoDBHelper = new DynamoDBHelper(_amazonConfiguration.BasicAwsCredentials, _amazonConfiguration.DynamoDBConfig);
-
-        return _dynamoDBHelper;
     }
 
     public PollyHelper CreatePollyHelper()
@@ -46,8 +37,6 @@ public class AwsService : IAwsService
         {
             if (disposing)
             {
-                if (_dynamoDBHelper is not null)
-                    _dynamoDBHelper.Dispose();
 
                 if (_pollyHelper is not null)
                     _pollyHelper.Dispose();

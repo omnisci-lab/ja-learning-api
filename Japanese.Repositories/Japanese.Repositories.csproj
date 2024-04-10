@@ -19,6 +19,7 @@
     <Compile Include="Implements\Kanjidic2Repository.cs" />
     <Compile Include="Implements\KanjiRadicalRepository.cs" />
     <Compile Include="Implements\Kanjidic2ExtensionRepository.cs" />
+    <Compile Include="Implements\KanjiRepository.cs" />
     <Compile Include="Implements\SentenceRepository.cs" />
     <Compile Include="Implements\JMdictRepository.cs" />
   </ItemGroup>

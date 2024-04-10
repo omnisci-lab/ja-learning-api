@@ -1,11 +1,10 @@
-﻿using Amazon.DynamoDBv2.DataModel;
-using Japanese.Core.MongoDB;
+﻿using Japanese.Core.MongoDB;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Japanese.Models;
 
-[DynamoDBTable("KanjiRadicals")]
 public class KanjiRadicalModel : MongoDBModel
 {
-    [DynamoDBProperty("kanji_radical")]
+    [BsonElement("kanji_radical")]
     public string? KanjiRadical { get; set; }
 }

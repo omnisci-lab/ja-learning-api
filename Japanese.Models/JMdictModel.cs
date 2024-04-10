@@ -1,87 +1,86 @@
-﻿using Amazon.DynamoDBv2.DataModel;
-using Japanese.Core.MongoDB;
+﻿using Japanese.Core.MongoDB;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Japanese.Models;
 
-[DynamoDBTable("JMdict")]
 public class JMdictModel : MongoDBModel
 {
-    [DynamoDBHashKey(AttributeName = "id")]
-    public string? Id { get; set; }
+    [BsonElement("id")]
+    public string? DictId { get; set; }
 
-    [DynamoDBProperty("kana")]
+    [BsonElement("kana")]
     public List<KanaModel>? Kana { get; set; }
 
-    [DynamoDBProperty("kanji")]
+    [BsonElement("kanji")]
     public List<object>? Kanji { get; set; }
 
-    [DynamoDBProperty("sense")]
+    [BsonElement("sense")]
     public List<KanaModel>? Sense { get; set; }
 
 
     public class KanaModel
     {
-        [DynamoDBProperty("appliesToKanji")]
+        [BsonElement("appliesToKanji")]
         public List<string>? AppliesToKanji { get; set; }
 
-        [DynamoDBProperty("common")]
+        [BsonElement("common")]
         public bool Common { get; set; }
 
-        [DynamoDBProperty("tags")]
+        [BsonElement("tags")]
         public List<object>? Tags { get; set; }
 
-        [DynamoDBProperty("text")]
+        [BsonElement("text")]
         public string? Text { get; set; }
     }
 
     public class SenseModel
     {
-        [DynamoDBProperty("antonym")]
+        [BsonElement("antonym")]
         public List<object>? Antonym { get; set; }
 
-        [DynamoDBProperty("appliesToKana")]
+        [BsonElement("appliesToKana")]
         public List<string>? AppliesToKana { get; set; }
 
-        [DynamoDBProperty("appliesToKanji")]
+        [BsonElement("appliesToKanji")]
         public List<string>? AppliesToKanji { get; set; }
 
-        [DynamoDBProperty("dialect")]
+        [BsonElement("dialect")]
         public List<object>? Dialect { get; set; }
 
-        [DynamoDBProperty("field")]
+        [BsonElement("field")]
         public List<object>? Field { get; set; }
 
-        [DynamoDBProperty("gloss")]
+        [BsonElement("gloss")]
         public List<GlossModel>? Gloss { get; set; }
 
-        [DynamoDBProperty("info")]
+        [BsonElement("info")]
         public List<object>? Info { get; set; }
 
-        [DynamoDBProperty("languageSource")]
+        [BsonElement("languageSource")]
         public List<object>? LanguageSource { get; set; }
 
-        [DynamoDBProperty("misc")]
+        [BsonElement("misc")]
         public List<object>? Misc { get; set; }
 
-        [DynamoDBProperty("partOfSpeech")]
+        [BsonElement("partOfSpeech")]
         public List<string>? PartOfSpeech { get; set; }
 
-        [DynamoDBProperty("related")]
+        [BsonElement("related")]
         public List<List<string>>? Related { get; set; }
     }
 
     public class GlossModel
     {
-        [DynamoDBProperty("gender")]
+        [BsonElement("gender")]
         public object? Gender { get; set; }
 
-        [DynamoDBProperty("lang")]
+        [BsonElement("lang")]
         public string? Lang { get; set; }
 
-        [DynamoDBProperty("text")]
+        [BsonElement("text")]
         public string? Text { get; set; }
 
-        [DynamoDBProperty("type")]
+        [BsonElement("type")]
         public object? Type { get; set; }
     }
 }
