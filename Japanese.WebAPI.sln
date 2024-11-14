@@ -25,6 +25,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{9EEB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Japanese.Admin.API", "Japanese.Admin.API\Japanese.Admin.API.csproj", "{CAE6E5F7-348A-4937-B0A4-6E4CAA0EDBC9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Static Data", "Static Data", "{02EF5E1F-AE17-46F4-9A86-78CD9CC56D9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Japanese.Kanjidic2", "Japanese.Kanjidic2\Japanese.Kanjidic2.csproj", "{840F0135-EC81-455E-8CA6-316797F3B6EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +63,10 @@ Global
 		{CAE6E5F7-348A-4937-B0A4-6E4CAA0EDBC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAE6E5F7-348A-4937-B0A4-6E4CAA0EDBC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAE6E5F7-348A-4937-B0A4-6E4CAA0EDBC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{840F0135-EC81-455E-8CA6-316797F3B6EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{840F0135-EC81-455E-8CA6-316797F3B6EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{840F0135-EC81-455E-8CA6-316797F3B6EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{840F0135-EC81-455E-8CA6-316797F3B6EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +79,7 @@ Global
 		{E18771C5-07FA-4E6A-880E-87BB6867FE3B} = {C16A59D0-4F7C-434C-8993-1FF49E8900C9}
 		{DF67420B-FCD2-4005-86DE-AA0C373806D7} = {C16A59D0-4F7C-434C-8993-1FF49E8900C9}
 		{CAE6E5F7-348A-4937-B0A4-6E4CAA0EDBC9} = {3FC1EFC9-8523-4290-8FD7-51A5A8514D1A}
+		{840F0135-EC81-455E-8CA6-316797F3B6EE} = {02EF5E1F-AE17-46F4-9A86-78CD9CC56D9E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1217586F-C328-414A-9DB3-8B6CE97D8A34}

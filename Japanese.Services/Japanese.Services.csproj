@@ -1,10 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Kanji\Mappings\Kanjidic2Extension_Kanjidic2_Converter.cs" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="12.0.1" />
@@ -22,6 +26,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Japanese.CachedRepository\Japanese.CachedRepository.csproj" />
+		<ProjectReference Include="..\Japanese.Kanjidic2\Japanese.Kanjidic2.csproj" />
 		<ProjectReference Include="..\Japanese.Repositories\Japanese.Repositories.csproj" />
 	</ItemGroup>
 
@@ -31,12 +36,5 @@
 		<Folder Include="Dictionary\Commands\" />
 		<Folder Include="Dictionary\Queries\" />
 		<Folder Include="Kana\Commands\" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Protobuf Include="Protos\kanjidic2.proto" GrpcServices="Client" />
-	</ItemGroup>
-	<ItemGroup>
-		<ApplicationDefinition Include="Protos\kanjidic2.proto" />
 	</ItemGroup>
 </Project>

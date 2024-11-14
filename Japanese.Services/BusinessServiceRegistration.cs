@@ -2,6 +2,7 @@
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Japanese.Core.DependencyInjection;
+using Japanese.Services.Kanji.Queue;
 
 namespace Japanese.Services;
 
@@ -12,6 +13,8 @@ public static class BusinessServiceRegistration
         services.AddRedisServices(configuration);
         services.AddCqrs(Assembly.GetExecutingAssembly());
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+        services.AddQueue<KanjiQueueTask>();
 
         return services;
     }

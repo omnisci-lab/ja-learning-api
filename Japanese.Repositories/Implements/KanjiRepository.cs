@@ -16,6 +16,6 @@ public class KanjiRepository : AppRepository<KanjiModel>, IKanjiRepository
     public async Task<KanjiModel> GetByLiteralAsync(string literal)
     {
         return await Collection.AsQueryable()
-            .Where(x => x.Literal == literal).SingleOrDefaultAsync();
+            .Where(x => x.Character == literal).SingleOrDefaultAsync();
     }
 }

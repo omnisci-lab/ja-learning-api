@@ -10,11 +10,11 @@ public class UserMappingProfile : Profile
 {
     public UserMappingProfile()
     {
-        CreateMap<Kanjidic2ExtensionModel, Kanjidic2Model>()
-           .ConvertUsing<Kanjidic2Extension_Kanjidic2_Converter>();
+        //CreateMap<Kanjidic2ExtensionModel, Kanjidic2Model>()
+           //.ConvertUsing<Kanjidic2Extension_Kanjidic2_Converter>();
 
-        CreateMap<Kanjidic2Model, KanjiDetailOutput>()
-           .ConvertUsing<Kanjidic2_KanjiDetail_Converter>();
+        //CreateMap<Kanjidic2Model, KanjiDetailOutput>()
+           //.ConvertUsing<Kanjidic2_KanjiDetail_Converter>();
 
         CreateMap<KanjiComponentModel, KanjiDetailOutput>()
             .ConvertUsing<KanjiComponent_KanjiDetail_Converter>();

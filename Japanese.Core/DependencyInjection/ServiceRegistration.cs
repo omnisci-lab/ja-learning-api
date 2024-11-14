@@ -10,6 +10,8 @@ using System.Reflection;
 using Japanese.Core.BackgroundTasks;
 using Redis.OM;
 using Japanese.Core.RepositoryBase.MongoDB;
+using Japanese.Core.BackgroundServices;
+using Japanese.Core.Queue;
 
 namespace Japanese.Core.DependencyInjection;
 
@@ -53,6 +55,15 @@ public static class ServiceRegistration
     {
         services.AddSingleton(s => configuration.GetSection("AWS").Get<AmazonConfiguration>()!);
         services.AddScoped<IAwsService, AwsService>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddQueue<TQueueTask>(this IServiceCollection services)
+        where TQueueTask : IQueueTask
+    {
+        services.AddSingleton<QueueService<TQueueTask>>();
+        services.AddHostedService<QueueBackgroundService<TQueueTask>>();
 
         return services;
     }
