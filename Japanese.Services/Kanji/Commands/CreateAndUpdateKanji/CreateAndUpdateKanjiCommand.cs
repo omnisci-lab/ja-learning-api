@@ -1,10 +1,11 @@
 ﻿using Japanese.Core.CommonModels;
 using MediatR;
 
-namespace Japanese.Services.Kanji.Commands.UpdateKanji;
+namespace Japanese.Services.Kanji.Commands.CreateAndUpdateKanji;
 
-public class UpdateKanjiCommand : IRequest<ExecResult>
+public class CreateAndUpdateKanjiCommand : IRequest<ExecResult>
 {
+    public bool IsUpdate { get; set; }
     public string? Kanji { get; set; }
     public int StrokeCount { get; set; }
     public int? Grade { get; set; }

@@ -2,7 +2,7 @@
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Japanese.Core.DependencyInjection;
-using Japanese.Services.Kanji.Queue;
+using Japanese.Services.Kanji.Queues;
 
 namespace Japanese.Services;
 

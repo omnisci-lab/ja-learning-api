@@ -1,12 +1,13 @@
 ﻿using System.Reflection;
 
-namespace Japanese.Core.Plugin;
+namespace Japanese.Core.CQRS.ExtendedProcessing;
 
-public class PluginManager
+//Extended Processing Manager
+public class ExtProcManager
 {
-    private readonly PluginCollection _pluginCollection;
+    private readonly ExtProcCollection _pluginCollection;
 
-    public PluginManager(PluginCollection pluginCollection)
+    public ExtProcManager(ExtProcCollection pluginCollection)
     {
         _pluginCollection = pluginCollection;
     }
@@ -16,17 +17,17 @@ public class PluginManager
         _pluginCollection.Clear();
 
         string pluginFolderPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!, "plugins");
-        if(!Directory.Exists(pluginFolderPath))
+        if (!Directory.Exists(pluginFolderPath))
             Directory.CreateDirectory(pluginFolderPath);
 
         string[] subPluginFolderPaths = Directory.GetDirectories(pluginFolderPath);
-        
-        foreach(string subPluginFolderPath in subPluginFolderPaths)
+
+        foreach (string subPluginFolderPath in subPluginFolderPaths)
         {
             string[] filePaths = Directory.GetFiles(subPluginFolderPath)
                 .Where(x => Path.GetExtension(x) == ".dll").ToArray();
 
-            foreach(string filePath in filePaths)
+            foreach (string filePath in filePaths)
             {
                 Assembly assembly = Assembly.LoadFrom(filePath);
                 if (assembly.GetTypes().Any(x => x.Name == "PluginExecution"))

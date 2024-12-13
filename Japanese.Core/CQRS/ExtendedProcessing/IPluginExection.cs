@@ -1,5 +1,4 @@
-﻿
-namespace Japanese.Core.Plugin;
+﻿namespace Japanese.Core.CQRS.ExtendedProcessing;
 
 public interface IPluginExection
 {

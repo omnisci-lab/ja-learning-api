@@ -1,17 +1,14 @@
 ﻿using FluentValidation;
-using Japanese.Core.Plugin;
 using Japanese.CQRS.Behaviours;
-using Japanese.Core.AWS;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using System.Reflection;
-using Japanese.Core.BackgroundTasks;
 using Redis.OM;
-using Japanese.Core.RepositoryBase.MongoDB;
 using Japanese.Core.BackgroundServices;
 using Japanese.Core.Queue;
+using Japanese.Core.CQRS.ExtendedProcessing;
 
 namespace Japanese.Core.DependencyInjection;
 
@@ -43,18 +40,10 @@ public static class ServiceRegistration
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PluginExecutionBehaviour<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ExtendedProcessingBehaviour<,>));
 
-        services.AddSingleton<PluginCollection>();
-        services.AddScoped<PluginManager>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddAwsServices(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddSingleton(s => configuration.GetSection("AWS").Get<AmazonConfiguration>()!);
-        services.AddScoped<IAwsService, AwsService>();
+        services.AddSingleton<ExtProcCollection>();
+        services.AddScoped<ExtProcManager>();
 
         return services;
     }
@@ -67,13 +56,4 @@ public static class ServiceRegistration
 
         return services;
     }
-
-    //public static IServiceCollection AddDbCacheServices<TMasterRepository, TModel>(this IServiceCollection services, Func<TMasterRepository, IAppRepository<TModel>> selectRepository) 
-    //    where TMasterRepository : IMasterRepository 
-    //    where TModel : class, new()
-    //{
-    //    //services.AddHostedService(i => new CacheRefreshService<TMasterRepository, TModel>(i, selectRepository));
-
-    //    return services;
-    //}
 }

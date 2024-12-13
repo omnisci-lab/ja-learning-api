@@ -1,6 +1,4 @@
-﻿using Japanese.Core.AWS;
-using Japanese.Core.AWS.Helpers;
-using Japanese.Core.CommonModels;
+﻿using Japanese.Core.CommonModels;
 using Japanese.Core.Enum;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
@@ -11,14 +9,14 @@ namespace Japanese.Services.Sentence.Queries.GetSentenceAudio;
 public class GetSentenceAudioQueryHandler : IRequestHandler<GetSentenceAudioQuery, FileResult>
 {
     private readonly ISentenceRepository _sentenceRepository;
-    private readonly PollyHelper _pollyHelper;
-    private readonly S3Helper _s3Helper;
+    //private readonly PollyHelper _pollyHelper;
+    //private readonly S3Helper _s3Helper;
 
-    public GetSentenceAudioQueryHandler(IJapaneseRepository japaneseRepository, IAwsService awsService)
+    public GetSentenceAudioQueryHandler(IJapaneseRepository japaneseRepository/*, IAwsService awsService*/)
     {
         //_sentenceRepository = japaneseRepository.SentenceRepository;
-        _pollyHelper = awsService.CreatePollyHelper();
-        _s3Helper = awsService.CreateS3Helper();
+       // _pollyHelper = awsService.CreatePollyHelper();
+        //_s3Helper = awsService.CreateS3Helper();
     }
 
     public async Task<FileResult> Handle(GetSentenceAudioQuery request, CancellationToken cancellationToken)
@@ -79,9 +77,10 @@ public class GetSentenceAudioQueryHandler : IRequestHandler<GetSentenceAudioQuer
 
     private async Task<byte[]> GenerateAndUploadVoice(string text, string voiceSoundKeyName, VoiceOptions voiceOptions)
     {
-        using MemoryStream memoryStreamFromSynthesis = await _pollyHelper.BasicSynthesizeSpeech(text, voiceOptions);
-        await _s3Helper.UploadFile("files.japanese", voiceSoundKeyName, memoryStreamFromSynthesis);
+        //using MemoryStream memoryStreamFromSynthesis = await _pollyHelper.BasicSynthesizeSpeech(text, voiceOptions);
+        //await _s3Helper.UploadFile("files.japanese", voiceSoundKeyName, memoryStreamFromSynthesis);
 
-        return memoryStreamFromSynthesis.ToArray();
+        //return memoryStreamFromSynthesis.ToArray();
+        return null;
     }
 }

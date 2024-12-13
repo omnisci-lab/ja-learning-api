@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Japanese.Core.Plugin;
+namespace Japanese.Core.CQRS.ExtendedProcessing;
 
 public class PluginInfo
 {
@@ -18,7 +18,7 @@ public class PluginInfo
 
         Type? type = Assembly.GetTypes()
             .SingleOrDefault(x => x.GetInterfaces().Any(i => i.Name == nameof(IPluginExection)));
-        
+
         if (type is null)
             return;
 

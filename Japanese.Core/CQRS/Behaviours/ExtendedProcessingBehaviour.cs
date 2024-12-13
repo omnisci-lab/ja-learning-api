@@ -1,14 +1,14 @@
-﻿using Japanese.Core.Plugin;
+﻿using Japanese.Core.CQRS.ExtendedProcessing;
 using MediatR;
 
 namespace Japanese.CQRS.Behaviours;
 
-public class PluginExecutionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public class ExtendedProcessingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull
 {
-    private readonly PluginManager _pluginManager;
+    private readonly ExtProcManager _pluginManager;
 
-    public PluginExecutionBehaviour(PluginManager pluginManager)
+    public ExtendedProcessingBehaviour(ExtProcManager pluginManager)
     {
         _pluginManager = pluginManager;
     }

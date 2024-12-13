@@ -1,5 +1,4 @@
-﻿using Japanese.Core.AWS.Helpers;
-using Japanese.Core.RepositoryBase.MongoDB;
+﻿using Japanese.Core.RepositoryBase.MongoDB;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 using MongoDB.Driver;
