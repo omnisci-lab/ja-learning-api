@@ -9,6 +9,8 @@ using Redis.OM;
 using Japanese.Core.BackgroundServices;
 using Japanese.Core.Queue;
 using Japanese.Core.CQRS.ExtendedProcessing;
+using Japanese.Core.RepositoryBase.MongoDB;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Japanese.Core.DependencyInjection;
 
@@ -53,6 +55,17 @@ public static class ServiceRegistration
     {
         services.AddSingleton<QueueService<TQueueTask>>();
         services.AddHostedService<QueueBackgroundService<TQueueTask>>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddDataCleaner<TMasterRepository>(this IServiceCollection services)
+        where TMasterRepository : IMasterRepository
+    {
+        PropertyInfo[] properties = typeof(TMasterRepository).GetProperties()
+            .Where(x => x.PropertyType.GetInterfaces().Any(xx => xx.IsGenericType && xx.GetGenericTypeDefinition() == typeof(IAppRepository<>)))
+            .ToArray();
+        services.AddHostedService<DeleteDataBackgroundService<TMasterRepository>>();
 
         return services;
     }

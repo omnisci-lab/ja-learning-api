@@ -14,8 +14,6 @@ public class JapaneseRepository : MasterRepository, IJapaneseRepository
 
     public IKanjidic2Repository Kanjidic2Repository => new Kanjidic2Repository(Database, "Kanjidic2");
 
-    public IKanjidic2ExtensionRepository Kanjidic2ExtensionRepository => new Kanjidic2ExtensionRepository(Database, "Kanjidic2Extensions");
-
     public IKanjiComponentRepository KanjiComponentRepository => new KanjiComponentRepository(Database, "KanjiComponents");
 
 

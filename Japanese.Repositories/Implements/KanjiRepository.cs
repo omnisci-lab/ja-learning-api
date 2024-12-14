@@ -68,6 +68,6 @@ public class KanjiRepository : AppRepository<KanjiModel>, IKanjiRepository
         Dictionary<string, object> update = new Dictionary<string, object>();
         update.Add("strokeCount", kanjiModel.StrokeCount);
 
-        await UpdateAsync(kanjiModel, f => f.Character, kanjiModel.Character, update);
+        await UpdateAsync(f => f.Character, kanjiModel.Character, update);
     }
 }

@@ -6,7 +6,6 @@ public interface IJapaneseRepository : IMasterRepository
 {
     IKanjiRepository KanjiRepository { get; }
     IKanjidic2Repository Kanjidic2Repository { get; }
-    IKanjidic2ExtensionRepository Kanjidic2ExtensionRepository { get; }
     IKanjiComponentRepository KanjiComponentRepository { get; }
 
     //IKanjiRadicalRepository KanjiRadicalRepository { get; }

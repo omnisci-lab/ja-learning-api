@@ -7,10 +7,6 @@ namespace Japanese.Models;
 
 public class KanjiModel : MongoDBModel
 {
-    //[BsonId]
-    //[BsonRepresentation(BsonType.ObjectId)]
-    //public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
-
     [BsonElement("character")]
     [Indexed]
     public string Character { get; set; } = default!;

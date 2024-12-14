@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Japanese.Repositories.Interfaces;
 using Japanese.Repositories.Implements;
-using MongoDB.Driver;
 using Japanese.Core.MongoDB;
 using Japanese.Core.DependencyInjection;
 
@@ -14,6 +13,8 @@ public static class RepositoryRegistration
     {
         services.AddSingleton(configuration.GetSection("MongoDB").Get<MongoDBConfiguration>()!);
         services.AddScoped<IJapaneseRepository, JapaneseRepository>();
+
+        services.AddDataCleaner<IJapaneseRepository>();
 
         return services;
     }

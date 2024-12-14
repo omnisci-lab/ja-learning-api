@@ -20,7 +20,7 @@ public class CreateAndUpdateKanjiCommandHandler : IRequestHandler<CreateAndUpdat
 
     public async Task<ExecResult> Handle(CreateAndUpdateKanjiCommand request, CancellationToken cancellationToken)
     {
-        if(request.IsUpdate)
+        if (request.IsUpdate)
         {
             KanjiModel kanjiModel = await _kanjiRepository.GetByLiteralAsync(request.Kanji!);
             if (kanjiModel is null)
@@ -31,6 +31,10 @@ public class CreateAndUpdateKanjiCommandHandler : IRequestHandler<CreateAndUpdat
 
             return new ExecResult { Status = ExecStatus.Success };
         }
+
+        bool exists = await _kanjiRepository.Exists(x => x.Character == request.Kanji);
+        if(!exists)
+            return new ExecResult { Status = ExecStatus.AlreadyExists };
 
         KanjiModel newKanjiModel = _mapper.Map<CreateAndUpdateKanjiCommand, KanjiModel>(request);
         await _kanjiRepository.InsertAsync(newKanjiModel);

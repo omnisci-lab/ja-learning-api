@@ -2,7 +2,6 @@
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using Nest;
 
 namespace Japanese.Services.Kanji.Queues;
 
@@ -34,7 +33,7 @@ public class KanjiQueueTask : IQueueTask
         using IServiceScope scope = _serviceScopeFactory.CreateScope();
         IJapaneseRepository repository = scope.ServiceProvider.GetRequiredService<IJapaneseRepository>();
 
-
+        KanjiModel!.CreatedAt = DateTime.Now;
 
         repository.KanjiRepository.InsertAsync(KanjiModel!);
 

@@ -1,9 +1,7 @@
 ﻿using Japanese.Core.CommonModels;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
-using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Japanese.Core.MongoDB;
 
@@ -20,7 +18,7 @@ public class MongoDBHelper<TModel> where TModel : MongoDBModel
 
     public async Task<List<TModel>> GetAllAsync(Expression<Func<TModel, bool>>? predicate = null)
     {
-        IMongoQueryable<TModel> queryable = _collection.AsQueryable();
+        IQueryable<TModel> queryable = _collection.AsQueryable();
         if(predicate is null)
             return await queryable.ToListAsync();
 
@@ -50,7 +48,7 @@ public class MongoDBHelper<TModel> where TModel : MongoDBModel
         await _collection.InsertManyAsync(models);
     }
 
-    public async Task UpdateAsync(TModel model, Expression<Func<TModel, object>> filterEq, object filterEqVal , Dictionary<string, object> updates)
+    public async Task UpdateAsync(Expression<Func<TModel, object>> filterEq, object filterEqVal , Dictionary<string, object> updates)
     {
         FilterDefinition<TModel> filter = Builders<TModel>.Filter.Eq(filterEq, filterEqVal);
 

@@ -30,18 +30,18 @@ public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, Exe
         PagedResult<KanjiDetailOutput>? paged = null;
         if (request.FromKanjidic2)
         {
-            PagedResult<KanjiModel> pagedResultRaw1 = null!;
+            PagedResult<Kanjidic2Model> pagedResultRaw1 = null!;
             if (request.FilterBy == KanjiFilterConsts.All)
             {
-                pagedResultRaw1 = await _kanjiRepository.GetPaginatedAsync(request);
+                pagedResultRaw1 = await _kanjidic2Repository.GetPaginatedAsync(request);
             }
             else if (request.FilterBy == KanjiFilterConsts.ByKanken)
             {
-                pagedResultRaw1 = await _kanjiRepository.GetKanjiByKankenAsync(request);
+                pagedResultRaw1 = await _kanjidic2Repository.GetKanjiByKankenAsync(request);
             }
             else if (request.FilterBy == KanjiFilterConsts.ByJLpt)
             {
-                pagedResultRaw1 = await _kanjiRepository.GetKanjiByJlptAsync(request);
+                pagedResultRaw1 = await _kanjidic2Repository.GetKanjiByJlptAsync(request);
             }
             else
             {
@@ -49,22 +49,23 @@ public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, Exe
             }
 
             paged = pagedResultRaw1.CreatePagedResult(_mapper
-            .Map<List<KanjiModel>, List<KanjiDetailOutput>>(pagedResultRaw1.Items));
+            .Map<List<Kanjidic2Model>, List<KanjiDetailOutput>>(pagedResultRaw1.Items));
+            
         }
         else
         {
-            PagedResult<Kanjidic2Model> pagedResultRaw2 = null!;
+            PagedResult<KanjiModel> pagedResultRaw2 = null!;
             if (request.FilterBy == KanjiFilterConsts.All)
             {
-                pagedResultRaw2 = await _kanjidic2Repository.GetPaginatedAsync(request);
+                pagedResultRaw2 = await _kanjiRepository.GetPaginatedAsync(request);
             }
             else if (request.FilterBy == KanjiFilterConsts.ByKanken)
             {
-                pagedResultRaw2 = await _kanjidic2Repository.GetKanjiByKankenAsync(request);
+                pagedResultRaw2 = await _kanjiRepository.GetKanjiByKankenAsync(request);
             }
             else if (request.FilterBy == KanjiFilterConsts.ByJLpt)
             {
-                pagedResultRaw2 = await _kanjidic2Repository.GetKanjiByJlptAsync(request);
+                pagedResultRaw2 = await _kanjiRepository.GetKanjiByJlptAsync(request);
             }
             else
             {
@@ -72,7 +73,7 @@ public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, Exe
             }
 
             paged = pagedResultRaw2.CreatePagedResult(_mapper
-            .Map<List<Kanjidic2Model>, List<KanjiDetailOutput>>(pagedResultRaw2.Items));
+            .Map<List<KanjiModel>, List<KanjiDetailOutput>>(pagedResultRaw2.Items));
         }
 
         return new ExecResult<PagedResult<KanjiDetailOutput>>

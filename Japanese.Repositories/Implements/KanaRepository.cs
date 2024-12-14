@@ -23,4 +23,13 @@ public class KanaRepository : AppRepository<KanaModel>, IKanaRepository
     {
         return await Collection.AsQueryable().Where(x => x.KanaType == kanaType).ToListAsync();
     }
+
+    public async Task UpdateAsync(KanaModel model)
+    {
+        Dictionary<string, object> updates = new Dictionary<string, object>();
+        updates.Add("kanaType", model.KanaType!);
+        updates.Add("romanization", model.Romanization!);
+
+        await UpdateAsync(f => f.Character!, model.Character!, updates);
+    }
 }

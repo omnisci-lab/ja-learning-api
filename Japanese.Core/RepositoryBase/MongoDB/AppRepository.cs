@@ -30,8 +30,41 @@ public class AppRepository<TModel> : IAppRepository<TModel> where TModel : Mongo
     public async Task<TModel> GetAsync(ObjectId id)
         => await _collection.AsQueryable().Where(x => x.Id == id).SingleOrDefaultAsync();
 
-    public async Task InsertAsync(params TModel[] models) => await MongoDBHelper.InsertAsync(models);
+    public async Task InsertAsync(params TModel[] models)
+    {
+        foreach (TModel model in models)
+            model.CreatedAt = DateTime.Now;
 
-    public async Task UpdateAsync(TModel model, Expression<Func<TModel, object>> filterEq, object filterEqVal, Dictionary<string, object> updates)
-        => await MongoDBHelper.UpdateAsync(model, filterEq, filterEqVal, updates);
+        await MongoDBHelper.InsertAsync(models);
+    }
+
+    public async Task UpdateAsync(Expression<Func<TModel, object>> filterEq, object filterEqVal, Dictionary<string, object> updates)
+    {
+        KeyValuePair<string, object> updatedAtPair = updates.Where(x => x.Key == "updatedAt").SingleOrDefault();
+        if(updatedAtPair.Key is null)
+            updates.Add("updatedAt", DateTime.Now);
+
+        if(updatedAtPair.Value is null)
+            updates["updatedAt"] = DateTime.Now;
+
+        await MongoDBHelper.UpdateAsync(filterEq, filterEqVal, updates);
+    }
+
+    public async Task DeleteAsync(Expression<Func<TModel, bool>> filter, bool forceDelete)
+    {
+        if (forceDelete)
+        {
+            await _collection.DeleteOneAsync(filter);
+        }
+        else
+        {
+            TModel model = await (await _collection.FindAsync(filter)).FirstOrDefaultAsync();
+            await MongoDBHelper.UpdateAsync(f => f.Id, model.Id, new Dictionary<string, object> {
+                { "deleteAt", DateTime.Now} 
+            });
+        }
+    }
+
+    public async Task<bool> Exists(Expression<Func<TModel, bool>> filter)
+    => await _collection.Find(filter).AnyAsync();
 }

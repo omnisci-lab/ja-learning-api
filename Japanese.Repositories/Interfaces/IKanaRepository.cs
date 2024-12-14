@@ -7,4 +7,5 @@ public interface IKanaRepository : IAppRepository<KanaModel>
 {
     Task<List<KanaModel>> GetListAsync(string kanaType);
     Task<KanaModel> GetByCharacterAsync(string character);
+    Task UpdateAsync(KanaModel model);
 }

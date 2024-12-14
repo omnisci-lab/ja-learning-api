@@ -9,7 +9,11 @@ IConfiguration configuration = builder.Configuration;
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("public", new OpenApiInfo { Title = "Public API", Version = "v1" });
+    options.SwaggerDoc("admin", new OpenApiInfo { Title = "Admin API", Version = "v1" });
+});
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -35,7 +39,11 @@ if (app.Environment.IsDevelopment())
             swagger.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"https://{httpReq.Host.Host}:{httpReq.Host.Port}" } };
         });
     });
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/public/swagger.json", "Public API v1");
+        c.SwaggerEndpoint("/swagger/admin/swagger.json", "Admin API v1");
+    });
 }
 
 app.UseHttpsRedirection();

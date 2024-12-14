@@ -11,17 +11,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AutoMapper" Version="12.0.1" />
-		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-		<PackageReference Include="FastCache.Cached" Version="1.8.1" />
-		<PackageReference Include="Google.Protobuf" Version="3.26.1" />
-		<PackageReference Include="Grpc.Net.Client" Version="2.62.0" />
-		<PackageReference Include="Grpc.Tools" Version="2.62.0">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.1" />
+		<PackageReference Include="AutoMapper" Version="13.0.1" />
+		<PackageReference Include="FastCache.Cached" Version="1.8.2" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -35,6 +28,5 @@
 		<Folder Include="Dictionary\Mappings\" />
 		<Folder Include="Dictionary\Commands\" />
 		<Folder Include="Dictionary\Queries\" />
-		<Folder Include="Kana\Commands\" />
 	</ItemGroup>
 </Project>
