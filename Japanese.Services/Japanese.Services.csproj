@@ -28,5 +28,6 @@
 		<Folder Include="Dictionary\Mappings\" />
 		<Folder Include="Dictionary\Commands\" />
 		<Folder Include="Dictionary\Queries\" />
+		<Folder Include="KanjiRadical\Mappings\" />
 	</ItemGroup>
 </Project>

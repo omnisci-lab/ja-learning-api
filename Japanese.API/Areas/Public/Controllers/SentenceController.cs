@@ -8,7 +8,7 @@ using System.Net;
 
 namespace Japanese.API.Areas.Public.Controllers;
 
-[Route("public-api/sentence")]
+[Route("public-api")]
 public class SentenceController : PublicController
 {
     public SentenceController(IMediator mediator)
@@ -17,7 +17,7 @@ public class SentenceController : PublicController
 
     }
 
-    [Route("paged")]
+    [Route("sentence-paged")]
     [HttpPost]
     [ProducesResponseType(typeof(ExecResult<PagedResult<SentenceOutput>>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetPaged([FromQuery] GetPagedSentencesQuery query)
@@ -25,7 +25,7 @@ public class SentenceController : PublicController
         return await GetObjectResult(query);
     }
 
-    [Route("details")]
+    [Route("sentence-details")]
     [HttpPost]
     [ProducesResponseType(typeof(ExecResult<SentenceOutput>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetDetails([FromQuery] GetSentenceQuery query)

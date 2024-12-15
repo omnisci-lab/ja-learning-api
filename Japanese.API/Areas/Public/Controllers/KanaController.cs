@@ -10,7 +10,7 @@ using Japanese.Core.API;
 
 namespace Japanese.API.Areas.Public.Controllers;
 
-[Route("public-api/kana")]
+[Route("public-api")]
 public class KanaController : PublicController
 {
     public KanaController(IMediator mediator)
@@ -19,23 +19,23 @@ public class KanaController : PublicController
     }
 
     [HttpPost]
-    [Route("list")]
-    [ProducesResponseType(typeof(ExecResult<KanaDetailOutput>), (int)HttpStatusCode.OK)]
+    [Route("kana-list")]
+    [ProducesResponseType(typeof(ExecResult<List<KanaDetailOutput>>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetList([FromBody] GetKanaListQuery query)
     {
         return await GetObjectResult(query);
     }
 
     [HttpPost]
-    [Route("types")]
-    [ProducesResponseType(typeof(ExecResult<KanaDetailOutput>), (int)HttpStatusCode.OK)]
+    [Route("kana-types")]
+    [ProducesResponseType(typeof(ExecResult<List<string>>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetTypes([FromBody] GetKanaTypesQuery query)
     {
         return await GetObjectResult(query);
     }
 
     [HttpPost]
-    [Route("details")]
+    [Route("kana-details")]
     [ProducesResponseType(typeof(ExecResult<KanaDetailOutput>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetDetails([FromBody] GetKanaQuery query)
     {

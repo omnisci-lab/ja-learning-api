@@ -10,7 +10,7 @@ using Japanese.Services.Kanji.Queries.GetKanjiFilters;
 
 namespace Japanese.API.Areas.Public.Controllers;
 
-[Route("public-api/kanji")]
+[Route("public-api")]
 public class KanjiController : PublicController
 {
     public KanjiController(IMediator mediator)
@@ -20,7 +20,7 @@ public class KanjiController : PublicController
     }
 
     [HttpPost]
-    [Route("paged")]
+    [Route("kanji-paged")]
     [ProducesResponseType(typeof(ExecResult<PagedResult<KanjiDetailOutput>>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetPaged([FromBody] GetPagedKanjiQuery query)
     {
@@ -28,7 +28,7 @@ public class KanjiController : PublicController
     }
 
     [HttpPost]
-    [Route("details")]
+    [Route("kanji-details")]
     [ProducesResponseType(typeof(ExecResult<KanjiDetailOutput>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetDetails([FromBody] GetKanjiQuery query)
     {

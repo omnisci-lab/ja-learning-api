@@ -13,4 +13,22 @@ public class KanaModel : MongoDBModel
 
     [BsonElement("kanaType")]
     public string? KanaType { get; set; }
+
+    [BsonElement("row")]
+    public string? Row { get; set; }
+
+    [BsonElement("column")]
+    public string? Column { get; set; }
+
+    [BsonElement("isDakuten")]
+    public bool IsDakuten { get; set; }
+
+    [BsonElement("isHandakuten")]
+    public bool IsHandakuten { get; set; }
+
+    [BsonElement("unicode")]
+    public string? Unicode { get; set; }
+
+    [BsonElement("description")]
+    public string? Description { get; set; }
 }

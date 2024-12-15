@@ -8,7 +8,7 @@ public interface IJapaneseRepository : IMasterRepository
     IKanjidic2Repository Kanjidic2Repository { get; }
     IKanjiComponentRepository KanjiComponentRepository { get; }
 
-    //IKanjiRadicalRepository KanjiRadicalRepository { get; }
+    IKanjiRadicalRepository KanjiRadicalRepository { get; }
     ISentenceRepository SentenceRepository { get; }
     IJMdictRepository JMdictRepository { get; }
     

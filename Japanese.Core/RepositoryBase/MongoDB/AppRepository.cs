@@ -24,7 +24,7 @@ public class AppRepository<TModel> : IAppRepository<TModel> where TModel : Mongo
         _collection = _database.GetCollection<TModel>(collectionName);
     }
 
-    public async Task<PagedResult<TModel>> GetPaginatedAsync(Pagination pagination) 
+    public async Task<PagedResult<TModel>> GetPaginatedAsync(Pagination pagination)
         => await MongoDBHelper.GetPaginatedAsync(pagination);
 
     public async Task<TModel> GetAsync(ObjectId id)
@@ -41,10 +41,10 @@ public class AppRepository<TModel> : IAppRepository<TModel> where TModel : Mongo
     public async Task UpdateAsync(Expression<Func<TModel, object>> filterEq, object filterEqVal, Dictionary<string, object> updates)
     {
         KeyValuePair<string, object> updatedAtPair = updates.Where(x => x.Key == "updatedAt").SingleOrDefault();
-        if(updatedAtPair.Key is null)
+        if (updatedAtPair.Key is null)
             updates.Add("updatedAt", DateTime.Now);
 
-        if(updatedAtPair.Value is null)
+        if (updatedAtPair.Value is null)
             updates["updatedAt"] = DateTime.Now;
 
         await MongoDBHelper.UpdateAsync(filterEq, filterEqVal, updates);
@@ -60,7 +60,7 @@ public class AppRepository<TModel> : IAppRepository<TModel> where TModel : Mongo
         {
             TModel model = await (await _collection.FindAsync(filter)).FirstOrDefaultAsync();
             await MongoDBHelper.UpdateAsync(f => f.Id, model.Id, new Dictionary<string, object> {
-                { "deleteAt", DateTime.Now} 
+                { "deleteAt", DateTime.Now}
             });
         }
     }
