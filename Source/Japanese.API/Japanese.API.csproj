@@ -12,7 +12,6 @@
     <Compile Remove="Controllers\CommonWordController.cs" />
     <Compile Remove="Controllers\HiraganaController.cs" />
     <Compile Remove="Controllers\KanjiLevelController.cs" />
-    <Compile Remove="Controllers\KanjiRadicalController.cs" />
     <Compile Remove="Controllers\KanjiTypeController.cs" />
     <Compile Remove="Controllers\KatakanaController.cs" />
   </ItemGroup>
