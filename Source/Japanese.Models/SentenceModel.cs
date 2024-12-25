@@ -1,8 +1,10 @@
 ﻿using Japanese.Core.MongoDB;
 using MongoDB.Bson.Serialization.Attributes;
+using Redis.OM.Modeling;
 
 namespace Japanese.Models;
 
+[Document(IndexName = "Sentences", StorageType = StorageType.Json)]
 public class SentenceModel : MongoDBModel
 {
     [BsonElement("sentenceId")]

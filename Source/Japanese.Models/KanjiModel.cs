@@ -1,10 +1,12 @@
 ﻿using Japanese.Core.MongoDB;
+using Japanese.Models.Common;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Redis.OM.Modeling;
 
 namespace Japanese.Models;
 
+[Document(IndexName = "Kanji", StorageType = StorageType.Json)]
 public class KanjiModel : MongoDBModel
 {
     [BsonElement("character")]
@@ -24,7 +26,7 @@ public class KanjiModel : MongoDBModel
     public List<KanjiMeaning>? Meanings { get; set; }
 
     [BsonElement("pronunciations")]
-    public List<KanjiPronunciation>? Pronunciations { get; set; }
+    public List<KanjiReading>? Readings { get; set; }
 
     [BsonElement("examples")]
     public List<KanjiExample>? Examples { get; set; }
@@ -45,20 +47,10 @@ public class KanjiLevel
     public int? Kanken { get; set; }
 }
 
-public class KanjiMeaning
-{
-    public string? LangCode { get; set; }
-    public string? Value { get; set; }
-}
+public class KanjiMeaning : MeaningModel { }
 
-public class KanjiPronunciation
-{
-    [BsonElement("type")]
-    public string? Type { get; set; }
 
-    [BsonElement("value")]
-    public string? Value { get; set; }
-}
+public class KanjiReading : ReadingModel { }
 
 public class KanjiExample
 {
@@ -72,11 +64,4 @@ public class KanjiExample
     public string? Meaning { get; set; }
 }
 
-public class KanjiNote
-{
-    [BsonElement("title")]
-    public string? Title { get; set; }
-
-    [BsonElement("content")]
-    public string? Content { get; set; }
-}
+public class KanjiNote : NoteModel { }

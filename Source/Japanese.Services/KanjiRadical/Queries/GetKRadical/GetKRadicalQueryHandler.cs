@@ -20,12 +20,20 @@ public class GetKRadicalQueryHandler : IRequestHandler<GetKRadicalQuery, ExecRes
 
     public async Task<ExecResult<KRadicalDetailOutput>> Handle(GetKRadicalQuery request, CancellationToken cancellationToken)
     {
-        //KanjiRadicalModel radicalModel = await _kanjiRadicalRepository.
+        KanjiRadicalModel radicalModel = await _kanjiRadicalRepository.GetByCharacterAsync(request.Character!);
+        if (radicalModel is null) 
+            return new ExecResult<KRadicalDetailOutput>
+            {
+                Status = ExecStatus.Success,
+                Data = null
+            };
+
+        KRadicalDetailOutput kRadicalDetail = _mapper.Map<KanjiRadicalModel, KRadicalDetailOutput>(radicalModel);
 
         return new ExecResult<KRadicalDetailOutput>
         {
             Status = ExecStatus.Success,
-            Data = null
+            Data = kRadicalDetail
         };
     }
 }

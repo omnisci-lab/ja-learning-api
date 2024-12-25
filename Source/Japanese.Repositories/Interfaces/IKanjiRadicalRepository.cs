@@ -5,4 +5,5 @@ namespace Japanese.Repositories.Interfaces;
 
 public interface IKanjiRadicalRepository : IAppRepository<KanjiRadicalModel>
 {
+    Task<KanjiRadicalModel> GetByCharacterAsync(string character);
 }

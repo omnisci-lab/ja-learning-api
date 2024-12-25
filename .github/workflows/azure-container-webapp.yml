@@ -31,32 +31,32 @@ jobs:
         run: dotnet build /Source/Japanese.WebAPI.sln --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish /Source/Japanese.WebAPI.sln --configuration Release --output /publish --no-build
+        run: dotnet publish /Source/Japanese.WebAPI.sln --configuration Release --output /Publish --no-build
       
       - name: Create appsettings.Development.json
         run: |
-          echo '{
-            "ConnectionStrings": {
-            "RedisConnection": "${{ secrets.REDIS_CONNECTION }}"
-          },
-          "CORS": {
-            "Origin": "${{ secrets.CORS_ORIGIN }}"
-          },
-          "MongoDB": {
-            "ConnectionString": "${{ secrets.MONGODB_CONNECTION }}",
-            "DatabaseName": "${{ secrets.MONGODB_DATABASE_NAME }}"
-          },
-          "DistributedCacheSettings": {
-            "AbsoluteExpiration": "${{ secrets.CACHE_EXPIRATION }}"
-          },
-          "Logging": {
-            "LogLevel": {
-              "Default": "Information",
-              "Microsoft.AspNetCore": "Warning"
-            }
-          },
-          "AllowedHosts": "*"
-        }' > /publish/appsettings.Development.json
+            echo "{
+              \"ConnectionStrings\": {
+                \"RedisConnection\": \"${{ secrets.REDIS_CONNECTION }}\"
+              },
+              \"CORS\": {
+                \"Origin\": \"${{ secrets.CORS_ORIGIN }}\"
+              },
+              \"MongoDB\": {
+                \"ConnectionString\": \"${{ secrets.MONGODB_CONNECTION }}\",
+                \"DatabaseName\": \"${{ secrets.MONGODB_DATABASE_NAME }}\"
+              },
+              \"DistributedCacheSettings\": {
+                \"AbsoluteExpiration\": \"${{ secrets.CACHE_EXPIRATION }}\"
+              },
+              \"Logging\": {
+                \"LogLevel\": {
+                  \"Default\": \"Information\",
+                  \"Microsoft.AspNetCore\": \"Warning\"
+                }
+              },
+              \"AllowedHosts\": \"*\"
+            }" > /publish/appsettings.Development.json
         
   deploy:
     runs-on: ubuntu-latest
@@ -75,4 +75,4 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: /publish
+          package: /Publish
