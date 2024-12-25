@@ -25,13 +25,13 @@ jobs:
           dotnet-version: '8.0.x'  # specify .NET version here
 
       - name: Restore dependencies
-        run: dotnet restore /Source/Japanese.WebAPI.sln
+        run: dotnet restore Source/Japanese.WebAPI.sln
 
       - name: Build
-        run: dotnet build /Source/Japanese.WebAPI.sln --configuration Release --no-restore
+        run: dotnet build Source/Japanese.WebAPI.sln --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish /Source/Japanese.WebAPI.sln --configuration Release --output /Publish --no-build
+        run: dotnet publish Source/Japanese.WebAPI.sln --configuration Release --output Publish --no-build
       
       - name: Create appsettings.Development.json
         run: |
@@ -56,7 +56,7 @@ jobs:
                 }
               },
               \"AllowedHosts\": \"*\"
-            }" > /publish/appsettings.Development.json
+            }" > Publish/appsettings.Development.json
         
   deploy:
     runs-on: ubuntu-latest
@@ -75,4 +75,4 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: /Publish
+          package: Publish
