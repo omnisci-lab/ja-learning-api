@@ -348,7 +348,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-/Japanese.API/appsettings.Development.json
-/Japanese.Infrastructure/Migrations
-/Japanese.Web.Admin/appsettings.Development.json
-/Japanese.Admin.API/appsettings.Development.json
+/Source/Japanese.API/appsettings.Development.json
+/Source/Japanese.Infrastructure/Migrations
+/Source/Japanese.Web.Admin/appsettings.Development.json
+/Source/Japanese.Admin.API/appsettings.Development.json
