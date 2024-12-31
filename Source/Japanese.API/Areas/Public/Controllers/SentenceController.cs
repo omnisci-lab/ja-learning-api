@@ -8,7 +8,6 @@ using System.Net;
 
 namespace Japanese.API.Areas.Public.Controllers;
 
-[Route("public-api")]
 public class SentenceController : PublicController
 {
     public SentenceController(IMediator mediator)

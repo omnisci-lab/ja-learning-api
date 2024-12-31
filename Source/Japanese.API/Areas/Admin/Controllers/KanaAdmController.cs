@@ -11,7 +11,6 @@ using System.Net;
 
 namespace Japanese.API.Areas.Admin.Controllers;
 
-[Route("admin-api")]
 public class KanaAdmController : AdminController
 {
     public KanaAdmController(IMediator mediator) : base(mediator)

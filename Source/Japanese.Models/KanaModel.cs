@@ -1,8 +1,10 @@
 ﻿using Japanese.Core.MongoDB;
 using MongoDB.Bson.Serialization.Attributes;
+using Redis.OM.Modeling;
 
 namespace Japanese.Models;
 
+[Document(IndexName = "Kana", StorageType = StorageType.Json)]
 public class KanaModel : MongoDBModel
 {
     [BsonElement("character")]

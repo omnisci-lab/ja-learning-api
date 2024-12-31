@@ -11,6 +11,6 @@ public interface IJapaneseRepository : IMasterRepository
     IKanjiRadicalRepository KanjiRadicalRepository { get; }
     ISentenceRepository SentenceRepository { get; }
     IJMdictRepository JMdictRepository { get; }
-    
+    ICommonWordRepository CommonWordRepository { get; }
     IKanaRepository KanaRepository { get; }
 }

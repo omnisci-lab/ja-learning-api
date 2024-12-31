@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Japanese.API.Areas.Public.Controllers;
+using Japanese.Services.CommonWord.Queries;
+using Japanese.Services.CommonWord.Queries.GetCommonWord;
 
 namespace Japanese.API.Controllers;
 
-[Route("api/common-word")]
 public class CommonWordController : PublicController
 {
     public CommonWordController(IMediator mediator) : base(mediator)
@@ -21,14 +22,13 @@ public class CommonWordController : PublicController
     //    return GetResult(pagination);
     //}
 
-    //[HttpGet]
-    //[Route("details/{wordId}")]
-    //[ProducesResponseType(typeof(CommonWordOutput), (int)HttpStatusCode.OK)]
-    //public async Task<IActionResult> GetDetails([Required] string wordId)
-    //{
-    //    CommonWordOutput? commonWord = await _mediator.Send(new GetCommonWordQuery { WordId = wordId });
-    //    return GetResult(commonWord);
-    //}
+    [HttpPost]
+    [Route("common-word-details")]
+    [ProducesResponseType(typeof(CommonWordOutput), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> GetDetails([FromBody] GetCommonWordQuery query)
+    {
+        return await GetObjectResult(query);
+    }
 
     //[HttpPost]
     //[Route("create")]

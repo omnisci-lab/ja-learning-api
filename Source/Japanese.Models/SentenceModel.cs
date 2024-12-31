@@ -1,4 +1,5 @@
 ﻿using Japanese.Core.MongoDB;
+using Japanese.Models.Common;
 using MongoDB.Bson.Serialization.Attributes;
 using Redis.OM.Modeling;
 
@@ -19,18 +20,11 @@ public class SentenceModel : MongoDBModel
     [BsonElement("jplt")]
     public int Jlpt { get; set; }
 
-    [BsonElement("en_meanings")]
-    public string? EnMeaning { get; set; }
-
-    [BsonElement("vi_meaning")]
-    public string? ViMeaning { get; set; }
+    [BsonElement("meanings")]
+    public List<SentenceMeaning>? Meanings { get; set; }
 
     [BsonElement("references")]
     public string? References { get; set; }
-
-    [BsonElement("male_voice_sound")]
-    public string? MaleVoiceSound { get; set; }
-
-    [BsonElement("female_voice_sound")]
-    public string? FemaleVoiceSound { get; set; }
 }
+
+public class SentenceMeaning : MeaningModel { }

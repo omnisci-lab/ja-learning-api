@@ -11,7 +11,6 @@ using Japanese.Services.Kanji.Queries;
 
 namespace Japanese.API.Areas.Admin.Controllers;
 
-[Route("admin-api")]
 public class KanjiAdmController : AdminController
 {
     public KanjiAdmController(IMediator mediator) : base(mediator)

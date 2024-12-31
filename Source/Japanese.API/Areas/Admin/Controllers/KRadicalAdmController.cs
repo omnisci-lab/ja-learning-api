@@ -10,8 +10,6 @@ using Japanese.Services.KanjiRadical.Commands.DeleteKRadical;
 
 namespace Japanese.API.Areas.Admin.Controllers;
 
-[Route("api/radical")]
-[ApiController]
 public class KRadicalAdmController : AdminController
 {
     public KRadicalAdmController(IMediator mediator) 
@@ -37,7 +35,7 @@ public class KRadicalAdmController : AdminController
     }
 
     [HttpPost]
-    [Route("kanji-create-and-update")]
+    [Route("kanji-radical-create-and-update")]
     [ProducesResponseType(typeof(ExecResult), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> CreateAndUpdate([FromBody] CreateAndUpdateKRadicalCommand query)
     {

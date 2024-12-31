@@ -10,7 +10,6 @@ using Japanese.Services.Kanji.Queries.GetKanjiFilters;
 
 namespace Japanese.API.Areas.Public.Controllers;
 
-[Route("public-api")]
 public class KanjiController : PublicController
 {
     public KanjiController(IMediator mediator)

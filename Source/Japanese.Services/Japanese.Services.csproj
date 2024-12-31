@@ -24,6 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Folder Include="CommonWord\Commands\" />
 		<Folder Include="Dictionary\Consts\" />
 		<Folder Include="Dictionary\Mappings\" />
 		<Folder Include="Dictionary\Commands\" />

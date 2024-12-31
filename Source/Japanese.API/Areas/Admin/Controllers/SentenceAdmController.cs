@@ -10,7 +10,6 @@ using System.Net;
 
 namespace Japanese.API.Areas.Admin.Controllers;
 
-[Route("admin-api")]
 public class SentenceAdmController : AdminController
 {
     public SentenceAdmController(IMediator mediator) : base(mediator)

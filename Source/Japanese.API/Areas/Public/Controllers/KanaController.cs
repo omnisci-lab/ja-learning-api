@@ -6,11 +6,9 @@ using Japanese.Services.Kana.Queries.GetKana;
 using Japanese.Services.Kana.Queries;
 using Japanese.Services.Kana.Queries.GetKanaList;
 using Japanese.Services.Kana.Queries.GetKanaTypes;
-using Japanese.Core.API;
 
 namespace Japanese.API.Areas.Public.Controllers;
 
-[Route("public-api")]
 public class KanaController : PublicController
 {
     public KanaController(IMediator mediator)
