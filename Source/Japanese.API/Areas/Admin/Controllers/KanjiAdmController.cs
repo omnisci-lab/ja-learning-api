@@ -56,4 +56,12 @@ public class KanjiAdmController : AdminController
     {
         return await GetObjectResult(command);
     }
+
+    [HttpPost]
+    [Route("kanji-delete")]
+    [ProducesResponseType(typeof(ExecResult), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Delete([FromBody] CreateAndUpdateKanjiCommand command)
+    {
+        return await GetObjectResult(command);
+    }
 }

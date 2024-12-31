@@ -8,7 +8,7 @@ public class CreateAndUpdateKanji_Kanji_Converter : ITypeConverter<CreateAndUpda
 {
     public KanjiModel Convert(CreateAndUpdateKanjiCommand source, KanjiModel destination, ResolutionContext context)
     {
-        destination.Character = source.Kanji!;
+        destination.Character = source.Character!;
         destination.StrokeCount = source.StrokeCount;
 
         return destination;       

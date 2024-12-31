@@ -6,7 +6,7 @@ namespace Japanese.Services.Kanji.Commands.CreateAndUpdateKanji;
 public class CreateAndUpdateKanjiCommand : IRequest<ExecResult>
 {
     public bool IsUpdate { get; set; }
-    public string? Kanji { get; set; }
+    public string? Character { get; set; }
     public int StrokeCount { get; set; }
     public int? Grade { get; set; }
     public List<string>? OnReadings { get; set; }

@@ -43,7 +43,7 @@ public class KRadicalAdmController : AdminController
     }
 
     [HttpPost]
-    [Route("kanji-delete")]
+    [Route("kanji-radical-delete")]
     [ProducesResponseType(typeof(ExecResult), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Delete([FromBody] DeleteKRadicalCommand query)
     {

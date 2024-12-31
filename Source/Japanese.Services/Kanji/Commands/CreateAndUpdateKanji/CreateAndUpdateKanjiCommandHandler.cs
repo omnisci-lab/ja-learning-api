@@ -22,7 +22,7 @@ public class CreateAndUpdateKanjiCommandHandler : IRequestHandler<CreateAndUpdat
     {
         if (request.IsUpdate)
         {
-            KanjiModel kanjiModel = await _kanjiRepository.GetByLiteralAsync(request.Kanji!);
+            KanjiModel kanjiModel = await _kanjiRepository.GetByLiteralAsync(request.Character!);
             if (kanjiModel is null)
                 return new ExecResult { Status = ExecStatus.NotFound };
 
@@ -32,7 +32,7 @@ public class CreateAndUpdateKanjiCommandHandler : IRequestHandler<CreateAndUpdat
             return new ExecResult { Status = ExecStatus.Success };
         }
 
-        bool exists = await _kanjiRepository.Exists(x => x.Character == request.Kanji);
+        bool exists = await _kanjiRepository.Exists(x => x.Character == request.Character);
         if(!exists)
             return new ExecResult { Status = ExecStatus.AlreadyExists };
 

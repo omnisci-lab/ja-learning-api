@@ -1,3 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 *.docx binary
+Database/MongoDB/*.json filter=lfs diff=lfs merge=lfs -text
