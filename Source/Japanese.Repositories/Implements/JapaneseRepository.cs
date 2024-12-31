@@ -22,4 +22,5 @@ public class JapaneseRepository : MasterRepository, IJapaneseRepository
     public IKanaRepository KanaRepository => new KanaRepository(Database, "Kana");
     public IKanjiRepository KanjiRepository => new KanjiRepository(Database, "Kanji");
     public ICommonWordRepository CommonWordRepository => new CommonWordRepository(Database, "CommonWords");
+    public IDictionaryRepository DictionaryRepository => new DictionaryRepository(Database, "Dictionary");
 }

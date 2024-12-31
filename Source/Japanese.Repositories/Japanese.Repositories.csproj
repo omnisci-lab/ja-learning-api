@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <Compile Include="Implements\CommonWordRepository.cs" />
+    <Compile Include="Implements\DictionaryRepository.cs" />
     <Compile Include="Implements\JapaneseRepository.cs" />
     <Compile Include="Implements\KanaRepository.cs" />
     <Compile Include="Implements\KanjiComponentRepository.cs" />
