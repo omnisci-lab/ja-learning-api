@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Japanese.Repositories.Interfaces;
 using Japanese.Repositories.Implements;
 using Japanese.Core.MongoDB;
-using Japanese.Core.DependencyInjection;
+using khothemegiatot.WebApi.DependencyInjection;
 
 namespace Japanese.Repositories;
 

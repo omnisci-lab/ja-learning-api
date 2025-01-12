@@ -1,4 +1,4 @@
-﻿using Japanese.Core.API;
+﻿using khothemegiatot.WebApi.CQRS.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

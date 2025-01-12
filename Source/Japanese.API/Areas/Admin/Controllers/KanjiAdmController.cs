@@ -8,6 +8,7 @@ using Japanese.Services.Kanji.Queries.GetKanjiFilters;
 using Japanese.Services.Kanji.Queries.GetPagedKanji;
 using Japanese.Services.Kanji.Queries.GetSearchProperties;
 using Japanese.Services.Kanji.Queries;
+using khothemegiatot.WebApi.Models;
 
 namespace Japanese.API.Areas.Admin.Controllers;
 

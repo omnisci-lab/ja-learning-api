@@ -1,4 +1,5 @@
 ﻿using Japanese.Core.CommonModels;
+using khothemegiatot.WebApi.Models;
 using MediatR;
 
 namespace Japanese.Services.Dictionary.Queries.GetDictionary;

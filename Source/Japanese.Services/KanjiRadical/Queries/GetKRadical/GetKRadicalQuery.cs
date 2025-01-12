@@ -1,5 +1,5 @@
-﻿using Japanese.Core.CommonModels;
-using Japanese.Services.Cache;
+﻿using khothemegiatot.WebApi.CQRS.Cache;
+using khothemegiatot.WebApi.Models;
 using MediatR;
 
 namespace Japanese.Services.KanjiRadical.Queries.GetKRadical;

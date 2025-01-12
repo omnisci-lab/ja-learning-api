@@ -6,6 +6,8 @@ using Japanese.Core.Enum;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 using Japanese.Services.Kanji.Consts;
+using khothemegiatot.WebApi.Enums;
+using khothemegiatot.WebApi.Models;
 using MediatR;
 
 namespace Japanese.Services.Kanji.Queries.GetPagedKanji;

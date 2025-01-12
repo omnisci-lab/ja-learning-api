@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using Japanese.Core.CQRS.Validators;
 using Japanese.Services.Kanji.Consts;
+using khothemegiatot.WebApi.CQRS.Validators;
 
 namespace Japanese.Services.Kanji.Queries.GetPagedKanji;
 

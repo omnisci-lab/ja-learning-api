@@ -6,6 +6,7 @@ using Japanese.Services.CommonWord.Queries;
 using Japanese.Services.CommonWord.Queries.GetCommonWord;
 using Japanese.Core.CommonModels;
 using Japanese.Services.CommonWord.Queries.GetPagedCommonWords;
+using khothemegiatot.WebApi.Models;
 
 namespace Japanese.API.Controllers;
 

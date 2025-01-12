@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
-using Japanese.Core.DependencyInjection;
 using Japanese.Services.Kanji.Queues;
+using khothemegiatot.WebApi.DependencyInjection;
 
 namespace Japanese.Services;
 

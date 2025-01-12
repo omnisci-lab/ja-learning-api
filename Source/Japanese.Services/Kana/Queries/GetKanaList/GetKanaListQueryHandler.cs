@@ -2,6 +2,8 @@
 using Japanese.Core.CommonModels;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
+using khothemegiatot.WebApi.Enums;
+using khothemegiatot.WebApi.Models;
 using MediatR;
 
 namespace Japanese.Services.Kana.Queries.GetKanaList;
@@ -23,7 +25,7 @@ public class GetKanaListQueryHandler : IRequestHandler<GetKanaListQuery, ExecRes
 
         return new ExecResult<List<KanaDetailOutput>>
         {
-            Status = Core.Enum.ExecStatus.Success,
+            Status = ExecStatus.Success,
             Data = _mapper.Map<List<KanaModel>, List<KanaDetailOutput>>(kanaModels)
         };
     }

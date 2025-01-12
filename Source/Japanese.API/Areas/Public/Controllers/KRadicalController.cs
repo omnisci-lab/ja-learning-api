@@ -5,6 +5,7 @@ using System.Net;
 using Japanese.Services.KanjiRadical.Queries.GetKRadical;
 using Japanese.Services.KanjiRadical.Queries;
 using Japanese.Services.KanjiRadical.Queries.GetKRadicalList;
+using khothemegiatot.WebApi.Models;
 
 namespace Japanese.API.Areas.Public.Controllers;
 

@@ -6,6 +6,7 @@ using Japanese.Services.Kana.Queries.GetKana;
 using Japanese.Services.Kana.Queries;
 using Japanese.Services.Kana.Queries.GetKanaList;
 using Japanese.Services.Kana.Queries.GetKanaTypes;
+using khothemegiatot.WebApi.Models;
 
 namespace Japanese.API.Areas.Public.Controllers;
 

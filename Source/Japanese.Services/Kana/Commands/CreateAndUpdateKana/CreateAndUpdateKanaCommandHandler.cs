@@ -4,6 +4,8 @@ using Japanese.Core.Enum;
 using Japanese.Repositories.Interfaces;
 using MediatR;
 using Japanese.Models;
+using khothemegiatot.WebApi.Models;
+using khothemegiatot.WebApi.Enums;
 
 namespace Japanese.Services.Kana.Commands.CreateAndUpdateKana;
 

@@ -1,6 +1,6 @@
-﻿using Japanese.Core.Queue;
-using Japanese.Models;
+﻿using Japanese.Models;
 using Japanese.Repositories.Interfaces;
+using khothemegiatot.WebApi.Queue;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Japanese.Services.Kanji.Queues;

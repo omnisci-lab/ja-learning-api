@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Japanese.Core.CommonModels;
-using Japanese.Core.Enum;
-using Japanese.Core.Queue;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 using Japanese.Services.Kanji.Queues;
+using khothemegiatot.WebApi.Enums;
+using khothemegiatot.WebApi.Models;
+using khothemegiatot.WebApi.Queue;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 

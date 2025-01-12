@@ -7,6 +7,7 @@ using Japanese.Services.Sentence.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using khothemegiatot.WebApi.Models;
 
 namespace Japanese.API.Areas.Admin.Controllers;
 

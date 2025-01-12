@@ -1,5 +1,5 @@
-﻿using Japanese.Core.CommonModels;
-using Japanese.Core.CQRS.Commands;
+﻿using khothemegiatot.WebApi.CQRS.Commands;
+using khothemegiatot.WebApi.Models;
 using MediatR;
 
 namespace Japanese.Services.Sentence.Commands.DeleteSentence;

@@ -7,6 +7,7 @@ using Japanese.Core.CommonModels;
 using Japanese.Services.Kanji.Queries;
 using Japanese.Services.Kanji.Queries.GetSearchProperties;
 using Japanese.Services.Kanji.Queries.GetKanjiFilters;
+using khothemegiatot.WebApi.Models;
 
 namespace Japanese.API.Areas.Public.Controllers;
 

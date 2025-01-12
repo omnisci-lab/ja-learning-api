@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Japanese.Services.Dictionary.Queries;
 using Japanese.Services.Dictionary.Queries.GetDictionary;
+using khothemegiatot.WebApi.Models;
 
 namespace Japanese.API.Areas.Admin.Controllers;
 

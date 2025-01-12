@@ -6,6 +6,7 @@ using Japanese.Services.CommonWord.Queries;
 using Japanese.Services.CommonWord.Queries.GetCommonWord;
 using Japanese.Services.CommonWord.Queries.GetPagedCommonWords;
 using Japanese.Services.CommonWord.Commands.DeleteCommonWord;
+using khothemegiatot.WebApi.Models;
 
 namespace Japanese.API.Areas.Admin.Controllers;
 
