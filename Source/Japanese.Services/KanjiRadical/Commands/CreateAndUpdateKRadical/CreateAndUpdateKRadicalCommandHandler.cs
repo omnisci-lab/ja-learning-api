@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Japanese.Core.CommonModels;
-using Japanese.Core.Enum;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 using khothemegiatot.WebApi.Enums;

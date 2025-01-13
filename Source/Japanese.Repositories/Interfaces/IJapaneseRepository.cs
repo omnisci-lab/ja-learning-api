@@ -1,4 +1,4 @@
-﻿using Japanese.Core.RepositoryBase.MongoDB;
+﻿using khothemegiatot.WebApi.Repositories.MongoDB;
 
 namespace Japanese.Repositories.Interfaces;
 

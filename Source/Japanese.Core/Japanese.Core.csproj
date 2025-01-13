@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Encryption\**" />
     <Compile Remove="NewFolder\**" />
+    <EmbeddedResource Remove="Encryption\**" />
     <EmbeddedResource Remove="NewFolder\**" />
+    <None Remove="Encryption\**" />
     <None Remove="NewFolder\**" />
   </ItemGroup>
 
@@ -30,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Encryption\" />
+    <Folder Include="ExtensionMethods\" />
   </ItemGroup>
 
 </Project>

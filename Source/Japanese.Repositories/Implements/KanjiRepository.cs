@@ -1,7 +1,7 @@
-﻿using Japanese.Core.CommonModels;
-using Japanese.Core.RepositoryBase.MongoDB;
-using Japanese.Models;
+﻿using Japanese.Models;
 using Japanese.Repositories.Interfaces;
+using khothemegiatot.WebApi.Models;
+using khothemegiatot.WebApi.Repositories.MongoDB;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using static MongoDB.Driver.WriteConcern;

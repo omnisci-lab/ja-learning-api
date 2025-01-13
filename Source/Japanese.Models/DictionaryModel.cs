@@ -1,4 +1,4 @@
-﻿using Japanese.Core.MongoDB;
+﻿using khothemegiatot.NoSQL.MongoDB;
 using Redis.OM.Modeling;
 
 namespace Japanese.Models;

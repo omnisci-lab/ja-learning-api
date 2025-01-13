@@ -1,7 +1,7 @@
 ﻿using Japanese.Models;
 using Japanese.Repositories.Interfaces;
-using Japanese.Core.RepositoryBase.MongoDB;
 using MongoDB.Driver;
+using khothemegiatot.WebApi.Repositories.MongoDB;
 
 namespace Japanese.Repositories.Implements;
 

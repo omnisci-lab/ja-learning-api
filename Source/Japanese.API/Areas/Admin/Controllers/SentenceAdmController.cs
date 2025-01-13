@@ -1,5 +1,4 @@
-﻿using Japanese.Core.CommonModels;
-using Japanese.Services.Sentence.Commands.CreateAndUpdateSentence;
+﻿using Japanese.Services.Sentence.Commands.CreateAndUpdateSentence;
 using Japanese.Services.Sentence.Commands.DeleteSentence;
 using Japanese.Services.Sentence.Queries.GetPagedSentences;
 using Japanese.Services.Sentence.Queries.GetSentence;

@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Japanese.Repositories.Interfaces;
 using Japanese.Repositories.Implements;
-using Japanese.Core.MongoDB;
 using khothemegiatot.WebApi.DependencyInjection;
+using khothemegiatot.NoSQL.MongoDB;
 
 namespace Japanese.Repositories;
 
@@ -11,7 +11,7 @@ public static class RepositoryRegistration
 {
     public static IServiceCollection AddRepositories(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSingleton(configuration.GetSection("MongoDB").Get<MongoDBConfiguration>()!);
+        services.AddSingleton(configuration.GetSection("MongoDB:Database").Get<MongoDBConfiguration>()!);
         services.AddScoped<IJapaneseRepository, JapaneseRepository>();
 
         services.AddDataCleaner<IJapaneseRepository>();

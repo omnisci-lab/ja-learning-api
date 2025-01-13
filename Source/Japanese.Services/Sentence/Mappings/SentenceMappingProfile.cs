@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Japanese.Core.CommonModels;
 using Japanese.Models;
 using Japanese.Services.Sentence.Commands.CreateAndUpdateSentence;
 using Japanese.Services.Sentence.Queries;
+using khothemegiatot.WebApi.Models;
 
 namespace Japanese.Services.Sentence.Mappings;
 

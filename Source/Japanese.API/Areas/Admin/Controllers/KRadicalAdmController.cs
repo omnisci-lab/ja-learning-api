@@ -1,5 +1,4 @@
-﻿using Japanese.Core.CommonModels;
-using Japanese.Services.KanjiRadical.Queries.GetKRadical;
+﻿using Japanese.Services.KanjiRadical.Queries.GetKRadical;
 using Japanese.Services.KanjiRadical.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

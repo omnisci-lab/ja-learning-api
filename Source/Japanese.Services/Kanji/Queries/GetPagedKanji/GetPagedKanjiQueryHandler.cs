@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Japanese.CachedRepository.Interfaces;
-using Japanese.Core.CommonModels;
 using Japanese.Core.Encoding;
-using Japanese.Core.Enum;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
 using Japanese.Services.Kanji.Consts;

@@ -12,12 +12,12 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="13.0.1" />
-		<PackageReference Include="FastCache.Cached" Version="1.8.2" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.0" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Modules\khothemegiatot.Hashify\khothemegiatot.Hashify.csproj" />
+		<ProjectReference Include="..\..\Modules\khothemegiatot.WebApi\khothemegiatot.WebApi.csproj" />
 		<ProjectReference Include="..\Japanese.CachedRepository\Japanese.CachedRepository.csproj" />
 		<ProjectReference Include="..\Japanese.Kanjidic2\Japanese.Kanjidic2.csproj" />
 		<ProjectReference Include="..\Japanese.Repositories\Japanese.Repositories.csproj" />

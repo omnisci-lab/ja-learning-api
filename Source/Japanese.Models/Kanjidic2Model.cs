@@ -1,4 +1,4 @@
-﻿using Japanese.Core.MongoDB;
+﻿using khothemegiatot.NoSQL.MongoDB;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Redis.OM.Modeling;

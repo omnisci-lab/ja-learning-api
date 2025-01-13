@@ -1,5 +1,5 @@
-﻿using Japanese.Core.RepositoryBase.MongoDB;
-using Japanese.Models;
+﻿using Japanese.Models;
+using khothemegiatot.WebApi.Repositories.MongoDB;
 
 namespace Japanese.Repositories.Interfaces;
 

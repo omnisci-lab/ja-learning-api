@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Japanese.Core\Japanese.Core.csproj" />
+    <ProjectReference Include="..\..\Modules\khothemegiatot.WebApi\khothemegiatot.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

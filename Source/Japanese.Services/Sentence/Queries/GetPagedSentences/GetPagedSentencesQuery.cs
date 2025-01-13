@@ -1,5 +1,4 @@
-﻿using Japanese.Core.CommonModels;
-using khothemegiatot.WebApi.CQRS.Cache;
+﻿using khothemegiatot.WebApi.CQRS.Cache;
 using khothemegiatot.WebApi.Models;
 using MediatR;
 

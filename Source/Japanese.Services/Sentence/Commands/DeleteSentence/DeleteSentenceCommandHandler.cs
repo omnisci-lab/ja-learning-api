@@ -1,6 +1,4 @@
-﻿using Japanese.Core.CommonModels;
-using Japanese.Core.Enum;
-using Japanese.Repositories.Interfaces;
+﻿using Japanese.Repositories.Interfaces;
 using khothemegiatot.WebApi.Enums;
 using khothemegiatot.WebApi.Models;
 using MediatR;

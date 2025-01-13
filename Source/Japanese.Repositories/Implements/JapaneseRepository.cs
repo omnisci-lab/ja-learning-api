@@ -1,6 +1,6 @@
-﻿using Japanese.Core.MongoDB;
-using Japanese.Core.RepositoryBase.MongoDB;
-using Japanese.Repositories.Interfaces;
+﻿using Japanese.Repositories.Interfaces;
+using khothemegiatot.NoSQL.MongoDB;
+using khothemegiatot.WebApi.Repositories.MongoDB;
 
 namespace Japanese.Repositories.Implements;
 

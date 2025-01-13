@@ -1,8 +1,8 @@
-﻿using Japanese.Core.MongoDB;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 using Japanese.Models.Common;
 using Redis.OM.Modeling;
+using khothemegiatot.NoSQL.MongoDB;
 
 namespace Japanese.Models;
 

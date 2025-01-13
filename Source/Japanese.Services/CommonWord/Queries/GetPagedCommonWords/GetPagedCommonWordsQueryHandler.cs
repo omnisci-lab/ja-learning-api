@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Japanese.Core.CommonModels;
 using Japanese.Repositories.Interfaces;
 using khothemegiatot.WebApi.Models;
 using MediatR;

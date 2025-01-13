@@ -1,5 +1,4 @@
-﻿using Japanese.Core.CommonModels;
-using Japanese.Services.Sentence.Queries;
+﻿using Japanese.Services.Sentence.Queries;
 using Japanese.Services.Sentence.Queries.GetPagedSentences;
 using Japanese.Services.Sentence.Queries.GetSentence;
 using khothemegiatot.WebApi.Models;

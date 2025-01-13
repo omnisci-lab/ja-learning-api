@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
-using Japanese.Core.MongoDB;
+using khothemegiatot.NoSQL.MongoDB;
 
 namespace Japanese.Models;
 

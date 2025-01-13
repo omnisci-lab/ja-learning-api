@@ -1,5 +1,4 @@
-﻿using Japanese.Core.CommonModels;
-using Japanese.Services.Kana.Commands.CreateAndUpdateKana;
+﻿using Japanese.Services.Kana.Commands.CreateAndUpdateKana;
 using Japanese.Services.Kana.Commands.DeleteKana;
 using Japanese.Services.Kana.Queries.GetKana;
 using Japanese.Services.Kana.Queries.GetKanaList;
