@@ -8,9 +8,6 @@ namespace Japanese.Models;
 [Document(IndexName = "Sentences", StorageType = StorageType.Json)]
 public class SentenceModel : MongoDBModel
 {
-    [BsonElement("sentenceId")]
-    public string? SentenceId { get; set; }
-
     [BsonElement("text")]
     public string? Text { get; set; }
 

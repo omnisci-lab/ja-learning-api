@@ -23,7 +23,6 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddRepositories(configuration);
-builder.Services.AddCachedRepositories(configuration);
 builder.Services.AddBusinessServices(configuration);
 
 

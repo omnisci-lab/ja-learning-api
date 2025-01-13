@@ -4,6 +4,7 @@ using Japanese.Repositories.Interfaces;
 using khothemegiatot.WebApi.Enums;
 using khothemegiatot.WebApi.Models;
 using MediatR;
+using MongoDB.Bson;
 
 namespace Japanese.Services.Sentence.Commands.CreateAndUpdateSentence;
 
@@ -22,7 +23,7 @@ public class CreateAndUpdateSentenceCommandHandler : IRequestHandler<CreateAndUp
     {
         if (request.IsUpdate)
         {
-            SentenceModel sentenceModel = await _sentenceRepository.GetAsync(new MongoDB.Bson.ObjectId());
+            SentenceModel sentenceModel = await _sentenceRepository.GetAsync(ObjectId.Parse(request.SentenceId));
             if (sentenceModel is null)
                 return new ExecResult { Status = ExecStatus.NotFound };
 

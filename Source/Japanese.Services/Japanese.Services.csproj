@@ -18,7 +18,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Modules\khothemegiatot.Hashify\khothemegiatot.Hashify.csproj" />
 		<ProjectReference Include="..\..\Modules\khothemegiatot.WebApi\khothemegiatot.WebApi.csproj" />
-		<ProjectReference Include="..\Japanese.CachedRepository\Japanese.CachedRepository.csproj" />
 		<ProjectReference Include="..\Japanese.Kanjidic2\Japanese.Kanjidic2.csproj" />
 		<ProjectReference Include="..\Japanese.Repositories\Japanese.Repositories.csproj" />
 	</ItemGroup>

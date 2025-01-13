@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Japanese.CachedRepository.Interfaces;
 using Japanese.Core.Encoding;
 using Japanese.Models;
 using Japanese.Repositories.Interfaces;
@@ -17,7 +16,7 @@ public class GetPagedKanjiQueryHandler : IRequestHandler<GetPagedKanjiQuery, Exe
     private readonly IMapper _mapper;
     private Base64 _base64;
 
-    public GetPagedKanjiQueryHandler(IJapaneseRepository repository, IJapaneseCachedRepository cachedRepository, IMapper mapper)
+    public GetPagedKanjiQueryHandler(IJapaneseRepository repository, IMapper mapper)
     {
         _kanjiRepository = repository.KanjiRepository;
         _kanjidic2Repository = repository.Kanjidic2Repository;

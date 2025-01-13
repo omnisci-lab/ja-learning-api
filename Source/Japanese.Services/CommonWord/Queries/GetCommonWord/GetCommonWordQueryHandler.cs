@@ -21,7 +21,7 @@ public class GetCommonWordQueryHandler : IRequestHandler<GetCommonWordQuery, Exe
 
     public async Task<ExecResult<CommonWordOutput>> Handle(GetCommonWordQuery request, CancellationToken cancellationToken)
     {
-        CommonWordModel wordModel = await _commonWordRepository.GetAsync(ObjectId.Parse(""));
+        CommonWordModel wordModel = await _commonWordRepository.GetAsync(ObjectId.Parse(request.WordId));
         if(wordModel is null)
             return new ExecResult<CommonWordOutput> { Status = ExecStatus.NotFound };
 
