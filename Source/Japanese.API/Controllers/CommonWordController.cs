@@ -8,11 +8,11 @@ using Japanese.Services.CommonWord.Commands.DeleteCommonWord;
 using khothemegiatot.WebApi.Models;
 using Japanese.Services.CommonWord.Commands.CreateAndUpdateCWord;
 
-namespace Japanese.API.Areas.Admin.Controllers;
+namespace Japanese.API.Controllers;
 
-public class CommonWordAdmController : AdminController
+public class CommonWordController : GeneralController
 {
-    public CommonWordAdmController(IMediator mediator) 
+    public CommonWordController(IMediator mediator)
         : base(mediator)
     {
     }

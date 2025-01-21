@@ -11,14 +11,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("public", new OpenApiInfo { Title = "Public API", Version = "v1" });
-    options.SwaggerDoc("admin", new OpenApiInfo { Title = "Admin API", Version = "v1" });
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Japansese API", Version = "v1" });
 });
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+        policy.WithOrigins("https://localhost:44370").AllowAnyHeader().AllowAnyMethod();
     });
 });
 
@@ -40,8 +39,7 @@ if (app.Environment.IsDevelopment())
     });
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/public/swagger.json", "Public API v1");
-        c.SwaggerEndpoint("/swagger/admin/swagger.json", "Admin API v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Japanese API v1");
     });
 }
 

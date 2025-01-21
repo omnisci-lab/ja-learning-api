@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using khothemegiatot.WebApi.Models;
 
-namespace Japanese.API.Areas.Admin.Controllers;
+namespace Japanese.API.Controllers;
 
-public class SentenceAdmController : AdminController
+public class SentenceController : GeneralController
 {
-    public SentenceAdmController(IMediator mediator) : base(mediator)
+    public SentenceController(IMediator mediator) : base(mediator)
     {
     }
 

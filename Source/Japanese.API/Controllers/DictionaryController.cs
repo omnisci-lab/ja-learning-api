@@ -5,11 +5,11 @@ using Japanese.Services.Dictionary.Queries;
 using Japanese.Services.Dictionary.Queries.GetDictionary;
 using khothemegiatot.WebApi.Models;
 
-namespace Japanese.API.Areas.Admin.Controllers;
+namespace Japanese.API.Controllers;
 
-public class DictionaryAdmController : AdminController
+public class DictionaryController : GeneralController
 {
-    public DictionaryAdmController(IMediator mediator) 
+    public DictionaryController(IMediator mediator)
         : base(mediator)
     {
     }

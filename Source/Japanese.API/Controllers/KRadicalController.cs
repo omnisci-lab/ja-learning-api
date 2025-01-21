@@ -8,11 +8,11 @@ using Japanese.Services.KanjiRadical.Commands.CreateAndUpdateKRadical;
 using Japanese.Services.KanjiRadical.Commands.DeleteKRadical;
 using khothemegiatot.WebApi.Models;
 
-namespace Japanese.API.Areas.Admin.Controllers;
+namespace Japanese.API.Controllers;
 
-public class KRadicalAdmController : AdminController
+public class KRadicalController : GeneralController
 {
-    public KRadicalAdmController(IMediator mediator) 
+    public KRadicalController(IMediator mediator)
         : base(mediator)
     {
     }

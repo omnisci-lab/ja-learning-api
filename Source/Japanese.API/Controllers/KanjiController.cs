@@ -1,21 +1,20 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using Japanese.Services.Kanji.Commands.CreateAndUpdateKanji;
 using Japanese.Services.Kanji.Queries.GetKanji;
-using Japanese.Services.Kanji.Queries.GetPagedKanji;
-using Japanese.Services.Kanji.Queries;
-using Japanese.Services.Kanji.Queries.GetSearchProperties;
 using Japanese.Services.Kanji.Queries.GetKanjiFilters;
+using Japanese.Services.Kanji.Queries.GetPagedKanji;
+using Japanese.Services.Kanji.Queries.GetSearchProperties;
+using Japanese.Services.Kanji.Queries;
 using khothemegiatot.WebApi.Models;
 
-namespace Japanese.API.Areas.Public.Controllers;
+namespace Japanese.API.Controllers;
 
-public class KanjiController : PublicController
+public class KanjiController : GeneralController
 {
-    public KanjiController(IMediator mediator)
-        : base(mediator)
+    public KanjiController(IMediator mediator) : base(mediator)
     {
-
     }
 
     [HttpPost]
@@ -48,5 +47,21 @@ public class KanjiController : PublicController
     public async Task<IActionResult> GetSearchProperties([FromBody] GetKanjiSearchPropertiesQuery query)
     {
         return await GetObjectResult(query);
+    }
+
+    [HttpPost]
+    [Route("kanji-create-and-update")]
+    [ProducesResponseType(typeof(ExecResult), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> CreateAndUpdate([FromBody] CreateAndUpdateKanjiCommand command)
+    {
+        return await GetObjectResult(command);
+    }
+
+    [HttpPost]
+    [Route("kanji-delete")]
+    [ProducesResponseType(typeof(ExecResult), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Delete([FromBody] CreateAndUpdateKanjiCommand command)
+    {
+        return await GetObjectResult(command);
     }
 }

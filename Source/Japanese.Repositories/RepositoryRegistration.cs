@@ -11,7 +11,7 @@ public static class RepositoryRegistration
 {
     public static IServiceCollection AddRepositories(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSingleton(configuration.GetSection("MongoDB:Database").Get<MongoDBConfiguration>()!);
+        services.AddSingleton(configuration.GetSection("MongoDB").Get<MongoDBConfiguration>()!);
         services.AddScoped<IJapaneseRepository, JapaneseRepository>();
 
         services.AddDataCleaner<IJapaneseRepository>();

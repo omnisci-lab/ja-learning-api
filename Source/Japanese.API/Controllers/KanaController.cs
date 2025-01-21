@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using khothemegiatot.WebApi.Models;
 
-namespace Japanese.API.Areas.Admin.Controllers;
+namespace Japanese.API.Controllers;
 
-public class KanaAdmController : AdminController
+public class KanaController : GeneralController
 {
-    public KanaAdmController(IMediator mediator) : base(mediator)
+    public KanaController(IMediator mediator) : base(mediator)
     {
     }
 
