@@ -1,6 +1,9 @@
-using Japanese.Repositories;
+﻿using Japanese.Repositories;
 using Japanese.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 IConfiguration configuration = builder.Configuration;
@@ -12,6 +15,30 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "Japansese API", Version = "v1" });
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Nhập token vào ô bên dưới (không cần 'Bearer ' ở đầu)"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] { }
+        }
+    });
 });
 builder.Services.AddCors(options =>
 {
@@ -24,6 +51,30 @@ builder.Services.AddCors(options =>
 builder.Services.AddRepositories(configuration);
 builder.Services.AddBusinessServices(configuration);
 
+IConfigurationSection jwtSection = builder.Configuration.GetSection("Jwt");
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = "https://localhost:44368/";
+        options.Audience = "identity-api";
+        options.RequireHttpsMetadata = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection.GetSection("Key").Value!)),
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidIssuer = jwtSection.GetSection("Issuer").Value,
+            ValidAudience = jwtSection.GetSection("Audience").Value
+        };
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ApiRead", policy => policy.RequireClaim("scope", "identity-api.read"));
+    options.AddPolicy("ApiWrite", policy => policy.RequireClaim("scope", "identity-api.write"));
+});
 
 var app = builder.Build();
 
